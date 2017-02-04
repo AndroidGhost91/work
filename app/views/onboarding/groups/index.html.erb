@@ -1,0 +1,71 @@
+<% title "Browse Groups" %>
+<% cover_photo(current_user.cover_photo_url) %>
+
+<%= semantic_form_for current_user, html: { class: 'profile-page col-md-8 col-md-offset-2', id: 'onboarding-groups' } do |f| %>
+
+  <div class="jumbotron join-groups">
+    <h2>Follow all the areas you are interested in</h2>
+    <p class="description">
+      Click on 5 or more areas you'd like to see posts and activity
+    </p>
+  </div>
+
+  <div class="fields">
+    <%= f.semantic_errors *f.object.errors.keys %>
+  </div>
+
+  <div class="row actions-upper">
+    <div class="col-md-8">
+      <div class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <span data-bind="text: progressStatusText" id="onboarding-group-progress">5 more to go</span>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <%= f.action :submit, label: 'Continue', button_html: { id: 'onboarding-continue-btn', class: 'btn btn-primary btn-block', "data-bind" => 'enable: minGroupsSelected' } %>
+    </div>
+  </div>
+
+  <hr />
+
+  <%= hidden_field_tag 'user[group_ids][]' %>
+
+  <div class="group-listing group-selection clearfix">
+    <% Group.sticky.each do |group| %>
+      <div class="col-xs-6 col-md-4 group">
+        <%= check_box_tag 'user[group_ids][]', group.id, current_user.group_ids.include?(group.id), id: dom_id(group), "data-url" => onboarding_group_path(group) %>
+        <label class="clearfix" for="<%= dom_id(group) %>">
+          <%= image_tag group.image_url(:small), class: 'group-image', alt: group.name %>
+          <%= group.name %><br />
+          <%= icon('check') %>
+        </label>
+      </div>
+    <% end %>
+  </div>
+
+  <hr />
+
+  <div class="row actions-lower">
+    <div class="col-md-8">
+      <div class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <span data-bind="text: progressStatusText" id="onboarding-group-progress">5 more to go</span>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <%= f.action :submit, label: 'Continue', button_html: { id: 'onboarding-continue-btn', class: 'btn btn-primary btn-block', "data-bind" => 'enable: minGroupsSelected' } %>
+    </div>
+  </div>
+
+<% end %>
+

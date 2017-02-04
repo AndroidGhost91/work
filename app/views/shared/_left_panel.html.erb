@@ -1,0 +1,39 @@
+<ul class="left-menu">
+  <li class="group-sidebar-text">
+    <%= link_to "<i class='fa fa-user'></i> My Profile".html_safe, main_app.user_path(current_user) %>
+  </li>
+  
+  <li class="group-sidebar-text">
+    <%= link_to "<i class='fa fa-envelope-o'></i> My Messages".html_safe, czardom_messages.root_path %>
+  </li>
+  
+  <li class="group-sidebar-text">
+    <%= link_to "<i class='fa fa-sticky-note'></i> My Board Posts".html_safe, main_app.user_posts_path %>
+  </li>
+  
+  <li class="group-sidebar-text">
+    <%= link_to "<i class='fa fa-database'></i> My Groups".html_safe,"#board-quick-groups",data: { toggle: "collapse" }%>
+    <ul id="board-quick-groups" class="board-quick-groups collapse">
+      <% current_user.groups.where('forum_id is not null').each do |group| %>
+        <li class="<%= active_nav_class('forum', 'show', group.forum.slug) %>">
+          <%= link_to forem.forum_path(group.forum) do %>
+            <%= avatar_tag(group, size: :tiny) %>
+            <%= group.name %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+  
+  <li class="group-sidebar-text">
+    <%= link_to "<i class='fa fa-calendar-check-o'></i> My Events".html_safe, czardom_events.root_path %>
+  </li>
+  
+  <li class="group-sidebar-text">
+    <%= link_to "<i class='fa fa-user-plus'></i> My Followed Czars".html_safe, main_app.user_followed_path %>
+  </li>
+  
+  <li class="group-sidebar-text">
+    <%= link_to "<i class='fa fa-users'></i> My Followers".html_safe, main_app.user_followers_path %>
+  </li>
+</ul>

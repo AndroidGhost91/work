@@ -1,0 +1,20 @@
+<div class="col-md-3 events-sidebar">
+  <%= link_to t('czardom_events.actions.add_event'), new_event_path, class: 'btn btn-primary btn-lg btn-block' %>
+
+  <h4 class="search-title background-line text-uppercase text-center"><span>Search</span></h4>
+
+  <a id="search-regions" class="btn btn-default btn-block" href="#" style="text-align: left">
+    <i style="" class="fa fa-map-marker"></i>
+    Search Locations
+    <i style="position: relative; top: 4px" class="fa fa-chevron-right pull-right"></i>
+  </a>
+
+  <ul class="board-quick-groups" id="group-selection" data-bind="foreach: groups" data-groups="<%= current_user.groups.to_json %>">
+    <li data-bind="css: { active: active }">
+      <a href="#" data-bind="click: $root.toggleActiveGroup">
+        <img class="user-avatar" data-bind="attr: { src: image }" />
+        <span data-bind="text: name"></span>
+      </a>
+    </li>
+  </ul>
+</div>

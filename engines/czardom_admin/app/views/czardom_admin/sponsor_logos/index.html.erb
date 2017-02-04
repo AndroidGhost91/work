@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= @title %>
+        (<%= number_with_delimiter @sponsor_logos.count %>)
+        <%= link_to "New Sponsor", new_sponsor_logo_path, class: 'btn btn-primary' %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="table-responsive">
+  <table class="table datatable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <!--<th>Media</th>        -->
+        <th>Image</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sponsor_logos.each do |sl| %>
+        <tr>
+          <td>
+            <%= link_to sl.name, "#", class: 'admin-users-name', 'sponsor-logo-id': sl.id %>
+          </td>
+          <td>
+            <% if sl.image %>
+              <%= image_tag sl.image_url, alt: sl.name, width: '100px', height: '100px' %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'View More', sponsor_logo_path(sl) %>
+            <br>
+            <%= link_to 'Delete', sponsor_logo_path(sl), method: 'delete' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

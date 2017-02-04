@@ -1,0 +1,10 @@
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <i class="fa fa-bell-o fa-2x"></i>
+</a>
+<ul class="dropdown-menu" role="menu">
+  <% @notifications.each do |notification| %>
+    <li class="<%= 'not-read' unless notification.seen %>"><%= link_to generate_notification_description(notification).html_safe, generate_notification_url(notification), class: 'notification-link' %></li>
+  <% end %>
+  <li class="all"><%= link_to "See All Notifications", main_app.notifications_path %></li>
+</ul>

@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        Home Page Slides /
+        <%= link_to "New Slide", new_slide_path %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody class="sortable-rows" data-url="/admin/slides/update_position">
+    <% @slides.each do |slide| %>
+      <tr class="item" id="slide-<%= slide.id %>" data-id="<%= slide.id %>">
+        <td valign="middle"><%= icon('bars', class: 'sort-handle') %></td>
+        <td>
+          <%= image_tag slide.image_url(:small) %><br />
+          <%= strip_tags slide.caption %>
+        </td>
+        <td>
+          <%= link_to "Edit", edit_slide_path(slide), class: 'btn btn-primary' %>
+          <%= link_to "Article", new_root_article_path(slide_id: slide.id), class: 'btn btn-success' %>
+          <%= link_to "Delete", slide_path(slide), class: 'btn btn-danger', method: :delete %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,33 @@
+<% if forum_group? %>
+  <div class="profile-bio board-topic row">
+    <%= avatar_tag forum_group, size: :small, class: 'col-md-2' %>
+
+    <div class="bio-main col-md-10">
+      <%= back_button.html_safe %>
+      <h2 class="profile-heading">
+        <small>
+          <%= link_to t('forem.forum.forums'), forem.root_path %> &raquo;
+          <%= link_to forem_emojify(topic.forum.title), [forem, topic.forum] %> &raquo;
+        </small>
+
+        <%= forem_emojify(topic.subject) %>
+
+        <% if can? :edit, forum_group %>
+          <%= link_to "Edit Group Details", edit_group_path(forum_group), class: 'btn btn-default pull-right' %>
+        <% end %>
+      </h2>
+
+      <div class="bio"><%= simple_format forum_group.description %></div>
+    </div>
+  </div>
+<% else %>
+  <%= back_button.html_safe %>
+  <h2 class="page-header">
+    <small>
+      <%= link_to t('forem.forum.forums'), forem.forums_path %> &raquo;
+      <%= link_to forem_emojify(topic.forum.title), [forem, topic.forum] %> &raquo;
+    </small>
+
+    <%= forem_emojify(topic.subject) %>
+  </h2>
+<% end %>

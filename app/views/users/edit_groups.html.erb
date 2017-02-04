@@ -1,0 +1,53 @@
+<% title "Browse Groups" %>
+<% cover_photo(@user.cover_photo_url) %>
+
+<%= semantic_form_for @user, html: { class: 'profile-page col-md-9', id: 'onboarding-groups' } do |f| %>
+  <h2>Browse and Join Groups</h2>
+
+  <div class="form-group clearfix">
+    <div class="col-md-8 col-md-offset-2">
+      <%= text_field_tag "group_filter", '', placeholder: "Enter group name for filter", class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="fields">
+    <%= f.semantic_errors *f.object.errors.keys %>
+  </div>
+
+  <%= hidden_field_tag 'user[group_ids][]' %>
+
+  <div class="group-listing group-selection clearfix">
+    <% Group.sticky.each do |group| %>
+      <div class="col-xs-6 col-md-4 group" data-group-name="<%=group.name.downcase%>">
+        <%= check_box_tag 'user[group_ids][]', group.id, @user.group_ids.include?(group.id), id: dom_id(group), "data-url" => onboarding_group_path(group) %>
+        <label class="clearfix" for="<%= dom_id(group) %>">
+          <%= image_tag group.image_url(:small), class: 'group-image', alt: group.name %>
+          <%= group.name %><br />
+          <span class="text-muted"><%= pluralize group.users.count, 'member' %></span>
+          <%= icon('check') %>
+        </label>
+      </div>
+    <% end %>
+  </div>
+
+  <hr />
+
+  <div class="form-actions">
+    <%= f.action :submit, label: 'Save Profile', button_html: { class: 'btn btn-primary' } %>
+    <%= link_to 'Cancel', user_path(@user), class: 'btn btn-link' %>
+  </div>
+
+<% end %>
+
+<script>
+  $("#group_filter").on("change paste keyup", function() {
+    filter_name = $(this).val().toLowerCase();
+    var filter_element = "[data-group-name*='"+filter_name+"']";
+    if (filter_name == '' || filter_name == undefined) {
+      $('.group').show();
+      return;
+    }
+    $('.group').hide();
+    $('.group').filter(filter_element).show();
+  });
+</script>

@@ -1,0 +1,208 @@
+<% cover_photo(false) %>
+
+<% add_before_container do %>
+<main class="masthead" role="main" style="background-image: url('<%= image_url('home-cover.jpg') %>');">
+  <div class="container"> 
+    <div class="row">
+      <div class="masthead-content">
+        <div class="logo">
+          <a href="http://czardom.com">
+            <%= embedded_svg('logo.svg') %>
+          </a>
+        </div>
+        <h1 id="top">Publicists Helping Publicists</h1>
+
+        <div class="subscribe">
+          <% if user_signed_in? %>
+            <%= link_to "VIEW YOUR PROFILE", user_path(current_user), class: 'btn btn-success btn-lg' %>
+          <% else %>
+            <%= link_to "LOGIN TO YOUR ACCOUNT", czardom_models_engine.login_path, class: 'btn btn-success btn-lg' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</main>
+
+
+<!-- Container -->
+<div class="container">
+  <section class="row breath" id="explore">
+    <div class="col-md-8 col-md-offset-2 footerlinks">
+
+      <h2 style="margin-bottom: 30px;">Coming Very Soon...</h2>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h3 style="margin-bottom: 20px; text-align: left">Featuring</h3>
+
+          <ul style="text-align: left;font-size: 1.3em;">
+            <li>Event Calendars</li>
+            <li>Event Groups</li>
+            <li>Who Reps Whom</li>
+            <li>Industry News and Gossip</li>
+            <li>Networking Ops</li>
+            <li>Profiles</li>
+            <li>Regional Groups</li>
+            <li>Inside Jobs</li>
+            <li>Fully Searchable Database</li>
+            <li>Czar Perks and Discounts</li>
+            <li>and Much More</li>
+          </ul>
+        </div>
+
+        <%= image_tag 'home-graphic.jpg', class: 'col-md-6 col-xs-12' %>
+      </div>
+
+    </div>
+
+  </section>
+  <!-- // End Client Logos --> 
+  
+</div>
+<!-- // Container Ends --> 
+
+<!-- Parallax Footer Starts -->
+<main class="footercta" role="main" style="background-image: url('<%= image_url('home-footer.png') %>')">
+  <div class="container"> 
+    
+    <!-- Hero Title -->
+
+    <h1>
+      <span class="text">
+        The <strong>most simple</strong> and <strong>powerful way</strong>
+      </span>
+    </h1>
+
+    <h1>
+      <span class="text">
+        to <strong>connect</strong> to your industry
+      </span>
+    </h1>
+
+    <!-- Mailchimp Subscribe form -->
+    <div class="row">
+      <div class="col-md-12 breath text-center">
+        <% if user_signed_in? %>
+          <%= link_to "VIEW YOUR PROFILE", user_path(current_user), class: 'btn btn-success btn-lg' %>
+        <% elsif preregister_path? %>
+          <%= link_to "GET EARLY ACCESS", new_user_path, class: 'btn btn-success btn-lg' %>
+        <% else %>
+          <%= link_to "GET EARLY ACCESS", '#', class: 'btn btn-success btn-lg' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- // Parallax Footer Ends --> 
+
+
+<!-- Grey Highlight Section -->
+<div class="highlight testimonials">
+  <div class="container"> 
+    
+    <!-- Testimonials -->
+    <div class="section-title">
+      <h2>What our friends have said</h2>
+    </div>
+    <section class="row breath">
+      <div class="col-md-6">
+        <div class="testblock">We are having a great time meeting and networking with all of the PR and Media pros at the #Czardom event!</div>
+        <div class="clientblock">
+          <%= image_tag 'ruby-media-group.jpg' %>
+          <p><strong>@RubyMediaGroup</strong> <br>
+            <a href="http://rubymediagroup.com/">rubymediagroup.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="testblock">I’m so proud of my friends Jen and Cassin for starting #czardom for awesome hardworking pr peeps!</div>
+        <div class="clientblock">
+          <%= image_tag 'dylan-candy-bar.jpg' %>
+          <p><strong>@DylansCandyBar</strong> <br>
+            <a href="http://www.dylanscandybar.com/">dylanscandybar.com</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="row breath">
+      <div class="col-md-6">
+        <div class="testblock">This group has been so incredibly helpful. As a young PR associate I'm honored to be a part of this group. Everyone has been so kind. From people assisting me to locate hard-to-find contacts, to sharing media knowledge/industry tips to hooking me up with my current job - I'm so extremely grateful to be in such awesome company. I just wanted to thank all you fabulous Czars for all your wisdom and encouragement. Thanks, again - you are all incredible.</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> Jasmin Martin</strong></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="testblock">Just wanted to send a note of thanks to this group and to JenniferDemarchi for creating it. As someone who has a small business w/ big ties - I couldn't have pulled off this year's Handbag Awards without all of your support and recommendations. It is truly special that there is some humanity and kindness as I am always happy to help a fellow Czar and I am grateful for all you.</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> Emily Blumenthal Klibansky</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="row breath">
+      <div class="col-md-6">
+        <div class="testblock">I just want to say that the Wonder Women Tech Conference was made at least 35% possible by the people in this group! I am SO STOKED by the amount of support and responses we have received in here. I have had so much help too. Seriously, you are BRINGING IT.</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> Lisa Mae</strong></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="testblock">PR Czars had a fabulous Meet-Up and drink-up in Los Angeles. The group gathered thanks to  Czar Katherine Brodsky at Wilde Wine Bar and Restaurant on La Brea. What a lovely group it was. There were reunions and success stories shared by all. PR Czars is the best "good vibe" group ever! Thank you Jennifer Demarchi for creating this group.</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> Roz Wolf</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="row breath">
+      <div class="col-md-6">
+        <div class="testblock">Good Morning Czars just wanted to say how much I appreciate all of you in here and just honored to be part of this well-known group. Just had to post this and say how I feel. We are so busy running around throughout the day that we forget to appreciate what we have and that is each other. Helping out and making a difference in the Czars world. Love you all!!</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> Arsineh Alenkin</strong></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="testblock">Thanks so much to Czar Cassin Donn Duncan for making this Shark Tank segment on, "Good Morning America,"  happen for my client SUM Company - a new eyewear brand.  SUM won the showdown judged by Kevin O'Leary. That was a lot of Czar love to get on the show.</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> Lisa Wertheimer Wells</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="row breath">
+      <div class="col-md-6">
+        <%= image_tag 'czarpr.png', style: 'width:100%' %>
+      </div>
+
+      <div class="col-md-6">
+        <img style="width: 100%" src="http://cdn.crownmediadev.com/dims4/default/be54cce/2147483647/thumbnail/726x410%3E/quality/90/?url=http%3A%2F%2Fcdn.crownmediadev.com%2Fc1%2Fb7%2F8281f51342dda5e909855f886f86%2Fhf3195-recap-matt.jpg" />
+        
+        <div class="testblock">THANK YOU! To Czar Christine Mango !!! She connected my client, Super Bowl 50 Book with a Father's Day segment on the "Home &amp; Family" Show on Hallmark. The first airing was just broadcast (with 2 more to come today).
+        My client just called me: They have received 25 orders for the book within the first 15 minutes of the segment airing. THEY ARE THRILLED.
+      Thank you, Thank you, Thank you! Here's to the POWER OF THE PR CZAR NETWORK.</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> David Thalberg</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="row breath">
+      <div class="">
+        <div class="testblock">Just wanted to say, Thank you to @Jennifer Demarchi and organizers of this group, as a Publicist, you have opened my resources to pitch my clients to editors, writers, producers and bloggers as well as other fellow Publicists for different placement opportunities. so grateful to be apart of this group!! Due to my membership, it has increased my confidence and ability to connect my clients for opportunities that may positively affect their PR needs. My clients who don't know of this group are grateful for opportunities that I present due to this. Again, thank you for allowing me to be apart of this dynamic group. May we all prosper thru this connection.</div>
+        <div class="clientblock">
+          <p><strong><span class="text-muted">Czar</span> Lana Leazer</strong></p>
+        </div>
+      </div>
+    </section>
+    <!-- // End Testimonials --> 
+    
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-8 col-md-offset-2 footerlinks">
+    <p style="margin: 20px 0;">&copy; 2015 CZARDOM. All Rights Reserved</p>
+  </div>
+</div>
+<% end %>

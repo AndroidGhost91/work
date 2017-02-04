@@ -1,0 +1,22 @@
+<%= semantic_form_for @group do |f| %>
+
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :slug %>
+    <%= f.input :sticky, as: :select, label: 'Show on Homepage', include_blank: false %>
+    <%= f.input :description, input_html: { rows: 4 } %>
+
+    <%= f.inputs "Address", for: :address do |builder| %>
+      <%= render "shared/address", f: builder %>
+    <% end %>
+    <%= f.hidden_field :owner_id, :value => current_user.id %>
+    <%= f.input :cover_photo %>
+    <%= f.input :image %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, button_html: { class: 'btn btn-primary' } %>
+    <%= link_to 'Cancel', :back, button_html: { class: 'btn btn-link' } %>
+  <% end %>
+
+<% end %>

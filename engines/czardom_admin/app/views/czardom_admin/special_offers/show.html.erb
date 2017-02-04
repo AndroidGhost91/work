@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= link_to 'special_offers', special_offers_path %> /
+        <%= @special_offer.id %>
+      </h1>
+    </div>
+</div>
+
+<dl>
+  <dt>Content</dt>
+  <dd><%= @special_offer.content %></dd>
+</dl>
+
+<%= link_to "Edit special_offer", edit_special_offer_path(@special_offer), class: 'btn btn-primary' if can? :edit, @special_offer %>
+<%= link_to "All special_offers", special_offers_path, class: 'btn btn-link' %>

@@ -1,0 +1,33 @@
+<div class="item row">
+  <aside class="post-author col-md-2">
+    <%= avatar_tag post.user, size: :small %>
+
+    <% unless post.user.is_a?(Forem::NilUser) && post.user.charter_member? %>
+      <span class="badge badge-success"><i class="fa fa-star"></i> Charter Czar</span>
+    <% end %>
+  </aside>
+
+  <article class="post col-md-10">
+    <header class="post-header">
+      <ul class="info list-unstyled">
+        <li class="item-user">
+          <h3>
+            <% if post.user.is_a?(Forem::NilUser) %>
+              <%= t(:deleted) %>
+            <% else %>
+              <%= link_to post.user.forem_name, [main_app, post.user] %>
+            <% end %>
+          </h3>
+        </li>
+
+        <li class="item-meta">
+          <%= time_ago_in_words post.created_at %>
+        </li>
+      </ul>
+    </header>
+
+    <div class="post-body">
+      <%= make_link_for_usernames(sanitize(post.text)).html_safe %>
+    </div>
+  </article>
+</div>

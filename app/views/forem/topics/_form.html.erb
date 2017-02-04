@@ -1,0 +1,35 @@
+<%= form_tag main_app.board_path do |f| %>
+  <div class="form">
+    <div class="form-group">
+      <%#= label_tag :body, 'Post' %>
+      <%= text_area_tag :body, nil, class: 'form-control', noresize: true, rows: 8, maxlength: 500 %>
+    </div>
+    
+    <div class="form-group">
+      <%= hidden_field_tag :location, @group.name %>
+    </div>
+
+    <div class="form-actions clearfix">
+      <div class="pull-right">
+        <%#= button_tag "Cancel", id: 'post-cancel', class: 'btn btn-link pull-right' %>
+        <%= submit_tag "Post a story", class: 'btn btn-primary pull-right' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!--
+  <%= semantic_form_for [forem, @forum, @topic] do |f| %>
+    <%#= f.input :subject, :label => false %>
+  
+    <%= f.semantic_fields_for :posts do |post| %>
+      <%= render :partial => "forem/posts/form", :locals => { :f => post }%>
+    <% end %>
+    
+    <%= f.submit 'Post', :class => "btn btn-primary pull-right", :style => 
+    'margin-top : 20px'%>
+    
+  <% end %>
+        
+-->
+<%= render 'shared/mention_username' %>

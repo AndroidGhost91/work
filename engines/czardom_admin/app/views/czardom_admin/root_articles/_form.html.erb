@@ -1,0 +1,38 @@
+<%= semantic_form_for @root_article do |f| %>
+  <div class="col-md-6">
+    <h2>Article Details</h2>
+    <%= f.input :title, class: 'col-md-8 form-control', :required => true %>
+    
+    <%#= f.input :media, class: 'col-md-8 form-control' %>
+    
+    <%= f.label :body, 'Body', class: 'col-md-4', style: 'margin-left: -15px;' %>
+
+    <%= quill_editor nil, { name: 'root_article[body]', value: @root_article.body } %>
+
+    <%= f.label :slide, 'Slide', class: 'col-md-4', style: 'margin-left: -15px;' %>
+    <%= f.select :slide_id, options_for_select(Slide.all.map {|sl| [ sl.caption, sl.id ] }, (params[:slide_id] ? params[:slide_id] : Slide.first.id)), { :required => true }, class: "form-control col-md-8" %>
+    
+    
+    <div class="form-actions row">
+      <p class="col-md-12"  style='margin-top: 30px;'>
+          <%= f.submit class: 'btn btn-primary' %>
+          <%= link_to "Cancel", :back, class: 'btn btn-link' %>
+      </p>
+    </div>
+  </div>
+
+<% end %>
+
+<style>
+  #full-editor {
+     border: 1px solid #888; 
+     border-top: none;
+  }
+  
+  #full-toolbar {
+     border: 1px solid #888; 
+     border-bottom: none;
+    margin-top: 50px;
+  }
+  
+</style>

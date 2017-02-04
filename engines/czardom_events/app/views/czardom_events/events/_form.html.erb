@@ -1,0 +1,136 @@
+<% button_label = params[:action] == "new" ? "Create Event" : "Edit Event" %>
+<%= semantic_form_for @event do |f| %>
+  <%= f.semantic_errors *f.object.errors.keys %>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="well">
+        <%= f.input :title, input_html: { class: 'input-lg', autofocus: 'on' } %>
+        <%= f.input :description, input_html: { rows: 3, class: 'richedit' } %>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <p class="lead">
+        Details About This Event
+      </p>
+      <p>
+        Fill in other czars what this event is about and who it's for. The
+        more detail you provide the easier it will be for others to find it.
+      </p>
+    </div>
+  </div>
+
+  <div class="row form-section">
+    <div class="col-md-8">
+
+      <div class="form-group">
+        <%= label_tag :group_id, 'Group' %>
+        <div class="event-group">
+          <select name="group_id" id="group_id" class="form-control input-lg">
+            <option value="">(optional) Tag this event with a group</option>
+            <% current_user.groups.each do |group| %>
+              <option data-image-url="<%= group.image_url(:tiny) %>" value="<%= group.id %>"><%= group.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.input :timeframe, as: :string, input_html: { class: 'daterangeselect' } %>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <p class="lead">
+        When and Where
+      </p>
+      <p>
+        You can add this event to a group to notify Czars and make it easier
+        for them to find this event on the calendar.
+      </p>
+    </div>
+  </div>
+
+  <div class="row form-section">
+    <div class="col-md-8">
+      <h4>Event Location</h4>
+      <%= f.inputs for: :address do |builder| %>
+        <%= render "shared/address", f: builder %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row form-section">
+    <div class="col-md-8">
+      <p class="pull-right">
+        <%= link_to "Cancel", :back, class: 'btn btn-link' %>
+        <%= link_to button_label, "#", id: "submitBtn", class: "btn btn-primary", data: {toggle: :modal, target: "#confirm-submit"} %>
+      </p>
+
+      <% if @event.persisted? && can?(:delete, @event) %>
+        <p class="pull-left">
+          <%= link_to t('czardom_events.actions.delete_event'), event_path(@event), method: :delete, 'data-confirm' => 'Are you sure?', class: 'btn btn-danger' %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Confirm Submit
+      </div>
+      <div class="modal-body">
+        <h3>Are you sure you want to submit the following details?</h3>
+        <table class="table">
+          <tr>
+            <th>Title</th>
+            <td id="title"></td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td id="description"></td>
+          </tr>
+          <tr>
+            <th>Group</th>
+            <td id="group"></td>
+          </tr>
+          <tr>
+            <th>Timeframe</th>
+            <td id="timeframe"></td>
+          </tr>
+          <tr>
+            <th>Event Location (Street 1)</th>
+            <td id="street1"></td>
+          </tr>
+          <tr>
+            <th>Event Location (Street 2)</th>
+            <td id="street2"></td>
+          </tr>
+          <tr>
+            <th>City</th>
+            <td id="city"></td>
+          </tr>
+          <tr>
+            <th>State</th>
+            <td id="state"></td>
+          </tr>
+          <tr>
+            <th>Zipcode</th>
+            <td id="zipcode"></td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td id="country"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <%= link_to button_label, params[:action] == "new" ? "https://www.zkipster.com/czardom/?utm_source=Czardom&utm_medium=banner&utm_campaign=1604%20Czardom%20Partner%20Leads" : "#", id: "modal-submit", target: (params[:action] == "new" ? :_blank : :_self), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>

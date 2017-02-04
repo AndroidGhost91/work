@@ -1,0 +1,28 @@
+
+[1mFrom:[0m /home/ubuntu/workspace/app/controllers/boards_controller.rb @ line 91 BoardsController#create_post:
+
+     [1;34m84[0m: [32mdef[0m [1;34mcreate_post[0m
+     [1;34m85[0m:  [1;34m#create new topic, post [0m
+     [1;34m86[0m: 
+     [1;34m87[0m:       [1;34m# Remove new lines and replace with a space[0m
+     [1;34m88[0m:   topic_title = params[[33m:body[0m].gsub( [35m[1;35m/[0m[35m[1;35m\n[0m[35m[1;35m/[0m[35m[35mm[0m[35m[0m, [31m[1;31m"[0m[31m [1;31m"[0m[31m[0m )
+     [1;34m89[0m:   topic_title = topic_title[[1;34m0[0m,[1;34m175[0m]
+     [1;34m90[0m:   binding.pry
+ =>  [1;34m91[0m:   media = params[[33m:media[0m]
+     [1;34m92[0m: 
+     [1;34m93[0m:   forum = [1;34;4mForem[0m::[1;34;4mForum[0m.find_by_name(params[[33m:location[0m])
+     [1;34m94[0m:   topic = forum.topics.create({
+     [1;34m95[0m:   [35muser[0m: current_user,
+     [1;34m96[0m:   [35msubject[0m: topic_title + [31m[1;31m"[0m[31m...[1;31m"[0m[31m[0m,
+     [1;34m97[0m:   [35mslug[0m: topic_title.parameterize,
+     [1;34m98[0m:   [35mposts_attributes[0m: [{
+     [1;34m99[0m:     [35muser[0m: current_user,
+    [1;34m100[0m:     [35mtext[0m: params[[33m:body[0m],
+    [1;34m101[0m:     [35mmedia[0m:params[[33m:media[0m],
+    [1;34m102[0m:     [35mfacebook_post_id[0m: [1;36mnil[0m
+    [1;34m103[0m:   }]
+    [1;34m104[0m: })
+    [1;34m105[0m: 
+    [1;34m106[0m: redirect_to forem.forum_topic_path(forum, topic)
+    [1;34m107[0m: [32mend[0m
+

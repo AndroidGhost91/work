@@ -1,0 +1,13 @@
+<% title t('czardom_events.titles.edit') %>
+
+<div class="profile-page">
+  <%= render "shared/flash_messages" %>
+
+  <h2 class="page-header">
+    <%= link_to t('czardom_events.titles.root'), root_path %>
+    / <%= link_to @event.title.truncate(15), event_path(@event) %>
+    <%= page_title(prepend: '/') %>
+  </h2>
+
+  <%= render "form" %>
+</div>

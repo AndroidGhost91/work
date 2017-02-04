@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= page_title(append: '| ') %>Boards | CZARDOM</title>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="<%= image_url('touch-icon.png') %>">
+
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Muli|Merriweather+Sans:400,700" />
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+  <!--<link rel="stylesheet" href="http://staging.czardom.com/current_theme.css" />-->
+  <meta property="og:url" content="http://www.czardom.com"/>
+  <meta property="og:title" content="Publicists Helping Publicists"/>
+  <meta property="og:site_name" content="CZARDOM"/>
+
+  <meta property="og:image" content="<%= image_url('fb-link-cover.jpg') %>">
+  <meta property="og:image:width" content="940" />
+  <meta property="og:image:height" content="480" />
+
+  <% if controller.controller_name == 'pages' && controller.action_name == 'home' %>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/landing.css?v=2" data-turbolinks-track="true" />
+  <% end %>
+
+<script>
+var _rollbarConfig = {
+    accessToken: "06364cc091a74f3bae8bd00d1e71a126",
+    captureUncaught: true,
+    payload: {
+        environment: "production"
+    }
+};
+!function(r){function o(e){if(t[e])return t[e].exports;var n=t[e]={exports:{},id:e,loaded:!1};return r[e].call(n.exports,n,n.exports,o),n.loaded=!0,n.exports}var t={};return o.m=r,o.c=t,o.p="",o(0)}([function(r,o,t){"use strict";var e=t(1).Rollbar,n=t(2),i="https://d37gvrvc0wt4s1.cloudfront.net/js/v1.3/rollbar.umd.min.js";_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||i;var a=e.init(window,_rollbarConfig),l=n(a,_rollbarConfig);a.loadFull(window,document,!1,_rollbarConfig,l)},function(r,o,t){"use strict";function e(r){this.shimId=++s,this.notifier=null,this.parentShim=r,this.logger=function(){},window.console&&void 0===window.console.shimId&&(this.logger=window.console.log)}function n(r,o,t){window._rollbarWrappedError&&(t[4]||(t[4]=window._rollbarWrappedError),t[5]||(t[5]=window._rollbarWrappedError._rollbarContext),window._rollbarWrappedError=null),r.uncaughtError.apply(r,t),o&&o.apply(window,t)}function i(r){var o=e;return l(function(){if(this.notifier)return this.notifier[r].apply(this.notifier,arguments);var t=this,e="scope"===r;e&&(t=new o(this));var n=Array.prototype.slice.call(arguments,0),i={shim:t,method:r,args:n,ts:new Date};return window._rollbarShimQueue.push(i),e?t:void 0})}function a(r,o){if(o.hasOwnProperty&&o.hasOwnProperty("addEventListener")){var t=o.addEventListener;o.addEventListener=function(o,e,n){t.call(this,o,r.wrap(e),n)};var e=o.removeEventListener;o.removeEventListener=function(r,o,t){e.call(this,r,o&&o._wrapped?o._wrapped:o,t)}}}function l(r,o){return o=o||window.console.log||function(){},function(){try{return r.apply(this,arguments)}catch(t){o("Rollbar internal error:",t)}}}var s=0;e.init=function(r,o){var t=o.globalAlias||"Rollbar";if("object"==typeof r[t])return r[t];r._rollbarShimQueue=[],r._rollbarWrappedError=null,o=o||{};var i=new e;return l(function(){if(i.configure(o),o.captureUncaught){var e=r.onerror;r.onerror=function(){var r=Array.prototype.slice.call(arguments,0);n(i,e,r)};var l,s,u="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(l=0;l<u.length;++l)s=u[l],r[s]&&r[s].prototype&&a(i,r[s].prototype)}return r[t]=i,i},i.logger)()},e.prototype.loadFull=function(r,o,t,e,n){var i=l(function(){var r=o.createElement("script"),n=o.getElementsByTagName("script")[0];r.src=e.rollbarJsUrl,r.async=!t,r.onload=a,n.parentNode.insertBefore(r,n)},this.logger),a=l(function(){var o;if(void 0===r._rollbarPayloadQueue){var t,e,i,a;for(o=new Error("rollbar.js did not load");t=r._rollbarShimQueue.shift();)for(i=t.args,a=0;a<i.length;++a)if(e=i[a],"function"==typeof e){e(o);break}}"function"==typeof n&&n(o)},this.logger);l(function(){t?i():r.addEventListener?r.addEventListener("load",i,!1):r.attachEvent("onload",i)},this.logger)()},e.prototype.wrap=function(r,o){try{var t;if(t="function"==typeof o?o:function(){return o||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._wrapped){r._wrapped=function(){try{return r.apply(this,arguments)}catch(o){throw o._rollbarContext=t()||{},o._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=o,o}},r._wrapped._isWrap=!0;for(var e in r)r.hasOwnProperty(e)&&(r._wrapped[e]=r[e])}return r._wrapped}catch(n){return r}};for(var u="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError".split(","),p=0;p<u.length;++p)e.prototype[u[p]]=i(u[p]);r.exports={Rollbar:e,_rollbarWindowOnError:n}},function(r,o,t){"use strict";r.exports=function(r,o){return function(t){if(!t&&!window._rollbarInitialized){var e=window.RollbarNotifier,n=o||{},i=n.globalAlias||"Rollbar",a=window.Rollbar.init(n,r);a._processShimQueue(window._rollbarShimQueue||[]),window[i]=a,window._rollbarInitialized=!0,e.processPayloads()}}}}]);
+</script>
+</head>
+<body>
+
+<%= render 'shared/navbar' %>
+<%= render 'shared/search_results' %>
+
+
+<%= before_container %>
+
+<% if @sliders.present? && @sliders.length > 0 %>
+  <div class="container-fluid" id="main-content">
+    <div class="top-section clearfix">
+      <div class="left-panel col-md-3 hidden-xs">
+        <%= render 'shared/left_panel' %>
+      </div>
+      <div class="profile-picture col-md-6 col-sm-12">
+        <!--<%# cover_photo(forum_group.cover_photo_url) if forum_group? %>-->
+        <!--<%#= display_cover_photo %>-->
+        <%= render 'shared/slider' %>
+      </div>
+      <div class="right-panel col-md-3 col-sm-12">
+        <%= render 'shared/right_panel' %>
+      </div>
+    </div>
+    
+    <div class="bottom-section">
+      <div class="social-media col-md-3">
+        <h3 class="">CZARDOM SOCIAL MEDIA</h3>
+        <%= render 'shared/social_media' %>
+      </div>
+      <div class="profile-page col-md-6">
+          <%= yield %>
+      </div>  
+      <div class="sponsor-section col-md-3">
+        <%= render 'shared/sponsor' %>
+        <%= render 'shared/twitter_feed' %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="container-fluid" id="main-content">
+    <div class="top-section clearfix">
+      <div class="left-panel col-md-3 hidden-xs">
+        <%= render 'shared/left_panel' %>
+      </div>
+      <div class="profile-picture col-md-6 col-sm-12">
+        <!--<%# cover_photo(forum_group.cover_photo_url) if forum_group? %>-->
+        <!--<%#= display_cover_photo %>-->
+        <%= yield %>
+      </div>
+      <div class="right-panel col-md-3 col-sm-12">
+        <%= render 'shared/right_panel' %>
+      </div>
+    </div>
+    
+    <div class="bottom-section">
+      <div class="social-media col-md-3">
+        <h3 class="">CZARDOM SOCIAL MEDIA</h3>
+        <%= render 'shared/social_media' %>
+      </div>
+      <div class="profile-page col-md-6">
+      </div>  
+      <div class="sponsor-section col-md-3">
+        <%= render 'shared/sponsor' %>
+        <%= render 'shared/twitter_feed' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= after_container %>
+
+<% if user_signed_in? %>
+  <script>
+    $('.richedit').redactor({
+      // buttons: ["bold", "italic", "link"],
+
+      initCallback: function() {
+        $(this.$editor).atwho({
+          at: "@",
+          displayTpl: "<li data-value='${name}'>${name}</li>",
+          limit: 5,
+          insertTpl: "<a href='${slug}' rel='mention'>${name}</a>",
+          data: <%= current_user.following.joins(:following).map { |f| { slug: f.following.slug_url, name: f.following.full_name } }.to_json.html_safe %>
+        });
+
+        $('.redactor-editor').on('click', 'a', function(e) {
+          e.preventDefault();
+        });
+      }
+    });
+  </script>
+
+  <%= render 'shared/script_user_voice' %>
+<% end %>
+
+<script>
+  !function(g,s,q,r,d){r=g[r]=g[r]||function(){(r.q=r.q||[]).push(
+  arguments)};d=s.createElement(q);q=s.getElementsByTagName(q)[0];
+  d.src='//d1l6p2sc9645hc.cloudfront.net/tracker.js';q.parentNode.
+  insertBefore(d,q)}(window,document,'script','_gs');
+
+  _gs('GSN-629281-P');
+
+  <% if user_signed_in? %>
+  var userID = '<%= current_user.id %>';
+
+  var properties = {
+    id: userID,
+    first_name: '<%= current_user.first_name %>',
+    last_name: '<%= current_user.last_name %>',
+    email: '<%= current_user.email %>',
+    username: '<%= current_user.slug %>',
+    avatar: '<%= current_user.image_url(:small) %>',
+    custom: {
+      profile_url: '<%= main_app.user_url(current_user) %>'
+    }
+  };
+
+  _gs('identify', userID, properties);
+  <% end %>
+</script>
+</body>
+</html>
+

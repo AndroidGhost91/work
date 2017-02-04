@@ -1,0 +1,41 @@
+.page-header {
+  margin-top: 20px;
+  font-size: 2em;
+}
+
+.table {
+  @extend .table-striped;
+  @extend .table-bordered;
+}
+
+.panel-default {
+  border: 2px solid #f0f0f0;
+
+  .panel-heading {
+    background: #fff;
+    border: 0;
+    font-size: 1.2em;
+    letter-spacing: 1px;
+
+    .fa {
+      color: #888;
+      margin-right: 5px;
+    }
+  }
+
+}
+
+dl {
+
+  dt {
+    padding: 0.5em 0.5em 0.2em;
+  }
+  
+  dd {
+    padding: 0 0.5em 0.5em;
+    border-bottom: 1px dotted #ddd;
+
+    &:last-child { border: 0; }
+  }
+
+}

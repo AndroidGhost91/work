@@ -1,0 +1,33 @@
+<li data-id="<%= topic.id %>">
+  <div class="discussion-summary">
+    <div class="col-xs-6 col-xs-offset-3 col-sm-2 col-sm-offset-0 col-md-3 author">
+      <%= link_to main_app.user_path(topic.user) do %>
+        <%= avatar_tag topic.user, size: :large %>
+      <% end %>
+      <%= render partial: "shared/followable", locals: {user: topic.user} %>
+    </div>
+    <%= link_to forem.forum_topic_path(topic.forum, topic), class: 'col-xs-10 col-sm-8 col-md-6 main' do %>
+      <h3 class="title"><%= topic.subject %></h3>
+      <ul class="info list-unstyled">
+        <li class="item-tags">
+          <span class="badge badge-default"><%= topic.forum.title %></span>
+        </li>
+        <li class="item-meta">
+          <strong><%= topic.user.forem_name %></strong>
+          posted
+          <%= time_ago_in_words topic.created_at %> ago
+        </li>
+      </ul>
+    <% end %>
+    <div class="col-xs-2 col-sm-2 col-md-3 count">
+      <%= link_to forem.forum_topic_path(topic.forum, topic), class: 'col-xs-10 col-sm-8 col-md-6 main' do %>
+        <div class="number-reply">
+          <% relevant_post_count = relevant_posts(topic).count - 1 %>
+          <%= relevant_post_count %>
+          <span class="count-label"><%= 'reply'.pluralize(relevant_post_count) %></span>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</li>

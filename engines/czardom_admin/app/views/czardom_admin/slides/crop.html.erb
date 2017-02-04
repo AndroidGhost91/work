@@ -1,0 +1,19 @@
+<h2>Crop Slide</h2>
+<%= bs_panel "Select area of image to be visible" do %>
+  <%= image_tag @slide.image_url(:large), id: 'cropbox' %>
+
+  <hr />
+
+  <%= form_for @slide do |f| %>
+    <% %w[x y w h].each do |attr| %>
+      <%= f.hidden_field "crop_#{attr}" %>
+    <% end %>
+
+    <%= f.submit "Crop Image", class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
+
+<h3>Preview</h3>
+<div style="width: 730px; height: 430px; overflow: hidden">
+  <%= image_tag @slide.image_url(:large), id: 'preview' %>
+</div>

@@ -1,0 +1,47 @@
+<% title conversation.subject %>
+<% cover_photo(current_user.cover_photo_url) %>
+
+<div class="profile-page">
+  <h2 class="page-header">
+    <%= conversation.subject %>
+  </h2>
+
+  <div class="row">
+    <%= render "sidebar" %>
+
+    <div class="col-md-9">
+      <div class="btn-group">
+        <% if params[:box].present? %>
+          <%= link_to icon('chevron-left'), conversations_path(box: params[:box]), class: 'btn btn-default', title: 'Back' %>
+        <% end %>
+      </div>
+      <div class="btn-group">
+        <%= link_to icon('reply'), '#reply', class: 'btn btn-primary' %>
+      </div>
+
+      <div class="btn-group">
+        <% if conversation.is_completely_trashed?(current_user) %>
+          <%= link_to 'Untrash', untrash_conversation_path(conversation), method: :post, class: 'btn btn-default' %>
+        <% else %>
+          <%= link_to icon('trash'), trash_conversation_path(conversation), method: :post, class: 'btn btn-default', title: 'Move to Trash' %>
+        <% end %>
+      </div>
+
+      <h3><%= conversation.subject %></h3>
+
+      <ul class="conversation-messages">
+        <%= content_tag_for(:li, conversation.receipts_for(current_user)) do |receipt| %>
+          <div class="message-meta">
+            <strong><%= link_to receipt.message.sender.full_name, main_app.user_path(receipt.message.sender) %></strong>
+            (<%= time_ago_in_words receipt.message.created_at %> ago)
+          </div>
+          <div class="message-body">
+            <iframe class="message-frame" style="width: 100%;border: 0;height: 800px" sandbox="allow-same-origin" security="restricted" src="<%= conversation_message_path(conversation, receipt.message) %>"></iframe>
+          </div>
+        <% end %>
+      </ul>
+
+      <%= render 'czardom_messages/messages/form', conversation: conversation %>
+    </div>
+  </div>
+</div>

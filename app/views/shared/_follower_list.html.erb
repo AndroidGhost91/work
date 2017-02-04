@@ -1,0 +1,33 @@
+<% users.each do |u| %>
+  <div class='col-md-12 user-line'>
+    <div class="row">
+      <div class="col-md-2">
+        <div>
+          <%= image_tag u.image.url, class: 'img-rounded img-responsive' %>
+        </div>
+      </div>
+      
+      <div class="col-md-10">
+        <p><strong><%= link_to "#{u.first_name} #{u.last_name}", main_app.user_path(u) %></strong></p>
+        <p>
+          <strong>Education:</strong>
+          <%= u.education %>
+        </p>
+        
+        <p>
+          <strong>Work:</strong>
+          <%= u.work %>
+        </p>
+        <p>
+          <strong>Website:</strong>
+          <%= u.website %>
+        </p>
+        <p>
+          <strong>About:</strong>
+          <%= u.about ? truncate(u.about.html_safe, length: 150) : '' %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %> <!-- End user info list -->
+<%= paginate users, :params => {:search => params[:search]} %>

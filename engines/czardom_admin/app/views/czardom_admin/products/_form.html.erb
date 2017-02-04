@@ -1,0 +1,12 @@
+<%= semantic_form_for @product do |f| %>
+  <%= f.input :name %>
+  <%= f.input :permalink %>
+  <%= f.input :redirect_path %>
+
+  <%= f.input :price, hint: 'Price in cents', append: '¢' %>
+
+  <div class="form-actions">
+    <%= f.submit 'Save Product', class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', :back, class: 'btn btn-link' %>
+  </div>
+<% end %>

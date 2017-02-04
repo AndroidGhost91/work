@@ -1,0 +1,9 @@
+<% if current_user.following? @following_user %>
+  $.each($("[id=board-show-follow-btn-<%= @following_user.id %>]"), function(idx, el) {
+    $(el).removeClass('board-unfollow-user-btn').addClass('board-followed-user-btn').val('Followed');
+  });
+<% else %>
+  $.each($("[id=board-show-follow-btn-<%= @following_user.id %>]"), function(idx, el) {
+    $(el).removeClass('board-followed-user-btn').addClass('board-unfollow-user-btn').val('Follow');
+  });
+<% end %>

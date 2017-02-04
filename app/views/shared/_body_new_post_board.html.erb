@@ -1,0 +1,53 @@
+<!--<div class="form-group">-->
+<!--  <%#= label_tag :subject, 'Title' %>-->
+<!--  <%#= text_field_tag :subject, nil, class: 'form-control input-lg', placeholder: 'hi czars! ...' %>-->
+<!--</div>-->
+
+<div class="form-group">
+  <h3>Post</h3>
+  <%#= label_tag :body, 'Post' %>
+  <%= text_area_tag :body, nil, class: 'form-control', noresize: true, rows: 8, maxlength: 500 %>
+</div>
+<!--<div class = "row">-->
+  <!--<div class = "col-sm-6 col-md-4 " id = "div_thumb_1">-->
+    <!--<a href = # class = "thumbnail">-->
+      <%#= image_tag 'logo.png',id:'image_thumb_1' %>
+    <!--</a>-->
+    <%#= button_tag "remove", type: "button", id: 'delete_image_1', class: 'btn btn-link' %>
+  <!--</div>-->
+  <!--<div class = "col-sm-6 col-md-4" id = "div_thumb_2">-->
+    <!--<a href = # class = "thumbnail">-->
+      <%#= image_tag 'logo.png',id:'image_thumb_2' %>
+    <!--</a>-->
+    <%#= button_tag "remove", type: "button", id: 'delete_image_2', class: 'btn btn-link' %>
+  <!--</div>-->
+  <!--<div class = "col-sm-6 col-md-4" id = "div_thumb_3">-->
+    <!--<a href = # class = "thumbnail">-->
+      <%#= image_tag 'logo.png',id:'image_thumb_3' %>
+    <!--</a>-->
+    <%#= button_tag "remove", type: "button", id: 'delete_image_3', class: 'btn btn-link' %>
+  <!--</div>          -->
+  <%#= image_tag id:'image_thumb_2',src:'' %>
+  <%#= button_tag "remove", type: "button", id: 'delete_image_2', class: 'btn btn-link' %>
+  <%#= image_tag id:'image_thumb_3',src:'' %>
+  <%#= button_tag "remove", type: "button", id: 'delete_image_3', class: 'btn btn-link' %>        
+<!--</div>-->
+<%= hidden_field_tag(:media_url, '')%>
+<% if(1 == 2) %>
+  <div class="form-group">
+    <div class="pull-right">
+      <%= button_tag "upload media", type: "button", id: 'upload-media-post', class: 'btn btn-link pull-right' %>
+     
+    </div>
+  </div>
+<% end %>
+<div class="form-group">
+
+  <%= label_tag :location, 'Select the board to post' %>
+  <% current_user.groups.each do |group| %>
+  <% unless group.forum_id.nil? then (@group_slug ||= []) << group.name end %>
+  <% end %>
+
+  <%= select_tag 'location', options_for_select(@group_slug),:style => "width: 200px; margin-left:20px",:class => "dropdown-toggle" %>
+ 
+</div>

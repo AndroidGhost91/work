@@ -1,0 +1,26 @@
+.widget-events {
+
+  .date-calendar {
+    @extend .col-md-3;
+    background: #f7f7f7;
+    border: 1px solid #d19023;
+    text-align: center;
+
+    .date-month {
+      border-bottom: 1px solid #cfcfcf;
+      display: inline-block;
+      padding-bottom: 2px;
+      margin-bottom: 5px;
+
+      color: #a2a2a2;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .date-day {
+      color: #7c7373;
+    }
+  }
+
+}
+

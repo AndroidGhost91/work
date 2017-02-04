@@ -1,0 +1,16 @@
+<% title "The page you were looking for doesn't exist (404)" %>
+
+<div class="profile-page col-md-5 col-md-offset-3 text-center">
+  <h1>Page Not Found</h1>
+  <p class="lead">Sorry, we can’t find the page you’re looking&nbsp;for.</p>
+  
+  <p>
+    The link you followed is probably out of date. If you typed an address,
+    check it carefully. If all else fails, use the links above or jump straight
+    <% if user_signed_in? %>
+      <%= link_to "back to your profile", main_app.user_path(current_user) %>.
+    <% else %>
+      <%= link_to "back to our homepage", main_app.root_path %>.
+    <% end %>
+  </p>
+</div>

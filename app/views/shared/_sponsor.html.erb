@@ -1,0 +1,56 @@
+<h3 class="">SPONSOR OF THE DAY</h3>
+<% if main_page? && !group_page? %>
+  <% if SponsorLogo.default[0] != nil %>
+    <div class="widget widget-ad">
+      <%= link_to  SponsorLogo.default[0].path do%>
+        <%= image_tag SponsorLogo.default[0].image.url %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if event_page? && !group_page?%>
+  <% if SponsorLogo.default[0] != nil %>
+    <div class="widget widget-ad">
+      <%= link_to  SponsorLogo.default[0].path do%>
+        <%= image_tag SponsorLogo.default[0].image.url %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if (main_page? || event_page?) && !group_page? %>
+  <% if SponsorLogo.default.length > 0 %>
+    <% for @index in 1..SponsorLogo.default.length - 1%>
+      <div class="widget widget-ad">
+        <%= link_to SponsorLogo.default[@index].path do%>
+          <%= image_tag SponsorLogo.default[@index].image.url %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if group_page? %>
+  <% if forum_group %>
+    <% (SponsorLogo.default | forum_group.sponsor_logos).each do |logo| %>
+      <% if logo.image.url %>
+          <div class="widget widget-ad">
+            <%= link_to logo.path do%>
+              <%= image_tag logo.image.url %>
+            <% end %>
+          </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% SponsorLogo.default.each do |logo| %>
+      <% if logo.image.url %>
+          <div class="widget widget-ad">
+            <%= link_to logo.path do%>
+              <%= image_tag logo.image.url %>
+            <% end %>
+          </div>
+      <% end %>
+    <% end %>     
+  <% end %>
+<% end %>

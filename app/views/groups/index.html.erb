@@ -1,0 +1,21 @@
+<% title "Groups" %>
+
+<div class="profile-page">
+  <%= render "shared/flash_messages" %>
+
+  <h2 class="page-header">Groups</h2>
+
+  <div class="row">
+    <% @groups.each do |group| %>
+      <div class="col-md-4">
+        <a href="<%= group_path(group) %>" class="thumbnail group">
+          <%= image_tag(group.image_url(:thumb), alt: group.full_name) if group.image? %>
+
+          <div class="caption">
+            <h3><%= group.full_name %></h3>
+          </div>
+        </a>
+      </div>
+    <% end %>
+  </div>
+</div>

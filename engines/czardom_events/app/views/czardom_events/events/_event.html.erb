@@ -1,0 +1,22 @@
+<div class="clearfix event">
+  <h3 class="event-title"><%= link_to event.title, event %></h3>
+
+  <div class="col-md-9 event-description">
+    <%= simple_format event.description.truncate(170, separator: /\s/) %>
+    <%= link_to t('czardom_events.event.view_more'), event_path(event) %>
+  </div>
+
+  <div class="col-md-3 event-meta">
+    <h4 class="event-start-date"><%= event.start_at.strftime('%a %b %e') %></h4>
+    <span class="event-start-time"><%= event.start_at.strftime('%l:%M %p') %></span>
+    <% if going_to_event(event) %>
+      <%= link_to t('czardom_events.event.going').html_safe, event_path(event), class: 'btn btn-success btn-block' %>
+    <% elsif not_going_to_event(event) %>
+      <%= link_to t('czardom_events.event.not_going').html_safe, event_path(event), class: 'btn btn-warning btn-block' %>
+    <% else %>
+      <%= link_to t('czardom_events.event.rvsp').html_safe, join_event_path(event), class: 'btn btn-primary btn-block', method: :post %>
+    <% end %>
+    <%= link_to "#{event.users_going.count} going", event, class: 'event-going' %><br />
+    <%= link_to pluralize(event.posts.count, 'comment'), event_path(event, anchor: 'comments'), class: 'event-comments' %><br />
+  </div>
+</div>

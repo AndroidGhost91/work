@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Sales</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<!--
+<div id="weekly-sales" data-report='<%= raw @weekly_overview.to_json %>'></div>
+-->
+
+<div class="table-responsive">
+  <table class="table datatable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Czar</th>
+        <th>Invoice ID</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Amount</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sales.each do |sale| %>
+        <tr>
+          <td><%= sale.created_at.strftime('%Y/%m/%d') %></td>
+          <td><%= sale.owner.try(:full_name) %></td>
+          <td><%= sale.guid %></td>
+          <td><%= sale.payment_source %></td>
+          <td><%= sale.state %></td>
+          <td><%= number_to_currency sale.amount / 100.0 %></td>
+          <td>
+            <%= link_to "View More", sale_path(sale) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+Morris.Bar({
+  element: 'weekly-sales',
+  data: $('#weekly-sales').data('report'),
+  xkey: 'sale_week',
+  ykeys: ['gross', 'sales'],
+  labels: ['Gross', 'Sales'],
+  resize: true,
+  fillOpacity: 1,
+  stacked: true
+});
+</script>

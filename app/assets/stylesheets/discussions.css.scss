@@ -1,0 +1,61 @@
+@import "discussions/topics";
+@import "discussions/posts";
+
+.board-quick-links,
+.board-quick-groups {
+  @extend .list-unstyled;
+  margin-bottom: 2em;
+
+  .active a {
+    color: #c7a768;
+    font-weight: bold;
+
+    .fa { color: #c7a768; }
+  }
+
+  a {
+    @extend .clearfix;
+    display: block;
+    padding: 0.5em;
+    font-size: 1.1em;
+    color: #666;
+
+    &:hover {
+      color: #c7a768;
+      text-decoration: none;
+    }
+
+    .fa {
+      color: #666;
+      float: left;
+      margin-right: 1em;
+      font-size: 1.2em;
+    }
+
+    .user-avatar {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 1em;
+    }
+  }
+}
+
+.discussion-list + .pages {
+  text-align: center;
+}
+
+.discussion-list {
+  ul.parent > li {
+    clear: both;
+    overflow: hidden;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    &:nth-child(even) {}
+    &:nth-child(odd) {}
+    &:last-child {
+      border: none;
+    }
+  }
+}
+

@@ -1,0 +1,34 @@
+<% title "List Your Clients" %>
+<% cover_photo(current_user.cover_photo_url) %>
+
+<%= semantic_form_for current_user, html: { class: 'profile-page col-md-8 col-md-offset-2' } do |f| %>
+
+  <div class="jumbotron add-clients">
+    <h2>List Your Clients</h2>
+    <p class="description">
+      Showcase your top clients for other czars to see. They will also be
+      listed in search results to help others find you.
+    </p>
+  </div>
+
+  <div class="fields" style="max-width: 800px">
+    <div class="row user-client-fields">
+      <%= f.semantic_fields_for :clients do |builder| %>
+        <%= render 'users/client_fields', f: builder, client: builder.object %>
+      <% end %>
+
+      <div class="col-md-4 new-user-client">
+        <div class="well">
+          <%= link_to_add_fields icon('plus', 'New Client'), f, :clients, resource: 'users/', class: 'btn btn-primary', data: { target: '.new-user-client', insertion: 'before' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.action :submit, label: 'Continue', button_html: { class: 'btn btn-primary' } %>
+  </div>
+
+<% end %>
+
+

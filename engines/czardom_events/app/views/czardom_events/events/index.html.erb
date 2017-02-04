@@ -1,0 +1,62 @@
+<% title t('czardom_events.titles.root') %>
+
+<div class="profile-page">
+  <%= render "shared/flash_messages" %>
+
+  <h2 class="page-header"><%= t('czardom_events.titles.root') %></h2>
+
+  <div class="row event-browser" id="event-browser">
+    <%= render "sidebar" %>
+
+    <div id="events-listing" class="col-md-9">
+      <div id="calendar"></div>
+
+      <h2 id="events-title">
+        Events for
+        <span data-bind="text: selectedDate"></span>
+      </h2>
+
+      <div data-bind="foreach: events">
+        <div class="event clearfix">
+          <h3 class="event-title">
+            <a data-bind="text: title, attr: { href: url }"></a>
+          </h3>
+
+          <div class="col-md-9 event-description">
+            <p data-bind="text: description_truncated"></p>
+            <a data-bind="attr: { href: url }">View More...</a>
+          </div>
+
+          <div class="col-md-3 event-meta">
+            <h4 class="event-start-date" data-bind="text: start_date"></h4>
+            <span class="event-start-time" data-bind="text: start_time"></span>
+            <a class="btn btn-primary btn-block" data-bind="attr: { href: url }, text: status"></a>
+            <a data-bind="attr: { href: url }">
+              <span data-bind="text: users_going"></span>
+              going
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="region-map" class="hide">
+    <div class="row">
+      <div class="col-md-4" id="regions">
+        <ul class="nav nav-pills nav-stacked" data-bind="foreach: regions">
+          <li data-bind="css: activeClass">
+            <a data-bind="click: $root.toggleActiveRegion, event: { mouseover: $root.mouseOverRegion, mouseout: $root.mouseOutRegion }" href="#">
+              <i class="fa" data-bind="css: activeIcon"></i>
+              <span data-bind="text: title"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-8">
+        <div style="height: 430px" id="map"></div>
+      </div>
+    </div>
+  </div>
+</div>

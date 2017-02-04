@@ -1,0 +1,86 @@
+<%= bs_panel do %>
+  <div class="row">
+    <form id="location-search" class="col-md-6 form-inline">
+      <label for="search" style="display: block">Search for a Location or Click on the Map</label>
+      <input type="search" id="search" placeholder="Location..." class="form-control" />
+      <button class="btn btn-default">Search</button>
+    </form>
+  </div>
+
+  <hr />
+
+  <%= semantic_form_for @region, html: { id: 'region' } do |f| %>
+    <div id='map' style="width: 100%; height: 300px"></div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.label :radius, "How far to search", style: 'display: block' %>
+        <%= f.range_field :radius, min: 125, max: 1000, step: 125, style: 'width: auto; display: inline' %>
+        <span><strong id="range-amount"><%= @region.radius %></strong> mile radius</span>
+      </div>
+    </div>
+
+    <hr />
+
+    <%= f.input :title, label: 'Region Title' %>
+    <%= f.input :slug, label: 'Region URL', hint: 'www.czardom.com/map/region-url' %>
+
+    <%= f.input :object_type, label: 'What is this region for?', collection: Region::TYPES, include_blank: false %>
+
+    <%= f.action :submit, button_html: { class: 'btn btn-primary' } %>
+
+    <%= f.hidden_field :latitude %>
+    <%= f.hidden_field :longitude %>
+  <% end %>
+<% end %>
+
+<script>
+var latField = $('#region_latitude'),
+    lngField = $('#region_longitude'),
+    searchField = $('#search');
+
+L.mapbox.accessToken = "<%= ENV['MAPBOX_TOKEN'] %>";
+var map = L.mapbox.map('map', '<%= ENV['MAPBOX_MAP'] %>').fitBounds([
+  [56.75272287205736, -36.73828124999999],
+  [16.29905101458183, -142.20703125]
+]);
+
+var circle = L.circle([40, -74.50], milesToMeters(500)).addTo(map);
+
+updateCircleLocation({
+  lat: <%= @region.latitude || 40 %>,
+  lng: <%= @region.longitude || -74.50 %>
+});
+
+map.on('click', function(e) {
+  updateCircleLocation(e.latlng);
+});
+
+$('#region_radius').on('input', function() {
+  circle.setRadius(milesToMeters(this.value) * 2);
+  $('#range-amount').text(this.value);
+})
+
+function milesToMeters(meters) {
+  var km_to_miles = 0.62;
+  return (meters * 1000) * km_to_miles;
+}
+
+function updateCircleLocation(latlng) {
+  circle.setLatLng(latlng);
+
+  latField.val(latlng.lat);
+  lngField.val(latlng.lng);
+}
+
+$('#location-search').on('submit', function(e) {
+  e.preventDefault();
+  L.mapbox.geocoder('https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{query}.json?access_token=' + L.mapbox.accessToken).query(searchField.val(), function(err, results) {
+    updateCircleLocation({
+      lat: results.latlng[0],
+      lng: results.latlng[1]
+    });
+  })
+});
+</script>
+

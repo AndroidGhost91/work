@@ -1,0 +1,56 @@
+//= require fullcalendar
+
+.fc-unthemed {
+
+  .fc-widget-header,
+  .fc-widget-content {
+    border: 0;
+  }
+}
+
+.fc-small h2 {
+  font-size: 20px;
+  position: relative;
+  top: 8px;
+}
+
+.fc .fc-day-header {
+  text-transform: uppercase;
+  padding: 1em 0 1.5em;
+  color: #797979;
+  font-size: 1.5em;
+  font-weight: 300;
+
+  .fc-small & {
+    font-size: 1em;
+  }
+}
+
+.fc-day {
+  border-radius: 5px;
+}
+
+.fc-day,
+.fc-day-number {
+  cursor: pointer;
+}
+
+.fc-ltr .fc-basic-view .fc-day-number {
+  text-align: center;
+  font-size: 1.5em;
+  padding: 0.5em;
+  color: #797979;
+
+  .fc-small & {
+    font-size: 1.2em;
+  }
+}
+
+
+.fc-day.events-for-day {
+  background: #D6EAF5;
+
+  &.fc-other-month {
+    background: lighten(#D6EAF5, 5%);
+  }
+}

@@ -1,0 +1,18 @@
+development:
+  cloud_name: hqps4ipsj
+  api_key: '172543958448232'
+  api_secret: yQVxvH9sZYM2-jEvOTw5fuSAVTk
+  enhance_image_tag: false
+  static_image_support: false
+production:
+  cloud_name: hqps4ipsj
+  api_key: '172543958448232'
+  api_secret: yQVxvH9sZYM2-jEvOTw5fuSAVTk
+  enhance_image_tag: false
+  static_image_support: false
+test:
+  cloud_name: hqps4ipsj
+  api_key: '172543958448232'
+  api_secret: yQVxvH9sZYM2-jEvOTw5fuSAVTk
+  enhance_image_tag: false
+  static_image_support: false

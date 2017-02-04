@@ -1,0 +1,76 @@
+<% title @group.name %>
+<% cover_photo(@group.cover_photo_url) %>
+
+<div class="profile-page">
+  <div class="profile-bio row">
+    <%= avatar_tag @group, size: :small, class: 'col-md-2' %>
+
+    <div class="bio-main col-md-10">
+      <h2 class="profile-heading">
+        <%= @group.full_name %>
+
+        <% if can? :edit, @group %>
+          <%= link_to "Edit Group Details", edit_group_path(@group), class: 'btn btn-default pull-right' %>
+        <% end %>
+      </h2>
+
+      <div class="bio"><%= simple_format @group.description %></div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="board-quick-links" id="tab-links">
+        <li><%= link_to icon('comments-o', 'Recent Posts'), '#board' %>
+        <li><%= link_to icon('calendar-o', 'Events'), '#events' %>
+        <li><%= link_to icon('users', 'Members'), '#members' %>
+      </ul>
+    </div>
+
+    <div class="col-md-9 tab-content" id="tab-panes">
+      <div class="tab-pane" id="board">
+        <%= render "recent_posts" %>
+      </div>
+
+      <div class="tab-pane" id="events">
+        <%= render "event_browser" %>
+      </div>
+
+      <div class="tab-pane" id="members">
+        <%= render "users" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var tabLinks = $('#tab-links').find('a'),
+    tabPanes = $('#tab-panes').find('.tab-pane');
+
+tabLinks.on('click', function(e) {
+  var currentLink, activeTabId;
+  e.preventDefault();
+
+  var currentLink = $(this),
+      activeTabId = currentLink.attr('href');
+
+  tabLinks.parent().removeClass('active');
+  currentLink.parent().addClass('active');
+
+  tabPanes.removeClass('active');
+  tabPanes.filter(activeTabId).addClass('active');
+
+  if( activeTabId == '#events' )
+    $('#calendar').fullCalendar('render');
+}).eq(0).triggerHandler('click');
+</script>
+<script>
+  setUpCalendar();
+
+  $(document).ready(function() {
+    eventCalendar.activeGroups.push(<%= @group.id %>);
+  });
+</script>
+

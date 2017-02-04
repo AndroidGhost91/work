@@ -1,0 +1,22 @@
+{
+  "name": "czardom_admin",
+  "version": "0.1.0",
+  "authors": [
+    "Baylor Rae' <baylor@thecodedeli.com>"
+  ],
+  "description": "assets for czardom admin",
+  "main": "config.ru",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-ui": "~1.11.4",
+    "jcrop": "~2.0.2"
+  }
+}

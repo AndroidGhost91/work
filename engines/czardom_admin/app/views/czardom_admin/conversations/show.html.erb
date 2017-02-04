@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= link_to "Messages", conversations_path %> /
+        <%= truncate @conversation.subject, length: 50 %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<h2><%= @conversation.subject %></h2>
+
+<%= bs_panel "Overview" do %>
+  <div class="row">
+    <div class="col-md-4">
+      <dl>
+        <dt>Sender</dt>
+        <dd><%= link_to @conversation.originator.full_name, user_path(@conversation.originator) %></dd>
+
+        <dt>Sent At</dt>
+        <dd><%= time_ago_in_words @conversation.created_at %> ago</dd>
+
+        <dt>Recipients</dt>
+        <dd><%= raw @conversation.recipients.map { |u| link_to(u.full_name, user_path(u)) }.join(', ') %></dd>
+      </dl>
+    </div>
+
+    <div class="col-md-4">
+      <dl>
+        <dt>Messages</dt>
+        <dd><%= @conversation.messages.count %></dd>
+
+        <dt>Last Message</dt>
+        <dd><%= time_ago_in_words @conversation.last_message.created_at %> ago</dd>
+      </dl>
+    </div>
+  </div>
+<% end %>
+
+<%= content_tag_for(:div, @conversation.messages, nil, class: 'panel panel-default') do |receipt| %>
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <%= link_to receipt.sender.full_name, user_path(receipt.sender) %>
+      (<%= time_ago_in_words receipt.created_at %> ago)
+    </h3>
+  </div>
+  <div class="panel-body">
+    <div class="message-meta">
+    </div>
+    <p class="message-body"><%= simple_format receipt.body %></p>
+  </div>
+<% end %>

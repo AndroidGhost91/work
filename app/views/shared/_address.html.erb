@@ -1,0 +1,13 @@
+<%= f.input :street %>
+<%= f.input :street2 %>
+
+<div class="row">
+  <%= f.input :city, wrapper_html: { class: 'col-md-3' } %>
+  <% if regions = Country.new(f.object.country || 'US').try(:subdivisions) && regions.present? %>
+    <%= f.input :state, as: :select, collection: regions.map { |k, v| [v['name'], k] }, include_blank: false, wrapper_html: { class: 'col-md-3' }, input_html: { class: 'state-select' } %>
+  <% else %>
+    <%= f.input :state, wrapper_html: { class: 'col-md-3' }, input_html: { class: 'state-select' } %>
+  <% end %>
+  <%= f.input :zip_code, wrapper_html: { class: 'col-md-3' } %>
+  <%= f.input :country, wrapper_html: { class: 'col-md-3' }, input_html: { class: 'country-select' }, selected: f.object.country || 'US' %>
+</div>

@@ -1,0 +1,27 @@
+<h1 class="text-center">
+    <%= @root_article.title %>
+</h1>
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <%= @root_article.body.html_safe %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 text-center">
+        <%#= image_tag @slide.image, class: 'img-responsive' %>
+        <% @urls.each do |url| %>
+            <%= image_tag url, class:'img-responsive' %>
+            <br>
+        <% end %>
+        <% if @video_url != nil %>
+            <%= video_tag @video_url ,:controls => true,:class => "responsive-slide-video",:style=>"max-width:100%" %>
+        <% end %>
+    </div>
+</div>
+
+<hr>
+
+
+<SCRIPT></SCRIPT>

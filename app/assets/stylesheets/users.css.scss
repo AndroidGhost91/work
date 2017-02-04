@@ -1,0 +1,462 @@
+@import "users/form";
+@import "users/clients";
+
+.user-avatar {
+  border-radius: 50%;
+  max-width: 128px;
+  max-height: 128px;
+}
+
+.profile-cover-photo {
+  height: 300px;
+  background-color: #ECECEC;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.profile-link-box {
+  -webkit-box-shadow: 0 1px 0 #fff inset;
+  -moz-box-shadow: 0 1px 0 #fff inset;
+  box-shadow: 0 1px 0 #fff inset;
+  clear: both;
+  background: #f6f6f6;
+  border: 1px solid #ccc;
+  line-height: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  border-top: 1px dashed #ccc;
+}
+
+.profile-link {
+  text-decoration: none !important;
+  color: #999 !important;
+  background-image: image_url('touch-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  -moz-filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter ….3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+  -o-filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter ….3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+  -webkit-filter: grayscale(100%);
+  filter: gray;
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter ….3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+  padding-left: 24px;
+  font-size: large;
+}
+.forget-password-page {
+  background: #fff;
+  position: relative;
+  top: -240px;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+#profile-copy {
+  width: 100%;
+  border: none;
+  background: none;
+}
+
+.profile-page,
+.login-page {
+  background: #fff;
+  position: relative;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.login-page {
+  top: -240px;
+}
+
+.mobile-login {
+  margin-top:6px;
+  position:relative;
+  float:right;
+  ul {
+    position: relative;
+    li {
+      float:left;
+      list-style: none;
+      a {
+        color: #d1c2b3;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-login {
+    display: none;
+  }
+}
+
+.left-menu {
+}
+
+.profile-page {
+  // @extend .col-md-6;
+}
+
+.login-page {
+  @extend .col-md-5;
+  @extend .col-md-offset-3;
+  @extend .text-center;
+}
+
+.profile-heading {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5em;
+}
+
+
+.board-topic {
+  img {
+    padding-top: 70px;
+  }
+}
+
+.profile-bio {
+  position: relative;
+  .bio-overview {
+    padding-bottom: 0.5em;
+  }
+
+  .badge {
+    border-radius: 2px;
+  }
+
+  .overview-item {
+    display: inline-block;
+    margin-right: 10px;
+  }
+}
+
+
+
+.social-networks {
+
+  .social {
+    text-decoration: none;
+    display: inline-block;
+    background: #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+  }
+
+  .social .fa {
+    line-height: 32px;
+    color: #fff;
+    font-size: 1.2em;
+  }
+
+  .social .fa-linkedin {
+    position: relative;
+    top: -2px;
+  }
+
+  .social .fa-youtube-play {
+    position: relative;
+    top: -1px;
+  }
+
+  .social svg {
+    width: 30px;
+
+    path { fill: #000; }
+  }
+}
+.recommend-button {
+  margin-top: 20px;
+}
+.add-clients,
+.join-groups {
+  text-align: center;
+  background: image-url('clients-placeholder.jpg') no-repeat center bottom;
+
+  h2,
+  .description {
+    text-shadow: 0 2px 4px #eee;
+  }
+}
+
+.join-groups {
+  background-image: image-url('groups-placeholder.jpg');
+}
+
+.donate-banner {
+  display: block;
+  background: #5DACD8;
+  border: 1px solid #4895C0;
+  border-radius: 7px;
+  color: #fff;
+  padding: 0.8em;
+
+  .fa-star {
+    font-size: 3em;
+    float: left;
+  }
+
+  .text {
+    text-transform: uppercase;
+    font-size: 1.2em;
+    margin-left: 0.8em;
+    margin-top: 0.4em;
+    float: left;
+  }
+
+  .button {
+    float: right;
+    background: #FBF0BE;
+    color: #468DB5;
+    padding: 0.8em;
+    border-radius: 5px;
+    text-transform: uppercase;
+  }
+
+  &:hover { color: #fff; }
+
+  @media (max-width: 768px) {
+    .fa-star,
+    .text,
+    .button {
+      display: block;
+      float: none;
+      text-align: center;
+    }
+
+    .button {
+      margin-top: 0.8em;
+    }
+  }
+}
+
+
+
+   /*
+      Image credits:
+      uifaces.com (http://uifaces.com/authorized)
+  */
+  
+  #login { display: none; }
+  .login,
+  .logout { 
+      position: absolute; 
+      top: -3px;
+      right: 0;
+  }
+  .page-header { position: relative; }
+  .reviews {
+      color: #555;    
+      font-weight: bold;
+      margin: 10px auto 20px;
+  }
+  .notes {
+      color: #999;
+      font-size: 12px;
+  }
+  .media .media-object { max-width: 120px; }
+  .media-body { position: relative; }
+  .media-date { 
+      position: absolute; 
+      right: 25px;
+      top: 25px;
+  }
+  .media-date li { padding: 0; }
+  .media-date li:first-child:before { content: ''; }
+  .media-date li:before { 
+      content: '.'; 
+      margin-left: -2px; 
+      margin-right: 2px;
+  }
+  .media-comment { margin-bottom: 20px; }
+  .media-replied { margin: 0 0 20px 50px; }
+  .media-replied .media-heading { padding-left: 6px; }
+  
+  .btn-circle {
+      font-weight: bold;
+      font-size: 12px;
+      padding: 6px 15px;
+      border-radius: 20px;
+  }
+  .btn-circle span { padding-right: 6px; }
+  .embed-responsive { margin-bottom: 20px; }
+  .tab-content {
+      padding: 50px 15px;
+      border: 1px solid #ddd;
+      border-top: 0;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
+  }
+  .custom-input-file {
+      overflow: hidden;
+      position: relative;
+      width: 120px;
+      height: 120px;
+      background: #eee url('https://s3.amazonaws.com/uifaces/faces/twitter/walterstephanie/128.jpg');    
+      background-size: 120px;
+      border-radius: 120px;
+  }
+  input[type="file"]{
+      z-index: 999;
+      line-height: 0;
+      font-size: 0;
+      position: absolute;
+      opacity: 0;
+      filter: alpha(opacity = 0);-ms-filter: "alpha(opacity=0)";
+      margin: 0;
+      padding:0;
+      left:0;
+  }
+  .uploadPhoto {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      display: none;
+      width: 50%;
+      height: 50%;
+      color: #fff;    
+      text-align: center;
+      line-height: 60px;
+      text-transform: uppercase;    
+      background-color: rgba(0,0,0,.3);
+      border-radius: 50px;
+      cursor: pointer;
+  }
+  .custom-input-file:hover .uploadPhoto { display: block; }
+ 
+ .top-section,
+ .bottom-section {
+    position:relative;
+ }
+ 
+ .top-section {
+    border-bottom: 1px solid #eee;
+   
+    .profile-picture {
+      margin-top:10px;
+    }
+ }
+ 
+ .bottom-section {
+    .social-media,
+    .profile-page,
+    .sponsor-section {
+      position: relative;
+      margin:auto;
+      padding:auto;
+    }
+    
+    .sponsor-section {
+      img {
+        width: 100%;
+      }
+    }
+
+    .social-media {
+      img {
+        padding-right: 8px;
+      }
+    }
+   
+ }
+
+
+img[src='Error.src'] {
+  display: none;
+}
+
+.user-line {
+  margin-bottom: 20px;
+}
+
+.is-online {
+  color: green;
+}
+
+.post-author {
+  img {
+    width: 100%;
+  }
+}
+
+.post-reply {
+  padding-top: 10px;
+
+  a {
+    color: #365899; 
+  }
+
+  a:hover {
+    text-transform: underline;
+  }
+}
+
+.post-replies {
+  display: block;
+  // margin: 10px 0;
+  padding: 5px 0;
+  img {
+    width: 100%;
+  }
+  .items {
+    display: block;
+  }
+  .item-container {
+    overflow: hidden;
+    margin: 3px 0;
+    padding: 7px;
+    // border-left: 1px solid #59abda;
+
+    img {
+      width: 100%;
+    };
+
+    .icon {
+      padding: 5px 0;
+      float: left;
+      width: 6%;
+    }
+    .item-avatar {
+      float: left;
+      width: 12%;
+      img {
+        margin: 3px;
+        width: 100%;
+      }
+    }
+    .item-info {
+      float: right;
+      width: 88%;
+
+      .time {
+        color: grey;
+      }
+    }
+  }
+}
+
+.space10 {
+  margin: 10px 0;
+}
+
+.follower-info {
+  display: block;
+  position: absolute;
+  right: 15px;
+  bottom: 5px;
+  text-align: right;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  .number {
+    color: #006fa6;
+    font-size: 22px;
+  }
+
+  .text {
+    color: gray;
+  }
+}
+
+#follow-notification {
+  top: 15%;
+}
+

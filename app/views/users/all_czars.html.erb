@@ -1,0 +1,12 @@
+<div class='col-md-9'>
+  <h1><%= 'No User found' if @users.blank?-%></h1>
+  <div class="col-md-12 form-group">
+    <%= form_tag('/czars', class: "form-group", role: "form") do -%>
+      <div class="col-md-8">
+        <%= text_field_tag 'search', params[:search], class: "form-control", placeholder: "Search czars" %>
+      </div>
+      <div class="col-md-4"><%= submit_tag 'Search', class: 'btn btn-default' %></div>
+    <% end -%>
+  </div>
+  <%= render partial: 'shared/follower_list', locals: {users: @users} %>
+</div>

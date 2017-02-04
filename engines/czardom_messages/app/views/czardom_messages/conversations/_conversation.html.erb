@@ -1,0 +1,24 @@
+<tr id="conversation-<%= conversation.id %>">
+  <td>
+    <%= link_to conversation_path(conversation, box: params.fetch(:box, 'inbox')) do %>
+      <strong class="conversation-subject"><%= conversation.subject %></strong> (<%= conversation.messages.count %>) -
+      <span class="conversation-excerpt"><%= truncate conversation.last_message.body, length: 30, separator: ' ' %></span>
+    <% end %>
+  </td>
+
+  <td>
+    <% first_names = "" %>
+    <% conversation.recipients.each_with_index do |recip, i| %>
+      <% if recip.respond_to? :first_name 
+          first_names += recip.first_name    
+        end
+        first_names += ", " if i > 0 && i < conversation.recipients.length - 1
+      %>
+    <% end %>
+    <%= first_names %>
+  </td>
+
+  <td>
+    (<%= time_ago_in_words conversation.last_message.created_at %> ago)
+  </td>
+</tr>

@@ -1,0 +1,37 @@
+<h2 class="page-header">
+  <%= link_to "CZARDOM Boards", main_app.board_path %> /
+  New Discussion
+</h2>
+
+<div class="row">
+
+  <%= render 'sidebar' %>
+
+  <div class="col-md-9">
+    <%= form_tag main_app.board_path do |f| %>
+      <div class="form">
+        <div class="form-group">
+          <%= label_tag :location, 'Where are you looking?' %>
+          <%= select_tag :location, options_for_select(['Who Reps', 'Events', 'Vendors and Venues', 'PR Resources']), include_blank: false, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= label_tag :subject, 'Subject' %>
+          <%= text_field_tag :subject, nil, class: 'form-control input-lg', placeholder: 'Do you know ...' %>
+        </div>
+
+        <div class="form-group">
+          <%= label_tag :body, 'Message' %>
+          <%= text_area_tag :body, nil, class: 'form-control richedit', noresize: true, rows: 4, maxlength: 500%>
+        </div>
+
+        <div class="form-actions clearfix">
+          <div class="pull-right">
+            <%= button_tag "Cancel", id: 'post-cancel', class: 'btn btn-link' %>
+            <%= submit_tag "Post Question", class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

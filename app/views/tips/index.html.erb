@@ -1,0 +1,8 @@
+<div class='col-md-9'>
+  <h1><%= 'No Tip found' if @tips.blank?-%></h1>
+  <% @tips.each do |tip| %>
+    <div class="col-md-12">
+      <p>Tip: <%= tip.content.html_safe %></p>
+    </div>
+  <% end %>
+</div>

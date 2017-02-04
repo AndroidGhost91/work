@@ -1,0 +1,152 @@
+<div class="profile-page">
+  <%= render "shared/flash_messages" %>
+
+  <h2 class="page-header">
+    Global Map
+  </h2>
+
+  <p class="lead">Find CZARS around the world!</p>
+
+  <div class="row">
+
+    <div id="czar-regions" class="col-md-3">
+      <ul class="nav nav-pills nav-stacked" data-bind="foreach: regions">
+        <li data-bind="css: { active: active }">
+          <a data-bind="click: $root.pushUrl, attr: { href: slug }">
+            <i class="fa" data-bind="css: activeIcon"></i>
+            <span data-bind="text: name"></span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="text-center" data-bind="visible: loading">
+        <i style="font-size: 2.5em; margin-top: 1.5em; color: #999;" class="fa fa-circle-o-notch fa-spin"></i>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div style="height: 600px" id="map"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/history.js/1.8/native.history.min.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
+<script>
+
+L.mapbox.accessToken = 'pk.eyJ1IjoiY3phcmRvbSIsImEiOiJLN2dRd2ZVIn0.pElgu-Ws2Sg41nHOAN1N5A';
+var map = L.mapbox.map('map', 'czardom.k2oc4b4c')
+
+var featureLayer = L.mapbox.featureLayer(),
+    clusterGroup;
+
+featureLayer.on('layeradd', function(e) {
+    var marker = e.layer,
+        feature = marker.feature,
+        props = feature.properties;
+
+        var popupContent = '<a style="display: block; width: 100" target="_blank" href="' + props.url + '" />' +
+                             '<img style="display: block; width: 100%; padding-bottom: 5px" src="' + props.image + '" />' + 
+                           '</a>' +
+                           '<div style="padding-bottom: 5px" class="marker-title">' +
+                             '<a target="_blank" href="' + props.url + '" />' +
+                               '<img class="user-avatar" width="35" src="' + props.avatar +'" /> ' +
+                               props.name +
+                             '</a>' +
+                           '</div>' +
+                           '<div class="marker-description">' +
+                             props.bio +
+                           '</div>';
+
+    marker.bindPopup(popupContent,{
+        closeButton: false,
+        minWidth: 320
+    });
+});
+
+// return new Region(region.title, [region.latitude, region.longitude], region.slug == currentRegion, "/map/regions/" + region.id + "/users")
+function Region(region) {
+  var self = this;
+
+  self.name = region.title;
+  self.slug = '/map/' + region.slug;
+  self.coordinates = [region.latitude, region.longitude];
+  self.usersUrl = "/map/regions/" + region.id + "/users";
+  self.active = ko.observable(region.slug == currentRegion);
+
+  self.activeIcon = ko.computed(function() {
+    return self.active() ? 'fa-check-square' : 'fa-square-o';
+  });
+}
+
+var regions = <%= @regions.to_json.html_safe %>,
+    currentRegion = '<%= @current_region %>';
+
+var viewModel = {
+  map: map,
+  loading: ko.observable(false),
+
+  regions: _.compact(regions.map(function(region) {
+    // console.log(region);
+    if (!_.contains(["nyc", "NYC", "NYC Czars"], region.title) ) {
+      return new Region(region);
+    }
+  })),
+
+  pushUrl: function() {
+    var slug = this.slug;
+    slug = slug.replace("/map/www.czardom.com", "");
+    // slug = slug.replace("-url", "");
+    History.pushState({ region: this }, this.name, slug);
+  },
+
+  setActiveRegion: function(slug) {
+    var region;
+    _.each(viewModel.regions, function(r) {
+      r.active(false)
+      if( r.slug == slug ) {
+        region = r;
+      }
+    });
+
+    region.active(true);
+    viewModel.loadRegionOnMap(region.coordinates, region.usersUrl);
+  },
+
+  loadRegionOnMap: function(coordinates, usersUrl) {
+    this.loading(true);
+    viewModel.map.setView(coordinates);
+    featureLayer.loadURL(usersUrl);
+  }
+}
+
+featureLayer.on('ready', function(e) {
+  // The clusterGroup gets each marker in the group added to it
+  // once loaded, and then is added to the map
+  if( clusterGroup ) {
+    clusterGroup.clearLayers();
+  }
+
+  clusterGroup = new L.MarkerClusterGroup({
+    maxClusterRadius: 80
+  });
+
+  e.target.eachLayer(function(layer) {
+      clusterGroup.addLayer(layer);
+  });
+  map.addLayer(clusterGroup);
+
+  viewModel.loading(false);
+});
+
+History.Adapter.bind(window, 'statechange', function(){
+  var state = History.getState();
+  viewModel.setActiveRegion(state.data.region.slug);
+});
+
+ko.applyBindings(viewModel, document.getElementById('czar-regions'))
+</script>
+

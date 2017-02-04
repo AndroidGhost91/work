@@ -1,0 +1,10 @@
+<%= semantic_form_for :message, url: reply_conversation_path(conversation), html: { id: 'reply' } do |f| %>
+  <%= f.hidden_field :subject, value: "Re: #{conversation.subject}" %>
+  <%= f.input :body, as: :text, label: 'Message', input_html: { rows: 3 } %>
+
+  <div class="form-actions">
+    <%= f.action :submit, label: 'Send', button_html: { class: 'btn btn-primary' } %>
+    <%= link_to "Cancel", :back, class: 'btn btn-link' %>
+  </div>
+<% end %>
+

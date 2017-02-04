@@ -1,0 +1,12 @@
+.tt-query { -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+.tt-hint { color: #999 }
+.tt-dropdown-menu { min-width: 300px;width: 100%; padding: 0px; background-color: #fff; border: 1px solid rgba(0, 0, 0, 0.2); border-top: 0px; -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2); box-shadow: 0 5px 10px rgba(0,0,0,.2); }
+.tt-suggestion { text-align: left; padding: 3px 20px; font-size: 18px; line-height: 24px; }
+.tt-suggestion.tt-cursor { color: #fff; background-color: #0097cf; }
+.tt-suggestion p { margin: 0; }
+.tt-suggestion a { color: #000; text-decoration: none; }
+.tt-suggestion em { font-weight: bold; font-style: normal; }
+.tt-dropdown-menu .category { text-align: left; background: #efefef; padding: 10px 5px; font-weight: bold; }
+.tt-suggestion .member .team,
+.tt-suggestion .client .location { color: red; margin-left: 10px; font-size: 0.4em; }
+.tt-suggestion .description { margin-left: 10px; font-size: 0.8em; }

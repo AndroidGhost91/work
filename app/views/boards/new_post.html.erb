@@ -1,0 +1,27 @@
+<h2 class="page-header">
+  <%= link_to "CZARDOM Boards", main_app.board_path %> /
+  New Post
+</h2>
+
+<div class="row">
+
+  <%= render 'sidebar' %>
+
+  <div class="col-md-9">
+    <%= form_tag main_app.board_path do |f| %>
+      <div class="form">
+
+        <%= render 'shared/body_new_post_board' %>
+        
+        <div class="form-actions clearfix">
+          <div class="pull-right">
+            <%#= button_tag "Cancel", id: 'post-cancel', class: 'btn btn-link pull-right' %>
+            <%= submit_tag "Post a story", class: 'btn btn-primary pull-right' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= render 'shared/mention_username' %>

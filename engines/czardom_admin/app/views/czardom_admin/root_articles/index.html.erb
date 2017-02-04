@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= @title %>
+        (<%= number_with_delimiter @root_articles.count %>)
+        <%= link_to "New Article", new_root_article_path, class: 'btn btn-primary' %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="table-responsive">
+  <table class="table datatable">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <!--<th>Media</th>        -->
+        <th>Slide</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @root_articles.each do |rc| %>
+        <tr>
+          <td>
+            <%= link_to rc.title, root_article_path(rc), class: 'admin-users-name', 'root-aticle-id': rc.id %>
+          </td>
+          <td>
+            <% if rc.slide %>
+              <%= rc.slide.caption %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'View More', root_article_path(rc) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+$('#users').DataTable();
+</script>

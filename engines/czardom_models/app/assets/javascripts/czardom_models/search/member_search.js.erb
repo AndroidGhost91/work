@@ -1,0 +1,54 @@
+$(document).ready(function() {
+  // Replace the following values by your ApplicationID and ApiKey.
+  var algolia = algoliasearch("<%= ENV.fetch('ALGOLIA_APP_ID') %>", "<%= ENV.fetch('ALGOLIA_SEARCH_KEY') %>");
+  // replace YourTeamsIndexName & YourPlayersIndexName by the name of the indexes you want to query.
+  var teams = algolia.initIndex('<%= User.index_name %>');
+  var players = algolia.initIndex('<%= UserClient.index_name %>');
+  var groups = algolia.initIndex('<%= Group.index_name %>');
+  var events = algolia.initIndex('<%= Event.index_name %>');
+  var posts = algolia.initIndex('<%= Forem::Post.index_name %>');
+
+  var slugPaths = [
+    'posts',
+    'czar',
+    'czar',
+    'groups',
+    'events'
+  ];
+
+  // Mustache templating by Hogan.js (http://mustache.github.io/)
+  var templateSuggestion = Hogan.compile('<div class="suggestion">' +
+    '<div class="name">{{{ title }}}</div>' +
+    '{{#description}}<div class="description">{{{ description }}}</div>{{/description}}' +
+  '</div>');
+
+  function searchSource(object, perPage, title, options) {
+    return {
+      source: object.ttAdapter({ hitsPerPage: perPage }),
+      displayKey: 'name',
+      templates: {
+        header: '<div class="category">' + title + '</div>',
+        suggestion: function(hit) {
+          var search = new SearchDescription(hit, options);
+          return templateSuggestion.render(search.toHash());
+        }
+      }
+    }
+  }
+
+  // typeahead.js initialization
+  $('#member-search').typeahead({
+    minLength: 3,
+    autoselect: true
+  }, [
+    searchSource(posts, 3, 'Board Posts', { title: 'topic_subject', description: 'text' }),
+    searchSource(teams, 3, 'Members'),
+    searchSource(players, 3, 'Clients'),
+    searchSource(groups, 3, 'Groups'),
+    searchSource(events, 3, 'Events')
+  ]);
+
+  $('#member-search').on('typeahead:selected', function(e, suggestion, dataset) {
+    window.location = suggestion.slug_url;
+  });
+});

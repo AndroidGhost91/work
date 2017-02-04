@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="page-header">
+      <%= link_to "Users", users_path(time: 'week') %> /
+      <%= @user.full_name %>
+      <% if can? :edit, @user %>
+        / <%= link_to "Edit Account", edit_user_path(@user) %>
+      <% end %>
+
+      <%= link_to "Impersonate", impersonate_user_path(@user), class: 'btn btn-default pull-right', method: :post %>
+      <%= link_to "View Public Profile", main_app.user_path(@user), class: 'btn btn-primary pull-right' %>
+    </h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-8">
+    <%= link_to "Delete User", user_path(@user), class: 'btn btn-danger pull-right', method: :delete, data: {confirm: "Are you sure to delete #{@user.full_name}?"} %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <%= bs_panel "Account Info" do %>
+      <div class="col-md-5">
+        <div class="row">
+          <%= image_tag @user.image_url, class: 'col-md-3' %>
+          <h3 class="col-md-9"><%= @user.full_name %></h3>
+        </div>
+
+        <dl>
+          <dt>Website</dt>
+          <dd><%= @user.website %></dd>
+
+          <dt>Location</dt>
+          <dd>
+            <% if @user.address.present? %>
+              <%= @user.address.city %>,
+              <%= @user.address.state %>
+            <% else %>
+              N/A
+            <% end %>
+          </dd>
+
+          <dt>Work</dt>
+          <dd><%= @user.work %></dd>
+
+          <dt>Education</dt>
+          <dd><%= @user.education %></dd>
+        </dl>
+      </div>
+
+      <div class="col-md-7">
+        <%= simple_format @user.about %>
+      </div>
+    <% end %>
+
+    <% if can? :show, Payola::Sale %>
+      <%= bs_panel "Invoices" do %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Invoice ID</th>
+                <th>Type</th>
+                <th>Status</th>
+                <% if can? :index, Payola::Sale %>
+                  <th>Amount</th>
+                <% end %>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @user.sales.each do |sale| %>
+                <tr>
+                  <td><%= sale.created_at.strftime('%Y/%m/%d') %></td>
+                  <td><%= sale.guid %></td>
+                  <td><%= sale.payment_source %></td>
+                  <td><%= sale.state %></td>
+                  <% if can? :index, Payola::Sale %>
+                    <td><%= number_to_currency sale.amount / 100.0 %></td>
+                  <% end %>
+                  <td>
+                    <%= link_to "View More", sale_path(sale) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+  <div class="col-md-4">
+    <%= bs_panel "Overview" do %>
+      <dl>
+        <dt>Clients</dt>
+        <dd><%= @user.clients.count %></dd>
+
+        <dt>Groups</dt>
+        <dd><%= @user.groups.count %></dd>
+
+        <dt>Following</dt>
+        <dd><%= @user.following.count %></dd>
+
+        <dt>Followers</dt>
+        <dd><%= @user.followers.count %></dd>
+      </dl>
+    <% end %>
+
+    <%= bs_panel "Stats" do %>
+      <dl>
+        <dt>Last Signed In</dt>
+        <dd><%= @user.current_sign_in_at %></dd>
+
+        <dt>Sign In Count</dt>
+        <dd><%= @user.sign_in_count %></dd>
+
+        <dt>Sign Up Type</dt>
+        <dd>
+          <% if @user.uid.present? %>
+            Facebook
+          <% else %>
+            Email
+          <% end %>
+        </dd>
+      </dl>
+    <% end %>
+  </div>
+</div>

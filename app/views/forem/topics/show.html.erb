@@ -1,0 +1,415 @@
+<%# if false && @posts.first.facebook_post_id.present? %>
+<%# if false %>
+<%# false %>
+  <script>
+    // (function() {
+    //   var fetchPosts = $.ajax({
+    //     url: '/board/fetch_facebook_comments',
+    //     data: { topic_id: '<%#= @topic.id %>' },
+    //     method: 'POST'
+    //   });
+
+    //   fetchPosts.done(function(data) {
+    //     if( data.new_posts > 0 ) {
+    //       window.location.reload();
+    //     }
+    //   });
+    // })();
+  </script>
+<%# end %>
+
+<div id='topic' class='<%= 'un' unless @topic.locked? %>locked'>
+  <%= render :partial => 'forem/topics/head', :locals => { :topic => @topic } %>
+
+  <% if @topic.pending_review? %>
+    <div class="moderation alert" id='topic_moderation'>
+      <%= t(".pending_review") %>
+      <% if forem_admin_or_moderator?(@topic.forum) %>
+        <%= form_for @topic, :url => forem.moderate_forum_topic_path(@topic.forum, @topic), :method => :put do |f| %>
+          <%= render "/forem/moderation/options", :f => f %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="post-sidebar text-right">
+      <% if @topic.can_be_replied_to? && can?(:reply, @topic) %>
+        <%= link_to t(".reply"), "#" , :class => "btn btn-primary", id: "reply-topic-button" %>
+      <% end %>
+
+      <% if forem_user %>
+        <%# if !@topic.subscriber?(forem_user.id) %>
+          <%= link_to forem.subscribe_forum_topic_path(@forum, @topic), remote: true, :method => :post, :class => "btn btn-default topic-subscribe" do %>
+            <i class="fa fa-star-o"></i>
+            <span id="topic-subscribe">Follow</span>
+          <% end %>
+        <%# else %>
+          <%= link_to forem.unsubscribe_forum_topic_path(@forum, @topic), remote: true, :method => :post, :class => "btn btn-default topic-unsubscribe" do %>
+            <i class="fa fa-star"></i>
+            <span id="topic-unsubscribe">Unfollow</span>
+          <% end %>
+        <%# end %>
+      <% end %>
+
+      <% if @topic.user == forem_user || forem_admin? %>
+        <!-- <hr /> -->
+        <%= link_to t(".delete"), forem.forum_topic_path(@forum, @topic), :method => :delete, data: { :confirm => t("are_you_sure") }, :class => "btn btn-danger" %>
+      <% end %>
+      <% if forem_admin? %>
+        <%= link_to t('forem.topic.links.edit'), forem.edit_admin_forum_topic_path(@forum, @topic), :class => "btn btn-default" %>
+        <%= link_to t(".hide.#{@topic.hidden}"), forem.toggle_hide_admin_forum_topic_path(@forum, @topic), :method => :put, :class => "btn btn-default" %>
+
+        <!-- <hr /> -->
+
+        <%= link_to forem.toggle_lock_admin_forum_topic_path(@forum, @topic), :method => :put, :class => "btn btn-default" do %>
+          <i class="fa fa-<%= 'un' if @topic.locked %>lock"></i>
+          <%= t(".lock.#{@topic.locked}") %>
+        <% end %>
+
+        <%= link_to forem.toggle_pin_admin_forum_topic_path(@forum, @topic), :method => :put, :class => "btn btn-default" do %>
+          <i class="fa fa-thumb-tack"></i>
+          <%= t(".pin.#{@topic.pinned}") %>
+        <% end %>
+      <% end %>
+
+      <% if @topic.can_be_replied_to? && can?(:reply, @topic) %>
+        <form action="<%= forem.forum_topic_posts_path(@forum, @topic) %>" method="post" data-method="post" data-remote="true" data-type="json" class="reply-topic-form">
+          <textarea class="text required field form-control" rows="4" required="required" aria-required="true" name="post[text]" id="post_text" maxlength="500"></textarea>
+          <input type="submit" name="commit" value="Post reply" class="btn btn-primary btn-sm pull-right" style="margin-top:3px;">
+        </form>
+      <% end %>
+    </div>
+  </div>
+ 
+  <%# forem_pages_widget(@posts) %>
+
+  <div class="col-md-12">
+    <div class="posts-container">
+      <%# render :partial => "forem/posts/post", :collection => @posts %>
+      <div data-bind="foreach: posts">
+        <%= render "forem/posts/ko_post" %>
+      </div>
+   
+      <!--<div class="text-center lead" data-bind="visible: loadingComments">-->
+      <!--  <i class="fa fa-spinner fa-spin"></i>-->
+      <!--  Loading Comments From Facebook...-->
+      <!--</div>-->
+    </div>
+  </div>
+
+  <%# forem_pages_widget(@posts) %>
+  <%= back_button.html_safe %>
+</div>
+
+<div id="follow-notification" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Follow thread notification</h4>
+      </div>
+      <div class="modal-body">
+        <p>By following a thread, any new posts to this thread will show up in your czardom notifications inbox</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<% if forem_user %>
+  <script>
+    <% if !@topic.subscriber?(forem_user.id) %>  
+      $(document).ready(function (e) {
+        $("a.topic-subscribe").show();
+        $("a.topic-unsubscribe").hide();
+      })
+    <% else %>
+      $(document).ready(function (e) {
+        $("a.topic-subscribe").hide();
+        $("a.topic-unsubscribe").show();
+      })
+    <% end %>
+  </script>
+<% end %>
+
+<script>
+  $("a.topic-subscribe").on({
+    "ajax:send": function (e, data, status, xhr) {
+      $("a.topic-subscribe").addClass("disabled");
+      $('.modal').modal();
+    }, "ajax:success": function (e, data, status, xhr) {
+      $("a.topic-subscribe").removeClass("disabled");
+      $("a.topic-subscribe").hide();
+      $("a.topic-unsubscribe").show();
+    },
+  });
+  $("a.topic-unsubscribe").on({
+    "ajax:send": function (e, data, status, xhr) {
+      $("a.topic-unsubscribe").addClass("disabled");
+    }, "ajax:success": function (e, data, status, xhr) {
+      $("a.topic-unsubscribe").removeClass("disabled");
+      $("a.topic-subscribe").show();
+      $("a.topic-unsubscribe").hide();
+    }
+  });
+
+  function makeLinkForMention (text) {
+    emailReg = new RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/);
+    strings = text.split(" ");
+    new_string = [];
+    for(string of strings) {
+      if (!emailReg.test(string)) {
+        string = string.replace(/@([a-zA-Z\d_\-]+)/ig, '<a href="/users/$1">$1</a>'); 
+      }
+      new_string.push(string);
+    }
+    return new_string.join(" ");
+  }
+
+
+function lockForm(form) {
+  form.find("input").attr("disabled", "true");
+  form.find("textarea").attr("readonly", "true");
+}
+
+function removeLockForm(form) {
+  form.find("input").attr("disabled", null);
+  form.find("textarea").attr("readonly", null);
+}
+
+var all_posts = [];
+
+var PostUser = function(user) {
+  var self = this;
+
+  self.id = user.id;
+  self.avatar = user.avatar;
+  self.charter_member = ko.observable(user.charter_member);
+  self.deleted = !!user.deleted;
+
+  self.first_name = ko.observable(user.first_name);
+  self.last_name = ko.observable(user.last_name);
+  self.full_name = ko.computed(function() { return [self.first_name(), self.last_name()].join(' ') });
+
+  self.profile_url = user.profile_url;
+}
+
+var ThreadReplyPost = function(post) {
+  var self = post;
+  self.user = new PostUser(post.user);
+}
+
+var ThreadPost = function(post) {
+  var self = this;
+  
+  self.id = post.id;
+  self.reply_url = post.reply_url;
+  self.reply_to_id = post.id;
+  self.created_at = ko.observable(post.created_at);
+  self.user = new PostUser(post.user);
+  self.text = ko.observable(makeLinkForMention(post.text));
+  self.created_time = ko.computed(function() {
+    return moment(self.created_at()).calendar();
+  });
+  self.replies = ko.observableArray();
+  for(var reply of post.replies) {
+    var parse_reply = {};
+    parse_reply.id = reply.id;
+    parse_reply.reply_url = reply.reply_url;
+    parse_reply.created_at = ko.observable(reply.created_at);
+    parse_reply.text = ko.observable(makeLinkForMention(reply.text));
+    parse_reply.user_reply = new PostUser(reply.user);
+    parse_reply.reply_to = reply;
+    parse_reply.reply_to_id = reply.id;
+    parse_reply.created_time = ko.computed(function() {
+      return moment(parse_reply.created_at()).calendar();
+    });
+    parse_reply.reply_replies = ko.observableArray();
+    
+    for(var reply_reply of reply.replies) {
+      var parse_reply_reply = {};
+      parse_reply_reply.id = reply_reply.id;
+      parse_reply_reply.reply_url = reply_reply.reply_url;
+      parse_reply_reply.reply_created_at = ko.observable(reply_reply.created_at);
+      parse_reply_reply.reply_text = ko.observable(makeLinkForMention(reply_reply.text));
+      parse_reply_reply.reply_user_reply = new PostUser(reply_reply.user);
+      parse_reply_reply.reply_reply_to = ko.observable(null);
+      parse_reply_reply.reply_reply_to_id = null;
+      parse_reply_reply.reply_created_time = ko.computed(function() {
+        return moment(parse_reply_reply.reply_created_at()).calendar();
+      });
+      parse_reply.reply_replies.push(parse_reply_reply);
+    }
+
+    self.replies.push(parse_reply);
+  }
+  self.reply_to = post;
+  
+  // add media to the post
+  self.media_url1 = null;
+  self.media_url2 = null;
+  self.media_url3 = null;
+  var urls = [];
+   
+  if(post.media){
+    var url_object = JSON.parse(post.media);
+    for(var index in url_object) {
+      if (url_object.hasOwnProperty(index)) {
+        urls.push(url_object[index].url);  
+      }
+    }
+    if (urls.length == 1){
+      self.media_url1 = urls[0];
+    } else if(urls.length == 2){
+      self.media_url1 = urls[0];
+      self.media_url2 = urls[1];
+    } else if(urls.length == 3){
+      self.media_url1 = urls[0];
+      self.media_url2 = urls[1];
+      self.media_url3 = urls[2];
+    }
+  }
+}
+
+var ThreadView = function() {
+  var self = this;
+
+  self.posts = ko.observableArray();
+  self.loadingComments = ko.observable(true);
+}
+
+var view = new ThreadView();
+_.each(<%= @posts.map { |p| Dto::Board::ThreadPost.new(p) }.to_json.html_safe %>, function(post) {
+  all_posts.push(post);
+  view.posts.push(new ThreadPost(post));
+});
+
+var fetchPosts = $.ajax({
+  url: '/board/fetch_facebook_comments',
+  data: { topic_id: '<%= @topic.id %>' },
+  method: 'POST'
+});
+
+fetchPosts.done(function(posts) {
+  _.each(posts, function(post) {
+    view.posts.push(new ThreadPost(post));
+  });
+  view.loadingComments(false);
+});
+
+ko.applyBindings(view);
+
+function applyNewData(target, data) {
+  // console.log(target, target.id);
+  if (data.master_post == null) return;
+  removeLockForm(target);
+  target.find("textarea").val("");
+
+  for (var i=0;i < view.posts().length;i++) {
+    // console.log(view.posts()[i].id);
+    if (view.posts()[i].id == data.master_post.id) {
+      // view.posts.splice(i, 1, new ThreadPost(data.master_post));  
+      post = view.posts()[i];
+      // console.log(post);
+      if (data.reply_to_id == post.id) {
+        var parse_reply = {};
+        parse_reply.id = data.id;
+        parse_reply.reply_url = data.reply_url;
+        parse_reply.created_at = ko.observable(data.created_at);
+        parse_reply.text = ko.observable(makeLinkForMention(data.text));
+        parse_reply.user_reply = new PostUser(data.user);
+        parse_reply.reply_to = post;
+        parse_reply.reply_to_id = post.id;
+        parse_reply.created_time = ko.computed(function() {
+          return moment(parse_reply.created_at()).calendar();
+        });
+        parse_reply.reply_replies = ko.observableArray();
+        post.replies.push(parse_reply);
+      } else {
+        for (var reply of post.replies()) {
+          if (data.reply_to_id == reply.id) {
+            var parse_reply_reply = {};
+            parse_reply_reply.id = data.id;
+            parse_reply_reply.reply_url = data.reply_url;
+            parse_reply_reply.reply_created_at = ko.observable(data.created_at);
+            parse_reply_reply.reply_text = ko.observable(makeLinkForMention(data.text));
+            parse_reply_reply.reply_user_reply = new PostUser(data.user);
+            parse_reply_reply.reply_reply_to = ko.observable(null);
+            parse_reply_reply.reply_reply_to_id = null;
+            parse_reply_reply.reply_created_time = ko.computed(function() {
+              return moment(parse_reply_reply.reply_created_at()).calendar();
+            });
+            reply.reply_replies.push(parse_reply_reply);
+            return;
+          }
+        }
+      } 
+    } 
+  }
+}
+
+
+function handleReplyClick() {
+  $("body").on("click", ".reply-me", function(e) {
+    e.preventDefault();
+    var post_id = $(e.target).attr('data-id');
+    $("#reply-"+post_id).toggle();
+  });  
+}
+
+function handleReplyForm() {
+  $("body").on({
+    "ajax:send": function (e, data, status, xhr) {
+      lockForm($(e.target));
+    }, "ajax:success": function (e, data, status, xhr) {
+      var target = $(e.target);
+      removeLockForm(target);
+      applyNewData(target, data);
+    },
+  }, "form.reply-form");  
+}
+
+handleReplyClick();
+handleReplyForm();
+
+</script>
+
+
+<script>
+  
+function applyToPost(target, data) {
+  view.posts.push(new ThreadPost(data));
+}
+
+$("body").on("click", "#reply-topic-button", function(e) {
+  e.preventDefault();
+  $(".reply-topic-form").toggle();
+});  
+
+$("body").on({
+  "ajax:send": function (e, data, status, xhr) {
+    lockForm($(e.target));
+  }, "ajax:success": function (e, data, status, xhr) {
+    var target = $(e.target);
+    removeLockForm(target);
+    $(".reply-topic-form").toggle();
+    applyToPost(target, data);
+  },
+}, "form.reply-topic-form");
+
+$("body").on("keypress", "textarea", function (e) {
+  if (e.which == 13) {
+    var text = $(e.target).val();
+    text = text.replace(/\s/g,'');
+    if (text == "") return;
+    var form = $(e.target).parent();
+    if (form != undefined && form != null) {
+      form.submit();
+    }
+    return false;
+  }
+});
+
+</script>

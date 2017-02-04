@@ -1,0 +1,228 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Dashboard</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"><%= @users_today %></div>
+                        <div><%= pluralize @users_today, 'user' %> today!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="/admin/users?time=today">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"><%= @users_this_week %></div>
+                        <div><%= pluralize @users_this_week, 'user' %> this week!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="/admin/users?time=week">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <% if can? :index, Payola::Sale %>
+      <div class="col-lg-3 col-md-6">
+          <div class="panel panel-green">
+              <div class="panel-heading">
+                  <div class="row">
+                      <div class="col-xs-3">
+                          <i class="fa fa-shopping-cart fa-5x"></i>
+                      </div>
+                      <div class="col-xs-9 text-right">
+                          <div class="huge"><%= @sales_this_week %></div>
+                          <div><%= pluralize @sales_this_week, 'donation' %> this week!</div>
+                      </div>
+                  </div>
+              </div>
+              <a href="/admin/sales">
+                  <div class="panel-footer">
+                      <span class="pull-left">View Details</span>
+                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                      <div class="clearfix"></div>
+                  </div>
+              </a>
+          </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+          <div class="panel panel-green">
+              <div class="panel-heading">
+                  <div class="row">
+                      <div class="col-xs-3">
+                          <i class="fa fa-dollar fa-5x"></i>
+                      </div>
+                      <div class="col-xs-9 text-right">
+                          <div class="huge"><%= number_to_currency @amount_in_sales %></div>
+                          <div><%= number_to_currency @amount_in_sales %> this week!</div>
+                      </div>
+                  </div>
+              </div>
+              <a href="/admin/sales">
+                  <div class="panel-footer">
+                      <span class="pull-left">View Details</span>
+                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                      <div class="clearfix"></div>
+                  </div>
+              </a>
+          </div>
+      </div>
+    <% end %>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-area-chart"></i> New Accounts and Donations
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div id="sales-sign-ups-chart" data-report='<%= @sales_and_sign_ups.to_json.html_safe %>'></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+        <div class="row">
+          <div class="col-md-6">
+            <%= bs_panel "Top Groups" do %>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Group</th>
+                      <th>Members</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @top_groups.each do |group| %>
+                      <tr>
+                        <td><%= group.name %></td>
+                        <td><%= group.count_users %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="col-md-6">
+            <%= bs_panel "Top Users" do %>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Czar</th>
+                      <th>Followers</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @top_users.each do |user| %>
+                      <tr>
+                        <td><%= user.full_name %></td>
+                        <td><%= user.count_followers %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+          </div>
+        </div>
+    </div>
+    <!-- /.col-lg-8 -->
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pie-chart"></i> Users with Donations
+            </div>
+            <div class="panel-body">
+                <div id="morris-donut-chart"></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pie-chart"></i> Facebook vs Email
+            </div>
+            <div class="panel-body">
+                <div id="facebook-vs-email"></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+<!-- /.row -->
+
+<script>
+Morris.Area({
+  element: 'sales-sign-ups-chart',
+  data: $('#sales-sign-ups-chart').data('report'),
+  xkey: 'signed_up_on',
+  ykeys: ['new_accounts', 'count_sales'],
+  labels: ['Sign Ups', 'Sales'],
+  resize: true,
+  behaveLikeLine: true,
+  pointSize: 2,
+  fillOpacity: 1
+});
+
+Morris.Donut({
+  element: 'morris-donut-chart',
+  data: [{
+    label: 'Donated Users',
+    value: <%= @donated_user_count %>
+  }, {
+    label: 'Free Users',
+    value: <%= @count_users - @donated_user_count %>
+  }],
+  resize: true
+});
+
+Morris.Donut({
+  element: 'facebook-vs-email',
+  data: [{
+    label: 'Facebook Users',
+    value: <%= @filtered_users.where('uid is not null').count %>
+  }, {
+    label: 'Email Users',
+    value: <%= @filtered_users.where('uid is null').count %>
+  }],
+  resize: true
+});
+</script>

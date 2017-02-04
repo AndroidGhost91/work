@@ -1,0 +1,97 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
+      <!--  <span class="sr-only">Toggle navigation</span>-->
+      <!--  <span class="icon-bar"></span>-->
+      <!--  <span class="icon-bar"></span>-->
+      <!--  <span class="icon-bar"></span>-->
+      <!--</button>-->
+      <%= link_to main_app.root_path, class: 'navbar-brand' do %>
+        <%= embedded_svg('logo-side.svg', class: 'navbar-logo') %>
+      <% end %>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="<%= active_nav_class('pages', 'home') %>"><a href="/">Board</a></li>
+      </ul>
+
+      <% if user_signed_in? %>
+        <form class="navbar-form navbar-left" role="search" action="/search">
+          <div class="form-group">
+            <input id="global-search" autocomplete="off" type="text" class="form-control typeahead" name="q" placeholder="Search members, events, clients, etc...">
+          </div>
+        </form>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              More
+              <i class="more-links-icon"></i>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <% if current_user.admin? %>
+                  <li class="<%= active_nav_class('groups') %>">
+                    <%= link_to "Groups", main_app.groups_path %>
+                  </li>
+                <% end %>
+
+                <li class="<%= active_nav_class('boards') %>">
+                  <%= link_to "Boards", main_app.board_path %>
+                </li>
+
+                <% if current_user.admin? %>
+                  <li class="<%= active_nav_class('conversations') %>">
+                    <%= link_to "Messages", czardom_messages.root_path %>
+                  </li>
+                <% end %>
+
+                <li class="<%= active_nav_class('events') %>">
+                  <%= link_to "Events", czardom_events.root_path %>
+                </li>
+
+                <li class="<%= active_nav_class('map') %>">
+                  <%= link_to "Map", czardom_map.root_path %>
+                </li>
+            </ul>
+          </li>
+        </ul>
+      <% end %>
+
+      <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <li>
+              <%= link_to 'Admin Dashboard', czardom_admin.root_path %>
+            </li>
+          <% end %>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown" role="button" aria-expanded="false">
+              <%= current_user.full_name %>
+              <%= avatar_tag current_user, size: :large %>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li class="<%= active_nav_class('users', 'show', current_user.slug) %>"><%= link_to "Your Profile", main_app.user_path(current_user) %></li>
+              <li class="<%= active_nav_class('users', 'edit') %>"><%= link_to "Settings", main_app.edit_user_path %></li>
+              <li class="divider"></li>
+              <li><%= link_to "Log Out", czardom_models_engine.destroy_user_session_path, method: :delete %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to "Log In", czardom_models_engine.login_path %>
+          </li>
+          <li>
+            <%= link_to "Sign Up", main_app.new_user_path %>
+          </li>
+        <% end %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

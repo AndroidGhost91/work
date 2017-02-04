@@ -1,0 +1,18 @@
+//= require select2
+//= require select2-bootstrap-theme
+
+
+.select2-container .select2-results__option--highlighted {
+  background: $btn-primary-bg !important;
+}
+
+.select2-container .select2-results {
+
+  img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    margin-right: 5px;
+  }
+}

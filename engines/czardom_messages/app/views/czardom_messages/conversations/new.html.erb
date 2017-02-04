@@ -1,0 +1,53 @@
+<% title 'New Conversation' %>
+<% cover_photo(current_user.cover_photo_url) %>
+
+<div class="profile-page">
+  <h2 class="page-header">
+    <%= link_to 'Czemails', root_path %> /
+    New Conversation
+  </h2>
+
+  <div class="row">
+    <%= render "sidebar" %>
+
+    <div class="col-md-9">
+      <h3>Start Conversation</h3>
+      <%= render 'form' %>
+    </div>
+  </div>
+</main>
+
+<script>
+var algolia = algoliasearch("<%= ENV.fetch('ALGOLIA_APP_ID') %>", "<%= ENV.fetch('ALGOLIA_SEARCH_KEY') %>");
+var users = algolia.initIndex('<%= User.index_name %>');
+
+var templateSuggestion = Hogan.compile('<div class="suggestion">' +
+  '<div class="name">{{{ title }}}</div>' +
+  '{{#description}}<div class="description">{{{ description }}}</div>{{/description}}' +
+'</div>');
+
+$('#conversation_recipients').tagsinput({
+  itemValue: 'objectID',
+  itemText: 'full_name',
+  typeaheadjs: {
+    name: 'users',
+    displayKey: 'full_name',
+    source: users.ttAdapter({ hitsPerPage: 5 }),
+    templates: {
+      header: '<div class="category">CZARS</div>',
+      suggestion: function(hit) {
+        var search = new SearchDescription(hit, {});
+        return templateSuggestion.render(search.toHash());
+      }
+    }
+  }
+});
+
+<% if @default_recipient.present? %>
+  $('#conversation_recipients').tagsinput('add', {
+    objectID: <%= @default_recipient.id %>,
+    full_name: "<%= @default_recipient.full_name %>"
+  });
+<% end %>
+</script>
+

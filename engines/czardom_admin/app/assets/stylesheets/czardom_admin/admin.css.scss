@@ -1,0 +1,15 @@
+.sidebar-nav .divider {
+  margin: 20px 0;
+  border: 0;
+
+  + li {
+    border-top: 1px solid #E7E7E7;
+  }
+}
+
+.datatable-custom-filter {
+  margin-bottom: 10px;
+}
+.dataTables_filter input[type="search"] {
+  margin-left: 1em;
+}

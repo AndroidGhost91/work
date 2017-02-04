@@ -1,0 +1,138 @@
+.navbar-default {
+  z-index: 1600;
+}
+
+.navbar-header > a {
+  font-size:  16px;
+  line-height: 46px;
+  color:black;
+  display: inline-block;
+}
+
+.navbar-default .navbar-logo {
+  width: 207px;
+  margin-top: -2px;
+}
+@media (max-width: 450px) {
+  .navbar-brand {
+    padding: 15px 0px;
+  }
+  .navbar-default .navbar-logo {
+    width: 160px;
+    margin-top: -2px;
+  }
+  .first-navbar .navbar-right {
+    margin-top: 15px;
+  }
+  .navbar-header {
+    margin-left: -25px;
+  }
+}
+
+.navbar-nav > li > .profile-image {
+
+  img {
+    width: 35px;
+    height: auto;
+    margin-top: -100px;
+    transform: translateY(48px);
+  }
+
+}
+
+
+.navbar-form .form-control {
+  width: 200px;
+}
+
+.navbar-default .navbar-form {
+  padding: 0;
+
+  .form-control {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 940px) {
+  .navbar-form {
+    display: none;
+  }
+}
+
+
+.navbar-default .more-links-icon {
+   @extend .fa;
+   @extend .fa-chevron-circle-down;
+
+   position: relative;
+   left: 3px;
+}
+.second-navbar{
+ 
+  background: white;
+  color: white;
+  min-height:48px;
+  top:64px;
+  .container {
+    margin-left: 40px;
+    float:left;
+    align-items:center;
+    display:flex;
+    height:100%;    
+  }
+  .second-nav {
+    float: left;
+    margin: 0;
+  }
+  .second-nav > li > a {
+    color:black;
+    font-size: 20px;
+  }
+  .second-nav > .active > a{
+    color:black;
+    font-weight:bold;
+    font-size: 20px;
+  }
+  .second-nav > .active > a:hover{
+    color:black;
+    font-size: 20px;
+  
+  }
+  
+  .second-nav > li > a:hover {
+    color:#007dc6;
+    font-size: 20px;
+  }
+  .nav-hidden-only form {
+    border-color: initial;
+  }
+  @media screen and (min-width: 768px) {
+    .nav-hidden-only {
+      display: none;
+    }
+  }
+}
+.first-navbar {
+  height:64px;
+  padding-left: 40px;
+  padding-right: 20px;
+  .navbar-right{
+    margin-top: 7px;
+  }
+}
+
+#global-search{
+  margin-top: 7px;
+}
+
+.top-menu {
+  text-transform: uppercase;
+  ul > li > a {
+    font-size: 14px !important;
+  }
+}
+
+
+#second-navbar {
+  z-index: 999;
+}

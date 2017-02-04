@@ -1,0 +1,180 @@
+.sidebar-container {
+  @extend .col-md-3;
+  position: relative;
+  @media screen and (min-width: 990px) {
+    top: -150px;
+  }
+  
+}
+
+.sidebar {
+  border-radius: 10px 10px 0 0;
+  padding: 10px;
+}
+
+.group-sidebar-text {
+  font-size: 24px;
+  margin-bottom: 16px;
+  margin-left: 8px;
+}
+
+.sidebar .widget {
+  background: #fff;
+  border: 1px solid #d6dde0;
+  margin: 15px 0;
+  padding: 10px;
+
+  .widget-header {
+    position: relative;
+  }
+
+  .edit-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .widget-title {
+    margin-top: 0;
+
+    color: #acacac;
+    font-size: 18px;
+    text-align: center;
+    text-transform: uppercase;
+    @include MerriweatherSans(700);
+  }
+
+  hr {
+    margin: 10px 0;
+  }
+
+  .item {
+    @extend .clearfix;
+    margin-bottom: 10px;
+    border-bottom: 1px dotted #ccc;
+
+    &:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .item-description {
+    @extend .col-md-9;
+  }
+
+  .item-title {
+    font-size: 17px;
+    margin: 0;
+    word-wrap: break-word;
+  }
+
+  p {
+    clear: both;
+    margin-top: 0.2em;
+    font-size: 13px;
+    color: #a3a3a3;
+  }
+}
+
+.sidebar .widget-open-thrones {
+  @extend .clearfix;
+
+  &.highlight {
+    border: 7px solid #d19023;
+  }
+
+  .widget-title {
+    margin-bottom: 10px;
+  }
+
+  .job-image {
+    @extend .col-md-3;
+    height: auto !important;
+
+    img { width: 100%; height: auto; }
+  }
+}
+
+.widget-ad {
+  img {
+    width: 100%;
+    display: block;
+  }
+}
+
+
+#pollSlider-button{
+  display: none;
+}
+
+.pollSlider {
+  display: none;
+  .navbar-default {
+    z-index: 100;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+  // For sliding sidebar
+  .pollSlider {
+      display: block;
+      position: fixed;
+      background: #fff;
+      width: 80%;
+      left: -80%;
+      z-index: 100;
+      top: 80px;
+      // min-width: 200px;
+      padding-top: 20px;
+      border: 1px solid #DACBBE;
+      border-radius: 5px;
+      border-left: none;
+      max-height: 75%;
+      overflow: auto;
+  }
+  
+  #pollSlider-button {
+      position:fixed;
+      width:30px;
+      height:40px;
+      left: -1px;
+      background:#fff;
+      top:300px;
+      z-index: 100;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      cursor: pointer;
+      border: 1px solid #DACBBE;
+      border-left: none;
+      display: inline-block;
+      > i.fa-chevron-left {
+        display: none;
+      }
+  }
+  
+  .fa-sb-chevron {
+    text-align: center;
+    margin-top: 9px;
+    font-size: 1.2em;
+    width: 100%;
+  }
+}
+
+.modal-sidebar {
+  display: block;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background: #000;
+  opacity: 0.8;
+  width: 100%;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+    

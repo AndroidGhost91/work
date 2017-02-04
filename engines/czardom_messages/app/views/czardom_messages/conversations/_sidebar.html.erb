@@ -1,0 +1,12 @@
+<div class="col-md-3">
+  <%= link_to 'Start a Conversation', new_conversation_path, class: 'btn btn-primary btn-block btn-lg' %>
+
+  <hr />
+
+  <div class="list-group">
+    <%= link_to "Inbox", conversations_path(box: 'inbox'), class: 'list-group-item' %>
+    <%= link_to "Sent", conversations_path(box: 'sentbox'), class: 'list-group-item' %>
+    <%= link_to "Trash", conversations_path(box: 'trash'), class: 'list-group-item' %>
+  </div>
+</div>
+

@@ -1,0 +1,149 @@
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/admin">CZARDOM Admin</a>
+    </div>
+    <!-- /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+        <li>
+          <%= link_to "Back to Site", main_app.root_path %>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+              <li class="<%= active_nav_class('users', 'show', current_user.slug) %>"><%= link_to "Your Profile", main_app.user_path(current_user) %></li>
+              <li class="<%= active_nav_class('users', 'edit') %>"><%= link_to "Settings", main_app.edit_user_path %></li>
+              <li class="divider"></li>
+              <li><%= link_to "Log Out", czardom_models_engine.destroy_user_session_path, method: :delete %></li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+              <!--
+                <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                    </div>
+                </li>
+                -->
+
+                <li>
+                    <a class="<%= active_nav_class('pages', 'dashboard') %>" href="/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+
+                <!--<li role="separator" class="divider"></li>-->
+
+                <% if can? :read, User %>
+                  <li>
+                      <a class="<%= active_nav_class('users') %>" href="/admin/users?time=week"><i class="fa fa-users fa-fw"></i> Users</a>
+                  </li>
+                <% end %>
+                
+                <!--<li role="separator" class="divider"></li>-->
+
+                <% if can? :read, Group %>
+                  <li>
+                      <a class="<%= active_nav_class('groups') %>" href="/admin/groups"><i class="fa fa-globe fa-fw"></i> Groups</a>
+                  </li>
+                  
+                  <li>
+                      <a class="<%= active_nav_class('sponsors') %>" href="/admin/sponsor_logos"><i class="fa fa-globe fa-fw"></i> Sponsors</a>
+                  </li>
+                <% end %>
+
+                <% if can? :read, Mailboxer::Conversation %>
+                  <li>
+                      <a class="<%= active_nav_class('conversations') %>" href="/admin/conversations?time=week"><i class="fa fa-envelope fa-fw"></i> Messages</a>
+                  </li>
+                <% end %>
+
+                <% if can? :read, Slide %>
+                  <li>
+                      <a class="<%= active_nav_class('slides') %>" href="/admin/slides"><i class="fa fa-picture-o fa-fw"></i> Slides</a>
+                  </li>
+                <% end %>
+
+                <!--<li role="separator" class="divider"></li>-->
+
+                <% if can? :index, Payola::Sale %>
+                  <li>
+                    <a class="<%= active_nav_class('sales') %>" href="/admin/sales?time=week">
+                      <i class="fa fa-shopping-cart fa-fw"></i>
+                      All Sales
+                    </a>
+                  </li>
+                <% end %>
+
+                <% if can? :read, Product %>
+                  <li>
+                      <a class="<%= active_nav_class('products') %>" href="/admin/products"><i class="fa fa-tag fa-fw"></i> Products</a>
+                  </li>
+                <% end %>
+
+                <% if can? :read, SubscriptionPlan %>
+                  <li>
+                      <a class="<%= active_nav_class('subscription_plans') %>" href="/admin/subscription_plans"><i class="fa fa-tag fa-fw"></i> Subscriptions Plans</a>
+                  </li>
+                <% end %>
+
+                <!-- <li role="separator" class="divider"></li> -->
+
+                <% if can? :read, Region %>
+                  <li>
+                    <a class="<%= active_nav_class('regions') %>" href="/admin/regions">
+                      <i class="fa fa-map-marker fa-fw"></i>
+                      Regions
+                    </a>
+                  </li>
+                <% end %>
+                <% if can? :read, Tip %>
+                  <li>
+                    <a class="<%= active_nav_class('tips') %>" href="/admin/tips">
+                      <i class="fa fa-tip fa-fw"></i>
+                      Tips
+                    </a>
+                  </li>
+                <% end %>
+                <% if can? :read, SpecialOffer %>
+                  <li>
+                    <a class="<%= active_nav_class('special_offers') %>" href="/admin/special_offers">
+                      <i class="fa fa-tip fa-fw"></i>
+                      Special Offer
+                    </a>
+                  </li>
+                <% end %>
+                <% if can? :read, Event %>
+                  <li>
+                    <a class="<%= active_nav_class('events') %>" href="/admin/events">
+                      <i class="fa fa-calendar fa-fw"></i>
+                      Event
+                    </a>
+                  </li>
+                <% end %>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
+</nav>
+

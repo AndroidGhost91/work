@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        Products
+        <%= link_to "New Product", new_product_path, class: 'btn btn-primary' %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped datatable">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Sales</th>
+        <% if can? :index, Payola::Sale %>
+          <th>Gross</th>
+        <% end %>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= link_to product.name, product_path(product) %></td>
+          <td><%= number_to_currency product.price_in_dollars %></td>
+          <td><%= product.sales.count %></td>
+          <% if can? :index, Payola::Sale %>
+            <td><%= number_to_currency product.gross_sales %></td>
+          <% end %>
+          <td>
+            <%= link_to "View", product_path(product) %>
+            <% if can? :edit, product %>
+              | <%= link_to "Edit", edit_product_path(product) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </div>
+</div>

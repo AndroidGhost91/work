@@ -1,0 +1,97 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-3t.sandbox.paypal.com/2.0/
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><env:Header><RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xmlns:n1="urn:ebay:apis:eBLBaseComponents" env:mustUnderstand="0"><n1:Credentials><n1:Username><PAYPAL_API_USERNAME></n1:Username><n1:Password><PAYPAL_API_PASSWORD></n1:Password><n1:Subject/><n1:Signature><PAYPAL_API_SIGNATURE></n1:Signature></n1:Credentials></RequesterCredentials></env:Header><env:Body><GetExpressCheckoutDetailsReq xmlns="urn:ebay:api:PayPalAPI">
+          <GetExpressCheckoutDetailsRequest xmlns:n2="urn:ebay:apis:eBLBaseComponents">
+            <n2:Version>72</n2:Version>
+            <Token>EC-7TW00152W6292824U</Token>
+          </GetExpressCheckoutDetailsRequest>
+        </GetExpressCheckoutDetailsReq>
+        </env:Body></env:Envelope>
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 07 Jul 2015 13:45:08 GMT
+      Server:
+      - Apache
+      Connection:
+      - close
+      Content-Length:
+      - '5249'
+      Set-Cookie:
+      - X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+      - X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D880%26app%3Dappdispatcher_apit%26TIME%3D3839335253;
+        domain=.paypal.com; path=/; Secure; HttpOnly
+      Content-Type:
+      - text/xml; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"
+        xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"
+        xmlns:cc=\"urn:ebay:apis:CoreComponentTypes\" xmlns:wsu=\"http://schemas.xmlsoap.org/ws/2002/07/utility\"
+        xmlns:saml=\"urn:oasis:names:tc:SAML:1.0:assertion\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"
+        xmlns:wsse=\"http://schemas.xmlsoap.org/ws/2002/12/secext\" xmlns:ed=\"urn:ebay:apis:EnhancedDataTypes\"
+        xmlns:ebl=\"urn:ebay:apis:eBLBaseComponents\" xmlns:ns=\"urn:ebay:api:PayPalAPI\"><SOAP-ENV:Header><Security
+        xmlns=\"http://schemas.xmlsoap.org/ws/2002/12/secext\" xsi:type=\"wsse:SecurityType\"></Security><RequesterCredentials
+        xmlns=\"urn:ebay:api:PayPalAPI\" xsi:type=\"ebl:CustomSecurityHeaderType\"><Credentials
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\" xsi:type=\"ebl:UserIdPasswordType\"><Username
+        xsi:type=\"xs:string\"></Username><Password xsi:type=\"xs:string\"></Password><Signature
+        xsi:type=\"xs:string\"></Signature><Subject xsi:type=\"xs:string\"></Subject></Credentials></RequesterCredentials></SOAP-ENV:Header><SOAP-ENV:Body
+        id=\"_0\"><GetExpressCheckoutDetailsResponse xmlns=\"urn:ebay:api:PayPalAPI\"><Timestamp
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\">2015-07-07T13:45:09Z</Timestamp><Ack
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\">Success</Ack><CorrelationID xmlns=\"urn:ebay:apis:eBLBaseComponents\">63ac4995d5f90</CorrelationID><Version
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\">72</Version><Build xmlns=\"urn:ebay:apis:eBLBaseComponents\">17276661</Build><GetExpressCheckoutDetailsResponseDetails
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\" xsi:type=\"ebl:GetExpressCheckoutDetailsResponseDetailsType\"><Token
+        xsi:type=\"ebl:ExpressCheckoutTokenType\">EC-7TW00152W6292824U</Token><PayerInfo
+        xsi:type=\"ebl:PayerInfoType\"><Payer xsi:type=\"ebl:EmailAddressType\">baylorrae-buyer@gmail.com</Payer><PayerID
+        xsi:type=\"ebl:UserIDType\">P37835M8939JA</PayerID><PayerStatus xsi:type=\"ebl:PayPalUserStatusCodeType\">verified</PayerStatus><PayerName
+        xsi:type=\"ebl:PersonNameType\"><Salutation xmlns=\"urn:ebay:apis:eBLBaseComponents\"></Salutation><FirstName
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\">test</FirstName><MiddleName xmlns=\"urn:ebay:apis:eBLBaseComponents\"></MiddleName><LastName
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\">buyer</LastName><Suffix xmlns=\"urn:ebay:apis:eBLBaseComponents\"></Suffix></PayerName><PayerCountry
+        xsi:type=\"ebl:CountryCodeType\">US</PayerCountry><PayerBusiness xsi:type=\"xs:string\"></PayerBusiness><Address
+        xsi:type=\"ebl:AddressType\"><Name xsi:type=\"xs:string\">test buyer</Name><Street1
+        xsi:type=\"xs:string\">1 Main St</Street1><Street2 xsi:type=\"xs:string\"></Street2><CityName
+        xsi:type=\"xs:string\">San Jose</CityName><StateOrProvince xsi:type=\"xs:string\">CA</StateOrProvince><Country
+        xsi:type=\"ebl:CountryCodeType\">US</Country><CountryName>United States</CountryName><PostalCode
+        xsi:type=\"xs:string\">95131</PostalCode><AddressOwner xsi:type=\"ebl:AddressOwnerCodeType\">PayPal</AddressOwner><AddressStatus
+        xsi:type=\"ebl:AddressStatusCodeType\">Confirmed</AddressStatus></Address></PayerInfo><BillingAgreementAcceptedStatus>false</BillingAgreementAcceptedStatus><PaymentDetails
+        xsi:type=\"ebl:PaymentDetailsType\"><OrderTotal xsi:type=\"cc:BasicAmountType\"
+        currencyID=\"USD\">18.00</OrderTotal><ShippingTotal xsi:type=\"cc:BasicAmountType\"
+        currencyID=\"USD\">0.00</ShippingTotal><HandlingTotal xsi:type=\"cc:BasicAmountType\"
+        currencyID=\"USD\">0.00</HandlingTotal><TaxTotal xsi:type=\"cc:BasicAmountType\"
+        currencyID=\"USD\">0.00</TaxTotal><ShipToAddress xsi:type=\"ebl:AddressType\"><Name
+        xsi:type=\"xs:string\">test buyer</Name><Street1 xsi:type=\"xs:string\">1
+        Main St</Street1><Street2 xsi:type=\"xs:string\"></Street2><CityName xsi:type=\"xs:string\">San
+        Jose</CityName><StateOrProvince xsi:type=\"xs:string\">CA</StateOrProvince><Country
+        xsi:type=\"ebl:CountryCodeType\">US</Country><CountryName>United States</CountryName><Phone
+        xsi:type=\"xs:string\"></Phone><PostalCode xsi:type=\"xs:string\">95131</PostalCode><AddressID
+        xsi:type=\"xs:string\"></AddressID><AddressOwner xsi:type=\"ebl:AddressOwnerCodeType\">PayPal</AddressOwner><ExternalAddressID
+        xsi:type=\"xs:string\"></ExternalAddressID><AddressStatus xsi:type=\"ebl:AddressStatusCodeType\">Confirmed</AddressStatus></ShipToAddress><InsuranceTotal
+        xsi:type=\"cc:BasicAmountType\" currencyID=\"USD\">0.00</InsuranceTotal><ShippingDiscount
+        xsi:type=\"cc:BasicAmountType\" currencyID=\"USD\">0.00</ShippingDiscount><InsuranceOptionOffered
+        xsi:type=\"xs:string\">false</InsuranceOptionOffered><SellerDetails xsi:type=\"ebl:SellerDetailsType\"></SellerDetails><TransactionId
+        xsi:type=\"xs:string\">16H430930M875882H</TransactionId><PaymentRequestID
+        xsi:type=\"xs:string\"></PaymentRequestID><OrderURL xsi:type=\"xs:string\"></OrderURL><SoftDescriptor
+        xsi:type=\"xs:string\"></SoftDescriptor></PaymentDetails><CheckoutStatus xsi:type=\"xs:string\">PaymentActionCompleted</CheckoutStatus><PaymentRequestInfo
+        xsi:type=\"ebl:PaymentRequestInfoType\"><TransactionId xsi:type=\"xs:string\">16H430930M875882H</TransactionId></PaymentRequestInfo></GetExpressCheckoutDetailsResponseDetails></GetExpressCheckoutDetailsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>"
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 13:45:10 GMT
+recorded_with: VCR 2.9.3

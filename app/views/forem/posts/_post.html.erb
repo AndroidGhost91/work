@@ -1,0 +1,57 @@
+<div data-index="<%= post_counter %>" data-time="<%= post.created_at.strftime('%FT%T.000Z') %>" data-number="<%= post_counter +1 %>" class="item row">
+  <aside class="post-author col-md-2">
+    <%= avatar_tag post.user, size: :large %>
+
+    <% if !post.user.is_a?(Forem::NilUser) && post.user.charter_member? %>
+      <span class="badge badge-success"><i class="fa fa-star"></i> Charter Czar</span>
+    <% end %>
+  </aside>
+
+  <article class="post col-md-10">
+    <header class="post-header">
+      <ul class="info list-unstyled">
+        <li class="item-user">
+          <h3>
+            <% if post.user.is_a?(Forem::NilUser) %>
+              <%= t(:deleted) %>
+            <% else %>
+              <%= link_to post.user.forem_name, [main_app, post.user] %>
+            <% end %>
+          </h3>
+        </li>
+
+        <% if post.reply_to %>
+          <li class="item-reply-to">
+            in reply to
+            <%= link_to "#{post.reply_to.user.forem_name}", "#post-#{post.reply_to_id}", 'data-reply-post-id' => post.reply_to_id %>
+          </li>
+        <% end %>
+
+        <li class="item-meta">
+          <%= time_ago_in_words post.created_at %> ago
+        </li>
+      </ul>
+    </header>
+
+    <div class="post-body">
+      <%= as_formatted_html(post.text).html_safe %>
+    </div>
+
+    <footer class="post-footer">
+      <% if can?(:reply, post.topic) %>
+        <% if post.topic.can_be_replied_to? %>
+          <%= link_to t('reply', :scope => 'forem.topic'), forem.new_forum_topic_post_path(post.forum, post.topic, :reply_to_id => post.id) %>
+          <%= link_to t('quote', :scope => 'forem.topic'), forem.new_forum_topic_post_path(post.forum, post.topic, :reply_to_id => post.id, :quote => true) %>
+        <% end %>
+      <% end %>
+      <% if post.owner_or_admin?(forem_user) %>
+        <% if can?(:edit_post, post.topic.forum) %>
+          <%= link_to t('edit', :scope => 'forem.post'), forem.edit_forum_topic_post_path(post.forum, post.topic, post) %>
+        <% end %>
+        <% if can?(:destroy_post, post.topic.forum) %>
+          <%= link_to t('delete', :scope => 'forem.topic'), forem.forum_topic_post_path(post.forum, post.topic, post), :method => :delete, data: { :confirm => t("are_you_sure") }, class: 'text-danger' %>
+        <% end %>
+      <% end %>
+    </footer>
+  </article>
+</div>

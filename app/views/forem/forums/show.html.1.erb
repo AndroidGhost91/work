@@ -1,0 +1,112 @@
+<%= render :partial => 'forem/forums/head', :locals => { :forum => @forum } %>
+
+<div class="row">
+  <%= render 'boards/sidebar' %>
+
+  <div class="col-md-9">
+    <!-- Collapsible -->
+    <div class="panel-group" id="czardom-board-show" role="tablist" aria-multiselectable="true">
+      <!-- Part I, users of boards -->
+      <% if(@group != nil) %>
+      <div class="panel panel-default">
+     
+        <div class="panel-heading" role="tab" id="czardom-board-show-users-heading">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#czardom-board-show" href="#czardom-board-show-users" aria-expanded="true" aria-controls="czardom-board-show-users">
+              Board users
+            </a>
+          </h4>
+        </div> <!-- End heading -->
+     
+        <div id="czardom-board-show-users" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="czardom-board-show-users-heading">
+          <div class="panel-body">
+            <div class="row">
+             
+              <% group_users = @group.users.page(params[:board_user_page]).per(5) %>
+              <% group_users.each do |u| %>
+                <div class='col-md-12'>
+                  <div class="row">
+                    <div class="col-md-2">
+                      <div>
+                        <%= image_tag u.image.url, class: 'img-rounded img-responsive' %>
+                      </div>
+
+                      <%= form_tag main_app.user_follow_path(u), remote: true do %>
+                        <% if current_user.following? u %>
+                          <%= submit_tag 'Followed', class: "btn btn-default board-followed-user-btn", id: "board-show-follow-btn-#{u.id}" %>
+                        <% else %>
+                          <%= submit_tag 'Follow', class: "btn btn-default board-unfollow-user-btn", id: "board-show-follow-btn-#{u.id}" %>
+                        <% end %>
+                      <% end %>
+                      
+                    </div>
+                    
+                    <div class="col-md-10">
+                      <p><strong><%= u.first_name + " " + u.last_name %></strong></p>
+                      <p>
+                        <strong>Education:</strong>
+                        <%= u.education %>
+                      </p>
+                      
+                      <p>
+                        <strong>Work:</strong>
+                        <%= u.work %>
+                      </p>
+                      
+                      <p>
+                        <strong>Website:</strong>
+                        <%= u.website %>
+                      </p>
+                      
+                      
+                      <p>
+                        <strong>About:</strong>
+                        <%= u.about ? truncate(u.about.html_safe, length: 150) : '' %>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <br>
+                </div>
+                
+              <% end %> <!-- End user info list -->
+              
+              <div class="col-md-12 text-center">
+                <%= paginate group_users, param_name: :board_user_page  %>
+              </div>
+            </div>
+          </div>
+        </div> <!-- End czardom-board-show-users -->
+ 
+      </div><!-- End collapse part 2 -->
+      <% end %>   
+      
+      <!-- Part 2, topics of boards -->
+      <div class="panel panel-default">
+        <% if(@group != nil) %>
+        <div class="panel-heading" role="tab" id="czardom-board-show-posts-heading">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#czardom-board-show" href="#czardom-board-show-posts" aria-expanded="false" aria-controls="czardom-board-show-posts">
+              Board topics
+            </a>
+          </h4>
+        </div>
+        
+        <div id="czardom-board-show-posts" class="panel-collapse collapse" role="tabpanel" aria-labelledby="czardom-board-show-posts-heading">
+        <% end %>
+          <div class="panel-body">
+            <div class="discussion-list">
+              <ul class="list-unstyled">
+                <%= render partial: "forem/topics/topic", collection: @topics, as: :topic %>
+              </ul>
+            </div>
+        
+            <%= forem_pages_widget(@topics) %>
+          </div>
+        </div>
+      <% if(@group != nil) %>  
+      </div><!-- End collapse part 2 -->
+      <% end %>
+    </div> <!-- End collapse -->
+  </div>
+</div>

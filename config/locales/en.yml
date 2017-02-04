@@ -1,0 +1,74 @@
+en:
+  activerecord:
+    attributes:
+      user:
+        uid: 'Account'
+    errors:
+      models:
+        user:
+          attributes:
+            uid:
+              taken: 'has already been connected'
+  forem:
+    topics:
+      show:
+        subscribe: 'Follow'
+        unsubscribe: 'Following'
+
+  formtastic:
+    labels:
+      address:
+        zip_code: 'Zip Code'
+      advertisement:
+        url: 'URL'
+      group:
+        cover_photo: 'Cover Photo'
+        image: 'Avatar'
+      navigation_link:
+        url: 'Link URL'
+      news_feed:
+        feed_url: 'Feed URL'
+      user:
+        about: 'About You'
+        city: 'City'
+        clients: 'Your Clients (Top 5)'
+        cover_photo: 'Your Cover Photo'
+        email: 'Email Address'
+        first_name: 'First Name'
+        facebook_url: 'Facebook Profile URL'
+        image: 'Your Avatar'
+        last_name: 'Last Name'
+        phone_number: 'Phone Number (optional)'
+        primary_segment: 'How would you describe your area of expertise'
+        resume: 'Résumé (optional)'
+        user_segments: 'More specifically'
+        social_link_snapchat: 'Snapchat Username'
+        social_link_whatsapp: 'WhatsApp Username'
+        state: 'State'
+        work: 'Company'
+      user_client:
+        image: 'Client Image'
+      slide:
+        image: 'Slide Image'
+        caption: 'Slide Caption'
+  activity:
+    on_feed: 'on your feed'
+    group:
+      create: 'created the group'
+    post:
+      create: 'wrote'
+    user:
+      following: 'is now following'
+  notifications:
+    comment_new: 'commented on your post'
+    follow: 'started following you'
+    pm_new: 'sent you a private message'
+    pm_reply: 'replied to your message'
+    post_new: 'wrote on your feed'
+    user_follower:
+      follow: 'started following you'
+    post:
+      create: 'wrote on your feed'
+  forem:
+    post:
+      edit: 'Edit Post'

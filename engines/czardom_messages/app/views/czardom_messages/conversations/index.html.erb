@@ -1,0 +1,21 @@
+<% title 'Czemails' %>
+<% cover_photo(current_user.cover_photo_url) %>
+
+<div class="profile-page">
+  <h2 class="page-header">
+    Czemails
+    <small>for <%= link_to current_user.czemail_address, "mailto:#{current_user.czemail_address}" %></small>
+  </h2>
+
+  <div class="col-md-9">
+    <%= render 'sidebar' %>
+
+    <div class="col-md-9">
+      <table class="table">
+        <tbody>
+          <%= render collection: current_mailbox, partial: 'conversation' %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

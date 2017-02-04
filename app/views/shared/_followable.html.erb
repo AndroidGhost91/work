@@ -1,0 +1,7 @@
+<%= form_tag main_app.user_follow_path(user), remote: true do %>
+  <% if current_user.try :following?, user %>
+    <%= submit_tag 'Followed', class: "btn btn-default board-followed-user-btn", id: "board-show-follow-btn-#{user.id}" %>
+  <% else %>
+    <%= submit_tag 'Follow', class: "btn btn-default board-unfollow-user-btn", id: "board-show-follow-btn-#{user.id}" %>
+  <% end %>
+<% end %>

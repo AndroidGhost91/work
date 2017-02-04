@@ -1,0 +1,70 @@
+<%= semantic_form_for @sponsor_logo do |f| %>
+  <div class="col-md-10">
+    <div class="row">
+        
+        <div class="col-md-8">
+            <%= f.input :name, class: 'col-md-8 form-control', :required => true %>
+        </div>
+        <div class="col-md-8">
+            <%= f.input :path, class: 'col-md-8 form-control', :required => true %>
+        </div>        
+        <div class="col-md-8">
+            <%= f.label :image %>
+            <div class="row">
+              <% if @sponsor_logo.image.url %>
+                <%= image_tag @sponsor_logo.image_url, style: 'margin-bottom: 20px; margin-left: 15px; width: 200px; height: 200px;' %>
+              <% end %>
+              
+              <%= f.file_field :image, class: 'col-md-8' %>
+            </div>
+            
+            <br>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="row">
+              <%= f.label :default_status %>
+              <%= f.check_box :default_status, checked: @sponsor_logo.default?  %>
+            </div>
+            
+            <br>
+        </div>
+        
+        <div class="col-md-12" style="float: left; margin-top: 20px;">
+          <div class="row">
+            <%= f.label :groups, :class => 'control-label col-lg-2' %>
+          </div>
+          <br>
+          <% group_count = Group.count %>
+          <% offset = group_count / 2 %>
+          
+          <div class="col-md-6">
+              <%= f.collection_check_boxes(:group_ids, Group.order(:name).all.limit(group_count/2), :id, :name) do |gp| %>
+                  <div class="row">
+                    <span style="margin-left: 5px; position:relative;"> <%= gp.check_box %> </span>
+                    <%= gp.label %>
+                  </div>
+              <% end %>
+          </div>
+          
+          <div class="col-md-6">
+              <%= f.collection_check_boxes(:group_ids, Group.order(:name).all.offset(offset), :id, :name) do |gp| %>
+                  <div class="row">
+                    <span style="margin-left: 5px; position:relative;"> <%= gp.check_box %> </span>
+                    <%= gp.label %>
+                  </div>
+              <% end %>
+          </div>
+          
+        </div>
+        
+        <div class="form-actions row">
+          <p class="col-md-12"  style='margin-top: 30px;'>
+              <%= f.submit class: 'btn btn-primary' %>
+              <%= link_to "Cancel", :back, class: 'btn btn-link' %>
+          </p>
+        </div>
+    </div>          
+  </div>
+
+<% end %>

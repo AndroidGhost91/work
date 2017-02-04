@@ -1,0 +1,35 @@
+<div class="profile-page col-md-8 col-md-offset-2 text-center" style="font-size: 1.2em">
+  <h2>Complete Your Purchase</h2>
+
+  <%= render "shared/flash_messages" %>
+
+  <% if @error %>
+    <p class="lead">
+      There was a problem completing your purchase.
+    </p>
+
+    <%= link_to "Cancel and Try Again", complete_path %>
+  <% else %>
+    <p class="lead">
+      Please confirm your purchase.
+    </p>
+
+    <dl>
+      <dt>Full Name</dt>
+      <dd><%= @order.details.name %></dd>
+
+      <dt>Email</dt>
+      <dd><%= @order.details.email %></dd>
+
+      <dt>Amount</dt>
+      <dd><%= number_to_currency @order.amount %></dd>
+    </dl>
+
+    <%= form_tag orders_path, method: :post do %>
+      <%= hidden_field_tag :express_token, @order.express_token %>
+      <%= submit_tag "Complete Purchase", class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>
+
+</div>
+

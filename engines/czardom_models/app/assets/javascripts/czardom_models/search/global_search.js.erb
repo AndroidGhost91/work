@@ -1,0 +1,205 @@
+$(function() {
+  var client = algoliasearch("<%= ENV.fetch('ALGOLIA_APP_ID') %>", "<%= ENV.fetch('ALGOLIA_SEARCH_KEY') %>"),
+      searchField = $('#global-search'),
+      searchResults = $('#search-results'),
+
+      postResults = createPostsResultsBox('board-posts', 'Board Posts'),
+      userResults = createResultsBox('czars', 'Czars'),
+      eventResults = createResultsBox('events', 'Events'),
+      groupResults = createResultsBox('groups', 'Groups'),
+      clientResults = createResultsBox('clients', 'Clients');
+
+  $('#close-search').on('click', function(e) {
+    e.preventDefault();
+    $('body').removeClass('search-active');
+    searchField.val('');
+  });
+
+
+  function createResultsBox(id, title) {
+    var content = $('<div />', {
+      "class": 'col-md-3 result-listings',
+      id: id,
+      html: '<div class="panel panel-default"><div class="panel-heading">' + title + '</div><div class="panel-body"><ul id="results" class="search-result-listing"></ul></div></div>'
+    }).appendTo(searchResults).hide();
+
+    return content;
+  }
+
+  function createPostsResultsBox(id, title) {
+    var content = $('<div />', {
+      "class": 'col-md-6 result-listings',
+      id: id,
+      html: '<div class="panel panel-default"><div class="panel-heading">' + title + '</div><div class="panel-body"><div class="row-fluid"><ul class="col-md-4 search-result-listing" id="results-top-users"></div><div class="col-md-8" id="results"></div></div></div></div>'
+    }).appendTo(searchResults).hide();
+
+    return content;
+  }
+
+  var defaultResultsMarkup = (function() {
+    var template = Hogan.compile('<li><a class="search-result" href="{{ slug }}">{{#image}}<img class="result-image user-avatar" src="{{ image }}" />{{/image}}<span class="result-title">{{ title }}</span><span class="result-detail">{{{ text }}}</span></li>');
+
+    return function(result) {
+      return template.render(result);
+    }
+  })();
+
+  var topUsersMarkup = (function() {
+    var template = Hogan.compile('<li><a class="search-result" href="{{ user.slug }}">{{#user.avatar}}<img class="result-image user-avatar" src="{{ user.avatar }}" />{{/user.avatar}}<span class="result-title">{{ user.full_name }}</span></li>');
+
+    return function(result) {
+      return template.render(result);
+    }
+  })();
+
+  function showResults(el, results, options) {
+    var resultsHTML = '';
+    var resultsTarget = el.find('#results');
+    resultsTarget.empty();
+
+    if( results.hits.length == 0 ) {
+      el.hide()
+      return;
+    }
+
+    for (var i = 0; i < results.hits.length; ++i) {
+      var rawResult = results.hits[i],
+          description = rawResult[options.description],
+          container = $('<div />', { html: description });
+
+          result = {
+            objectID: rawResult.objectID,
+            slug: rawResult.slug_url,
+            image: rawResult.slug_url + '/image',
+            title: rawResult[options.title],
+            description: container.text().substring(0, 100),
+            text: container.text().substring(0, 100),
+            raw: rawResult
+          };
+
+      if( rawResult._highlightResult[options.description] ) {
+        result.description = rawResult._highlightResult[options.description].value.substring(0, 100);
+      }
+
+      if( options.markup ) {
+        resultsHTML += options.markup(result);
+      }else {
+        resultsHTML += defaultResultsMarkup(result);
+      }
+    }
+
+    resultsTarget.append(resultsHTML);
+    el.show();
+  }
+
+  function showTopUserResults(el, results) {
+    var resultsHTML = '',
+        resultsTarget = el.find('#results-top-users'),
+        userIds = _.keys(results.facets['user.id']);
+
+    $.getJSON('/users/blurbs', { ids: userIds }, function(response) {
+      _.each(userIds, function(id) {
+        var user = response[id];
+        resultsHTML += topUsersMarkup({
+          user: user,
+          facet_count: results.facets['user.id'][id]
+        });
+      });
+
+      resultsTarget.html('<h4>Active CZARS</h4>' + resultsHTML);
+    });
+  }
+
+  function searchMultiCallback(error, content) {
+    if (error == null) {
+      var users = content.results[0];
+
+      showResults(userResults, content.results[0], {
+        title: 'full_name',
+        description: 'city',
+      })
+
+      showResults(clientResults, content.results[1], {
+        title: 'name',
+        description: 'user_full_name',
+      })
+
+      showResults(groupResults, content.results[2], {
+        title: 'name',
+        description: '',
+      })
+
+      showResults(eventResults, content.results[3], {
+        title: 'name',
+        description: 'description',
+      })
+
+      showTopUserResults(postResults, content.results[4]);
+
+      showResults(postResults, content.results[4], {
+        title: 'topic_subject',
+        description: 'text',
+        markup: (function() {
+          var template = Hogan.compile('<div class="result"><h4><a href="{{ slug }}">{{{ title }}}</a></h4><p class="meta"><em>{{ raw.user.full_name }}</em> - {{ createdAtFormatted }}</p><p class="description">{{{ description }}}</p></div>');
+
+          return function(result) {
+            var createdAt = new moment.unix(result.raw.created_at);
+            result.createdAtFormatted = createdAt.format('MMM D, YYYY @ H:mma');
+
+            return template.render(result);
+          }
+        })()
+      })
+    }
+  }
+
+  $('.search-form').on('submit', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  });
+
+  searchField.on("keydown", function(e) {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+    }
+  });
+  searchField.on('keyup', _.throttle(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var query = searchField.val();
+
+    if( query == '') {
+      return;
+    }
+
+    $('body').addClass('search-active');
+
+    var searchQuery = [];
+
+    <% [User, UserClient, Group, Event].each do |object| %>
+      searchQuery.push({
+        indexName: "<%= object.index_name %>",
+        query: query,
+        params: {
+          hitsPerPage: 5
+        }
+      });
+    <% end %>
+    searchQuery.push({
+      indexName: "<%= Forem::Post.index_name %>",
+      query: query,
+      params: {
+        hitsPerPage: 5,
+        facets: 'user.id',
+        maxValuesPerFacet: 5
+      }
+    });
+    client.search(searchQuery, searchMultiCallback);
+
+    if (e.keyCode == 13) {
+      return false;
+    }
+  }, 200));
+});
+

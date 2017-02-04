@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.facebook.com/171303432941423_890791514325941/comments?access_token=CAACEdEose0cBAIziq5sIYZB1IP5b2zxSriWrkFJozSZA4rCqDWDUpyZBiwjVDQcPnk22vVaHhhzfmfwv0RSrOF2Dx9FA1DaHWqfvfPok2Q4HDoDex78LKeZCdIYUeluY9bg7ZBXkePeHLYMbbc0x5WxLTBaPArBzG2VCRrKk5IVPtE80VivVD90uAimHdEmXXSZBDPdUBKhIdqq77cOhos&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Fb-Trace-Id:
+      - BU9yoIxPqr3
+      X-Fb-Rev:
+      - '1843986'
+      Etag:
+      - "\"42891234377bb1f83f97899f68b9b2d90447b676\""
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Facebook-Api-Version:
+      - v2.0
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Vary:
+      - Accept-Encoding
+      X-Fb-Debug:
+      - buXEIXsT7f9W6soX59wG4W/jZh181WJzcw91T+DSws8ZPoFFELmivHIdTQdFZJZB6J8lu92gXzGLhRUx6t1iZA==
+      Date:
+      - Tue, 21 Jul 2015 17:27:12 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '842'
+    body:
+      encoding: UTF-8
+      string: "{\"data\":[{\"id\":\"890889160982843\",\"from\":{\"name\":\"Laura Gordillo\",\"id\":\"10154026868975459\"},\"message\":\"I
+        have someone perfect for this Brian. What's the best email to reach you?\",\"can_remove\":true,\"created_time\":\"2015-07-19T20:42:24+0000\",\"like_count\":0,\"user_likes\":false},{\"id\":\"890923924312700\",\"from\":{\"name\":\"Brian
+        Hart Hoffman\",\"id\":\"10153970269018642\"},\"message\":\"Bhoffman\\u0040hoffmanmedia.com\",\"can_remove\":true,\"created_time\":\"2015-07-19T21:15:15+0000\",\"like_count\":0,\"user_likes\":false},{\"id\":\"890923954312697\",\"from\":{\"name\":\"Brian
+        Hart Hoffman\",\"id\":\"10153970269018642\"},\"message\":\"Thank you!!!\",\"can_remove\":true,\"created_time\":\"2015-07-19T21:15:20+0000\",\"like_count\":0,\"user_likes\":false},{\"id\":\"890998334305259\",\"from\":{\"name\":\"Scott
+        Frankum\",\"id\":\"10153208394072851\"},\"message\":\"I don't have a contact
+        but gather he is pretty \\\"findable\\\".  He had a big cookbook the end of
+        last year...so publisher's rep if the direct approach does not work: \\nhttp:\\/\\/www.davidlebovitz.com\\/\",\"can_remove\":true,\"created_time\":\"2015-07-20T00:44:34+0000\",\"like_count\":0,\"user_likes\":false},{\"id\":\"891035130968246\",\"from\":{\"name\":\"Charles
+        Chen\",\"id\":\"952195022196\"},\"message\":\"c\\u0040charleschen.tv was just
+        in paris for Taste of Paris\",\"can_remove\":true,\"created_time\":\"2015-07-20T02:41:00+0000\",\"like_count\":0,\"user_likes\":false},{\"id\":\"891703390901420\",\"from\":{\"name\":\"Laura
+        Gordillo\",\"id\":\"10154026868975459\"},\"message\":\"Sent you an email Brian!
+        Thanks!!\",\"can_remove\":true,\"created_time\":\"2015-07-21T00:50:18+0000\",\"like_count\":1,\"user_likes\":false},{\"id\":\"891944964210596\",\"from\":{\"name\":\"Jennifer
+        Irizarry\",\"id\":\"10152275357414327\"},\"message\":\"http:\\/\\/chocolateandzucchini.com\\/contact\\/\",\"can_remove\":true,\"created_time\":\"2015-07-21T10:20:34+0000\",\"like_count\":0,\"user_likes\":false}],\"paging\":{\"cursors\":{\"after\":\"WTI5dGJXVnVkRjlqZFhKemIzSTZPRGt4T1RRME9UWTBNakV3TlRrMk9qRTBNemMwTnpRd016UT0=\",\"before\":\"WTI5dGJXVnVkRjlqZFhKemIzSTZPRGt3T0RnNU1UWXdPVGd5T0RRek9qRTBNemN6TXpnMU5EUT0=\"}}}"
+    http_version: 
+  recorded_at: Tue, 21 Jul 2015 17:27:13 GMT
+recorded_with: VCR 2.9.3

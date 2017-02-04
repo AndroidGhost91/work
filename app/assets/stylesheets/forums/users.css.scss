@@ -1,0 +1,21 @@
+.board-unfollow-user-btn, .board-followed-user-btn {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    width: 100%;
+    // margin-bottom: 12px;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.board-unfollow-user-btn, .board-followed-user-btn:hover { 
+    background-color: #fff;
+    color: #000;
+}
+
+.board-followed-user-btn, .board-unfollow-user-btn:hover {
+    background-color: #000;
+    color: #fff;
+}

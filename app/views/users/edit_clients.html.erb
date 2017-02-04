@@ -1,0 +1,28 @@
+<% title "Update Clients" %>
+<% cover_photo(@user.cover_photo_url) %>
+
+<%= semantic_form_for @user, html: { class: 'profile-page col-md-8 col-md-offset-2' } do |f| %>
+
+  <h2>Update Your Clients</h2>
+
+  <div class="fields" style="max-width: 800px">
+    <div class="row user-client-fields">
+      <%= f.semantic_fields_for :clients do |builder| %>
+        <%= render 'client_fields', f: builder, client: builder.object %>
+      <% end %>
+
+      <div class="col-md-4 new-user-client">
+        <div class="well">
+          <%= link_to_add_fields icon('plus', 'New Client'), f, :clients, class: 'btn btn-primary', data: { target: '.new-user-client', insertion: 'before' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.action :submit, label: 'Save Changes', button_html: { class: 'btn btn-primary' } %>
+    <%= link_to 'Cancel', user_path(@user), class: 'btn btn-link' %>
+  </div>
+
+<% end %>
+

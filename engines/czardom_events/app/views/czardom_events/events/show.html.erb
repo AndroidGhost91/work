@@ -1,0 +1,83 @@
+<% title @event.title %>
+<% cover_photo(@event.eventable.cover_photo_url) %>
+
+<div class="profile-page col-md-9">
+  <%= render "shared/flash_messages" %>
+
+  <h2 class="page-header">
+    <%= link_to t('czardom_events.titles.root'), root_path %>
+    <%= page_title(prepend: '/') %>
+
+    <% if can? :edit, @event %>
+      <%= link_to t('czardom_events.actions.edit_event'), edit_event_path(@event), class: 'btn btn-primary' %>
+    <% end %>
+    <%= form_tag(czardom_events.event_follow_events_path, role: "form", class: "inline") do -%>
+      <%= hidden_field_tag :user_id, current_user.id %>
+      <%= hidden_field_tag :event_id, @event.id %>
+      <% unless  @event.user_id == current_user.id %>
+        <% if @event.can_follow(current_user.id) %>
+          <%= submit_tag 'Unfollow', class: 'btn btn-warning inline' %>
+        <% else %>
+          <%= submit_tag 'Follow', class: 'btn btn-primary inline' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </h2>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <header class="panel-heading">
+          <h4 class="panel-title">Event Information</h4>
+        </header>
+        <div class="panel-body">
+          <h3 class="event-title"><%= @event.title %></h3>
+
+          <h4 class="event-start-date">
+            <%= @event.start_at.strftime('%a %b %e') %> -
+            <%= @event.start_at.strftime('%l:%M %p') %>
+            to
+            <% unless @event.end_at.to_date == @event.start_at.to_date %>
+              <%= @event.end_at.strftime('%a %b %e') %> -
+            <% end %>
+            <%= @event.end_at.strftime('%l:%M %p') %>
+          </h4>
+
+          <hr />
+          <h4>Address</h4>
+          <address>
+            <%= @event.address.street %><br>
+            <%= @event.address.city %>, <%= @event.address.state %> <%= @event.address.zip_code %><br>
+          </address>
+
+          <div class="event-description">
+            <%= as_formatted_html(@event.description).html_safe %>
+          </div>
+        </div>
+      </div>
+
+      <div class="posts-container">
+        <%= render :partial => "forem/posts/post", :collection => @posts %>
+      </div>
+
+      <%= link_to 'Discuss this Event >', forem.forum_topic_path(@event.topic, forum_id: @event.topic.forum.slug), class: 'btn btn-primary btn-lg btn-block' if @event.topic_id.present? %>
+    </div>
+
+    <div class="col-md-4">
+      <div style="height: 300px" id="map"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Provide your access token
+L.mapbox.accessToken = 'pk.eyJ1IjoiY3phcmRvbSIsImEiOiJLN2dRd2ZVIn0.pElgu-Ws2Sg41nHOAN1N5A';
+// Create a map in the div #map
+var latLng = [<%= @event.address.latitude %>, <%= @event.address.longitude %>];
+var map = L.mapbox.map('map', 'czardom.k2oc4b4c')
+  .setView(latLng, 12);
+
+L.marker(latLng, {
+  title: '<%= @event.title %>'
+}).addTo(map);
+</script>

@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        tips
+        <%= link_to "New tip", new_tip_path, class: 'btn btn-primary' %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped datatable">
+    <thead>
+      <tr>
+        <th>Content</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tips.each do |tip| %>
+        <tr>
+          <td><%= tip.content.html_safe %></td>
+          <td>
+            <%= link_to "View", tip_path(tip) %>
+            <% if can? :edit, tip %>
+              | <%= link_to "Edit", edit_tip_path(tip) %>
+            <% end %>
+            <% if can? :delete, tip %>
+              | <%= link_to "Delete", tip_path(tip), method: :delete, class: 'text-danger', 'data-confirm' => 'Are you sure?' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </div>
+</div>

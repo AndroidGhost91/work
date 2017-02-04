@@ -1,0 +1,155 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= link_to "Groups", groups_path %> /
+        <%= @group.name %>
+        <% if can? :edit, @group %>
+          / <%= link_to "Edit Group", edit_group_path(@group) %>
+        <% end %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="content-box">
+  <div class="box-header">
+    <h4 class="box-title">
+      Stats Overview
+    </h4>
+  </div>
+
+  <% if @group.address %>
+    <div class="box-content">
+      <div style="height: 200px" id="map"></div>
+    </div>
+  <% end %>
+
+  <div class="box-content">
+    <div class="row">
+      <div class="col-md-3">
+        <dl>
+          <dt>Number of Members</dt>
+          <dd><%= pluralize @group.users.count, 'member' %></dd>
+  
+          <dt>Creator</dt>
+          <% if @group.owner != nil %>
+            <dd><%= link_to @group.owner.full_name, @group.owner %></dd>
+          <% end %>
+        </dl>
+      </div>
+  
+      <div class="col-md-5">
+        <% if @group.forum.present? %>
+          <h3>Board Details</h3>
+          <%= link_to 'View Board', forem.forum_path(@group.forum), class: 'btn btn-primary' %>
+  
+          <dl>
+            <dt>Number of Topics</dt>
+            <dd><%= pluralize @group.forum.topics.count, 'topics' %></dd>
+          </dl>
+  
+          </dl>
+        <% else %>
+          <h3>This group doesn't have a board</h4>
+          <%= link_to 'Add a Board Now', create_board_group_path(@group), class: 'btn btn-primary', method: :post %>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- SPONSOR LOGO -->
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Sponsor Logo</h3>    
+      </div>
+      
+      <% logos_count = SponsorLogo.count %>
+      <% offset = logos_count / 2 %>
+      
+      <div class="col-md-12">
+          <%= form_tag add_sponsor_to_group_path(@group), remote: true, id: 'add-sponsor-to-group' do %>
+            <%= hidden_field_tag :sponsor_logo_id %>
+            <div class="col-md-6">
+                <% SponsorLogo.order(:name).all.limit(logos_count/2).each do |logo| %>
+                                  
+                  <div class="row">
+                    <span style="margin-left: 5px; position:relative;"> 
+                      <input type="checkbox" value="<%= logo.id %>" 
+                             class="sponsor_logo_id" 
+                             id="group_sponsor_logo_ids_<%= logo.id %>"
+                             <%= 'checked' if @group.sponsor_logos.include? logo %> > 
+                      </span>
+                    <label for="group_sponsor_logo_ids_<%= logo.id %>">
+                      <%= image_tag logo.image, width: '100px', height: '100px' %>
+                    </label>
+                  </div>
+
+                <% end %>
+            </div>
+            
+            <div class="col-md-6">
+              <% SponsorLogo.order(:name).all.offset(offset).each do |logo| %>
+                                
+                <div class="row">
+                  <span style="margin-left: 5px; position:relative;"> 
+                    <input type="checkbox" 
+                           value="<%= logo.id %>" 
+                           class="sponsor_logo_id" 
+                           id="group_sponsor_logo_ids_<%= logo.id %>"
+                           <%= 'checked' if @group.sponsor_logos.include? logo %> > 
+                    </span>
+                  <label for="group_sponsor_logo_ids_<%= logo.id %>">
+                    <%= image_tag logo.image, width: '100px', height: '100px' %>
+                  </label>
+                </div>
+
+              <% end %>
+              
+            </div>
+        
+          <% end %>  
+      </div>  
+    </div>
+    <!-- End Sponsor Logo -->
+  </div>
+</div>
+
+<% if @group.address %>
+<script>
+
+$("input[class='sponsor_logo_id']").change(function(){
+   $("input[name='sponsor_logo_id']").val($(this).val())
+   $("form[id='add-sponsor-to-group'").submit()
+})
+
+// Provide your access token
+L.mapbox.accessToken = 'pk.eyJ1IjoiY3phcmRvbSIsImEiOiJLN2dRd2ZVIn0.pElgu-Ws2Sg41nHOAN1N5A';
+// Create a map in the div #map
+var latLng = [<%= @group.address.latitude %>, <%= @group.address.longitude %>];
+var map = L.mapbox.map('map', 'czardom.k2oc4b4c')
+  .setView(latLng, 12);
+
+L.mapbox.featureLayer({
+    // this feature is in the GeoJSON format: see geojson.org
+    // for the full specification
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        // coordinates here are in longitude, latitude order because
+        // x, y is the standard for GeoJSON and many formats
+        coordinates: [
+          <%= @group.address.longitude %>,
+          <%= @group.address.latitude %>
+        ]
+    },
+    properties: {
+        title: '<%= @group.full_name %>',
+        description: '<%= @group.address.full_address %>',
+        // one can customize markers by adding simplestyle properties
+        // https://www.mapbox.com/foundations/an-open-platform/#simplestyle
+        'marker-size': 'large',
+        'marker-color': '#DF5EAE',
+        'marker-symbol': 'star'
+    }
+}).addTo(map);
+</script>
+<% end %>

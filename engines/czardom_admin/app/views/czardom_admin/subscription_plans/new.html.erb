@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= link_to "Subscription Plans", subscription_plans_path %> /
+        New Plan
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<%= semantic_form_for @subscription_plan do |f| %>
+  <%= f.semantic_errors %>
+
+  <%= bs_panel "Subscription Plan" do %>
+    <%= f.input :name %>
+
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.input :amount, prepend: '¢', hint: 'Amount should be in cents (e.g. $9.99 = ¢999)' %>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.input :currency, as: :select, collection: [['usd', 'USD'], ['eur', 'EUR']], include_blank: false %>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.input :interval_count %>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.input :interval, as: :select, collection: %w(day week month year), include_blank: false %>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <%= f.input :trial_period_days, placeholder: '14', hint: 'Optional: offer x amount of days free' %>
+      </div>
+    </div>
+    <%# f.input :features, hint: 'Separated by new lines', input_html: { rows: 3 } %>
+
+    <%= f.actions do %>
+      <%= f.action :submit, button_html: { class: 'btn btn-primary' } %>
+      <%= link_to 'Cancel', subscription_plans_path, class: 'btn btn-link' %>
+    <% end %>
+  <% end %>
+
+<% end %>
+

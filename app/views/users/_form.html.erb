@@ -1,0 +1,195 @@
+<%= semantic_form_for @user, html: { class: 'profile-page col-md-8 col-md-offset-2' } do |f| %>
+
+  <% if @user.new_record? %>
+    <h2>Create Your Profile</h2>
+
+    <p class="text-center">
+      <%= link_to czardom_models_engine.user_omniauth_authorize_path(:facebook), class: 'btn btn-primary' do %>
+        <i class="fa fa-facebook"></i>
+        Log In With Facebook
+      <% end %>
+    </p>
+  <% else %>
+    <h2>Update Your Profile</h2>
+  <% end %>
+
+  <div class="fields">
+    <%= f.semantic_errors *f.object.errors.keys %>
+  </div>
+
+  <div class="profile-avatar">
+    <%= avatar_tag @user, size: :large %>
+  </div>
+
+  <h2>Profile Details</h2>
+
+  <div class="fields">
+    <%= f.input :image, label: 'Avatar' %>
+    <%= f.hidden_field :image_cache %>
+
+    <%= f.input :cover_photo, label: 'Cover Photo' %>
+    <%= f.hidden_field :cover_photo_cache %>
+
+    <hr />
+
+    <div class="row">
+      <%= f.input :first_name, wrapper_html: { class: 'col-md-6' } %>
+      <%= f.input :last_name, wrapper_html: { class: 'col-md-6' } %>
+    </div>
+
+    <div id="user-slug">
+      <%= f.input :slug, label: 'Username', hint: 'http://www.czardom.com/<strong data-bind="text: slug">username</strong>'.html_safe, input_html: { "data-bind" => "value: slug, valueUpdate: 'keyup'", autocomplete: false } %>
+    </div>
+
+    <%= f.input :email %>
+
+    <% if @user.new_record? && session['devise.facebook_data'].blank? %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+
+      <hr />
+    <% elsif @user.persisted? %>
+      <%= link_to "Change Password", edit_password_user_path(edit_id(@user)) %>
+      <hr />
+    <% end %>
+
+
+    <%= f.input :phone_number %>
+
+    <%= f.input :about, input_html: { rows: 3, class: 'richedit' } %>
+
+    <%= f.input :resume %>
+
+    <%= f.input :website, prepend: 'http://', as: :string %>
+    <%= f.input :work %>
+    <%= f.input :education, label: 'Education' %>
+    <%#= f.input :company_name %>
+    <%= f.input :title %>
+
+  </div>
+
+  <div class="fields">
+    <hr />
+    <h2>General setting</h2>
+    <%= f.input :notification_by_email, label: 'Receive post notification' %>
+    <%= f.input :event_notification, label: 'Receive event notification' %>
+  </div>
+
+  <div class="fields">
+    <hr />
+    <h2>Social Networks</h2>
+
+    <div class="row">
+      <% if @user.persisted? %>
+        <strong class="col-md-4">Facebook</strong>
+        <div class="col-md-8 form-group">
+          <% if @user.access_token.present? %>
+            <%= link_to "Facebook Profile", @user.facebook_me['link'] %>
+          <% else %>
+            <%= link_to czardom_models_engine.user_omniauth_authorize_path(:facebook), class: 'btn btn-primary facebook-login' do %>
+              <i class="fa fa-facebook"></i>
+              Connect to Facebook
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%#= f.label :social_link_vine, 'Vine Username', class: 'col-md-4' %>
+      <%#= f.input :social_link_vine, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :twitter_username, 'Twitter Username', class: 'col-md-4' %>
+      <%= f.input :twitter_username, label: false, prepend: '@', wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_instagram, 'Instagram Username', class: 'col-md-4' %>
+      <%= f.input :social_link_instagram, label: false, prepend: '@', wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :linked_in, 'LinkedIn Public URL', class: 'col-md-4' %>
+      <%= f.input :linked_in, label: false, prepend: 'https://', wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :google_plus_id, 'Google+ Account ID', class: 'col-md-4' %>
+      <%= f.input :google_plus_id, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :pinterest_username, 'Pinterest Username', class: 'col-md-4' %>
+      <%= f.input :pinterest_username, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_youtube, 'Youtube', class: 'col-md-4' %>
+      <%= f.input :social_link_youtube, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_tumblr, 'Tumblr', class: 'col-md-4' %>
+      <%= f.input :social_link_tumblr, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_snapchat, t('formtastic.labels.user.social_link_snapchat'), class: 'col-md-4' %>
+      <%= f.input :social_link_snapchat, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_whatsapp, t('formtastic.labels.user.social_link_whatsapp'), class: 'col-md-4' %>
+      <%= f.input :social_link_whatsapp, label: false, wrapper_html: { class: 'col-md-8' } %>
+    </div>
+  </div>
+
+  <div class="fields">
+    <hr />
+    <h2>Core Skills and Expertise</h2>
+
+    <div class="form-group">
+      <label><%= t('formtastic.labels.user.primary_segment') %></label>
+      <input type="hidden" name="user[user_segment_ids][]" />
+
+      <% UserSegment.all.each do |segment| %>
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag "user[user_segment_ids][]", segment.id, @user.user_segment_ids.include?(segment.id) %>
+            <%= segment.name %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <h3 style="margin: 0 0 2px;padding: 0">Additional Areas of Focus</h3>
+      <input type="hidden" name="user[focus_area_ids][]" value="" />
+
+      <p class="text-muted">Please choose the top ten to best describe your areas of focus</p>
+
+      <% FocusArea.all.each do |area| %>
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag "user[focus_area_ids][]", area.id, @user.focus_area_ids.include?(area.id) %>
+            <%= area.name %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="fields">
+    <hr />
+
+    <h2>Location</h2>
+
+    <%= f.semantic_fields_for :address do |builder| %>
+      <%= render 'shared/address', f: builder %>
+    <% end %>
+
+    <p>
+      We respect your privacy. This information is used to find events, groups,
+      and other czars near you.
+      <br />
+      We only show your city, state, and country.
+    </p>
+  </div>
+
+  <div class="form-actions">
+    <%= f.action :submit, label: 'Save Profile', button_html: { class: 'btn btn-primary' } %>
+    <%= link_to 'Cancel', user_path(@user), class: 'btn btn-link' if @user.persisted? %>
+  </div>
+
+<% end %>
+
+<script>
+(function() {
+  ko.applyBindings({
+    slug: ko.observable('<%= @user.slug %>')
+  });
+})();
+</script>

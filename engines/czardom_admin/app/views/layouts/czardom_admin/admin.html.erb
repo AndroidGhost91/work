@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Czardom Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Muli|Merriweather+Sans:400,700" />
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+
+  <%= stylesheet_link_tag    "czardom_admin/application", media: "all" %>
+  <%= javascript_include_tag "czardom_admin/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div id="wrapper">
+
+  <%= render "czardom_admin/shared/navigation" %>
+
+  <div id="page-wrapper">
+    <% flash.each do |name, msg| %>
+      <div class="alert alert-<%= alert_class name %>" role="alert">
+        <%= msg %>
+      </div>
+    <% end %>
+
+    <%= yield %>
+  </div>
+  <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+</body>
+</html>

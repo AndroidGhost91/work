@@ -1,0 +1,89 @@
+<div class="item row">
+  <aside class="post-author col-md-2">
+    <img class="user-avatar" data-bind="attr: { src: user.avatar.small }" />
+
+    <div data-bind="if: user.charter_member">
+      <span class="badge badge-success"><i class="fa fa-star"></i> Charter </br>Czar</span>
+    </div>
+  </aside>
+
+  <article class="post col-md-10">
+    <header class="post-header">
+      <ul class="info list-unstyled">
+        <li class="item-user">
+          <h3>
+            <span class="ifnot: user.deleted">
+              <a data-bind="text: user.full_name, attr: { href: user.profile_url }"></a>
+            </span>
+          </h3>
+        </li>
+        <li class="item-meta">
+          <span data-bind="text: created_time"></span>
+        </li>
+      </ul>
+    </header>
+    <div class = "col-md-12" data-bind="if: media_url1 || media_url2 || media_url3">
+      <img align="middle" width=100% style="margin:10px 0px" data-bind="attr:{src: media_url1}" />  
+      <img align="middle" width=100% style="margin:10px 0px" data-bind="attr:{src: media_url2}" />  
+      <img align="middle" width=100% style="margin:10px 0px" data-bind="attr:{src: media_url3}" />  
+    </div>
+    <div data-bind="html: text" class="post-body"></div>
+
+    <div class="post-reply clearfix" data-bind="if: reply_to">
+      <a href="#" data-bind="attr: { 'data-id':id }" class="reply-me">Reply</a>
+    </div>
+
+    <div class="post-replies">
+      <div class="items" data-bind="foreach: replies, attr: { id: 'replies-'+id }" >
+        <div class="item-container">
+          <div class="item-avatar">
+            <img class="user-avatar" data-bind="attr: { src: user_reply.avatar.small }" />
+          </div>
+          <div class="item-info">
+            
+            <a data-bind="text: user_reply.full_name, attr: { href: user_reply.profile_url }"></a> 
+            <span data-bind="html: text"></span> 
+            <small> - <span data-bind="text: created_time" class="time"></span></small>
+
+            <div class="post-reply clearfix" data-bind="if: reply_to">
+              <a href="#" data-bind="attr: { 'data-id':id }" class="reply-me">Reply</a>
+            </div>
+
+            <div class="post-reply-replies" data-bind="attr: { id: 'replies-'+id}">
+              <div class="items" data-bind="foreach: reply_replies">
+                <div class="item-container">
+                  <div class="item-avatar">
+                    <img class="user-avatar" data-bind="attr: { src: reply_user_reply.avatar.small }" />
+                  </div>
+                  <div class="item-info">
+                    <a data-bind="text: reply_user_reply.full_name, attr: { href: reply_user_reply.profile_url }"></a> 
+                    <span data-bind="html: reply_text"></span> 
+                    <small> - <span data-bind="text: reply_created_time" class="time"></span></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="reply-post-text" data-bind="attr: { id: 'reply-'+id}">
+              <form data-bind="attr: {action: reply_url, id: 'form-'+id}" method="post" data-method="post" data-remote="true" data-type="json" class="reply-form">
+                <input type="hidden" name="post[reply_to_id]" data-bind="attr: {value: id}">
+                <textarea class="text required field form-control" rows="2" required="required" aria-required="true" name="post[text]" id="post_text" maxlength="500"></textarea>
+                <input type="submit" name="commit" value="Post reply" class="btn btn-primary btn-sm pull-right" style="margin-top:3px;">
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reply-post-text" data-bind="attr: { id: 'reply-'+id}">
+      <form data-bind="attr: {action: reply_url, id: 'form-'+id}" method="post" data-method="post" data-type="json" data-remote="true" class="reply-form">
+        <input type="hidden" name="post[reply_to_id]" data-bind="attr: {value: id}">
+        <textarea class="text required field form-control" rows="2" required="required" aria-required="true" name="post[text]" id="post_text" maxlength="500"></textarea>
+        <input type="submit" name="commit" value="Post reply" class="btn btn-primary btn-sm pull-right" style="margin-top:3px;">
+      </form>
+    </div>
+  </article>
+</div>
+

@@ -1,0 +1,33 @@
+<h3 class="profile-heading">
+  Members
+</h3>
+
+<% if @group.users.empty? %>
+  <div class="jumbotron add-clients">
+    <h2>No Members</h2>
+    <p class="description">
+      Be the first to join this group!
+    </p>
+  </div>
+<% else %>
+  <div class="row">
+    <% @group.users.each do |user| %>
+      <div class="col-md-4">
+        <div class="thumbnail group-user">
+          <%= image_tag(user.image_url(:thumb), alt: user.full_name) if user.image? %>
+
+          <div class="caption">
+            <h3><%= user.full_name %></h3>
+
+            <% if user.charter_member? %>
+              <p>
+                <span class="badge badge-success"><i class="fa fa-star"></i> Charter Czar</span>
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+

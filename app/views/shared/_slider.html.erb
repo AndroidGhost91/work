@@ -1,0 +1,23 @@
+<div class="flexslider">
+  <ul class="slides">
+    <% @sliders.each do |slide| %>
+      <li>
+        
+        <% if slide.root_article && slide.use_article? %>
+          <%= link_to image_tag(slide.image_url(:cropped)), article_board_path(slide.root_article) %>
+        <% else %>
+          <% if slide.url.present? %>
+            <%= link_to image_tag(slide.image_url(:cropped)), add_protocol(slide.url) %>
+          <% else %>
+            <%= image_tag slide.image_url(:cropped) %>
+          <% end %>
+        <% end %>
+        
+        
+        <% if slide.caption.present? %>
+          <p class="flex-caption"><%= slide.caption.html_safe %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

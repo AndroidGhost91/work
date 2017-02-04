@@ -1,0 +1,49 @@
+attributes:
+  email: 10152898711079544@fb-user-id.com
+  encrypted_password: "$2a$10$XRGUV17TUT5oVPjYSIl2geCtZEeqRwMLcBFntn7aCl6QrHj4BfOG."
+  reset_password_token:
+  reset_password_sent_at:
+  remember_created_at:
+  sign_in_count: 0
+  current_sign_in_at:
+  last_sign_in_at:
+  current_sign_in_ip:
+  last_sign_in_ip:
+  created_at: 2014-12-17 19:15:02.453757000 Z
+  updated_at: 2014-12-17 19:15:02.453757000 Z
+  provider: facebook
+  uid: '10152898711079544'
+  first_name: Ruta
+  last_name: Fox
+  image:
+  gender:
+  facebook_url:
+  education:
+  work:
+  website:
+  about:
+  cover_photo:
+  slug: ruta-fox
+  admin: false
+  forem_admin: false
+  forem_state: approved
+  forem_auto_subscribe: false
+  access_token:
+  access_token_expires_at:
+  twitter_username:
+  linked_in:
+  google_plus_id:
+  primary_segment_id:
+  secondary_segment_id:
+  phone_number:
+  pinterest_username:
+  resume:
+  state: active
+  auto_follow: false
+  social_link_vine:
+  social_link_youtube:
+  social_link_tumblr:
+  social_link_custom_facebook_url:
+  social_link_instagram:
+  social_link_whatsapp:
+  social_link_snapchat:

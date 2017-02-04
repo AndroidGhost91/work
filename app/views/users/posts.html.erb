@@ -1,0 +1,31 @@
+<div class="discussion-list col-md-9">
+  <ul class="parent list-unstyled">
+    <% if @posts.blank? %>
+      <h3>You have 0 posts currently.</h3>
+    <% end %>
+    <% @posts.each do |post| %>
+      <% topic = post.topic %>
+      <li>
+        <div class="discussion-summary row">
+          <div class="col-xs-6 col-xs-offset-3 col-sm-2 col-sm-offset-0 col-md-2 author">
+            <%= avatar_tag post.user, size: :large %>
+          </div>
+          <%= link_to forem.forum_topic_post_path(topic.forum, topic, post), class: 'col-xs-10 col-sm-8 col-md-9 main' do %>
+            <h3 class="title"><%= post.text.html_safe %></h3>
+            <ul class="info list-unstyled">
+              <li class="item-tags">
+                <span class="badge badge-default"><%= topic.forum.title %></span>
+              </li>
+              <li class="item-meta">
+                <strong><%= post.user.forem_name %></strong>
+                posted
+                <%= time_ago_in_words post.created_at %> ago
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <%= paginate @posts %>
+</div>

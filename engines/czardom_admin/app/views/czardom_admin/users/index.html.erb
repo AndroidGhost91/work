@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= @title %>
+        (<%= number_with_delimiter @users.count %>)
+        <%= link_to "New User", new_user_path, class: 'btn btn-primary' %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="btn-group" role="group" aria-label="...">
+  <%= link_to "Today", users_path(time: 'today'), class: "btn btn-default #{ 'active' if params[:time] == 'today'}" %>
+  <%= link_to "This Week", users_path(time: 'week'), class: "btn btn-default #{ 'active' if params[:time] == 'week'}" %>
+  <%= link_to "Last Week", users_path(time: 'last-week'), class: "btn btn-default #{ 'active' if params[:time] == 'last-week'}" %>
+  <%= link_to "All Users", users_path, class: "btn btn-default #{ 'active' if params[:time].nil?}" %>
+</div>
+
+<hr />
+
+<%= link_to users_path(format: :csv), class: 'btn btn-primary' do %>
+  <i class="fa fa-download"></i>
+  Export CSV
+<% end %>
+
+<hr />
+
+<div class="table-responsive">
+  <div class="row datatable-custom-filter">
+    <div class="col-sm-6 col-sm-offset-6">
+      <div class="form-inline">
+        <div class="form-group">
+          <label for="filter-location">Location: </label>
+          <input type="text" class="form-control input-sm" id="filter-location" placeholder="Location">
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="filter-is-paid" value="paid" checked><b> is Charter Czar</b>
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="filter-is-free" value="free" checked><b> is Unpaid</b>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table datatable">
+    <thead>
+      <tr>
+        <th>Czar</th>
+        <th>Signed Up</th>
+        <th>Location</th>
+        <% if can? :index, Payola::Sale %>
+          <th>Donated</th>
+        <% end %>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td>
+            <%= link_to user.full_name, "", class: 'admin-users-name', 'user-id': user.id %>
+
+            <% unless user.email.include? '@fb-user-id.com' %>
+              <p id="admin-users-email-<%= user.id %>" style="display: none">
+                <%= user.email %>   
+              </p>
+            <% end %>
+            
+            <% if user.charter_member? %>
+              <span class="badge badge-info"><i class="fa fa-star"></i> Charter Czar</span>
+            <% end %>
+          </td>
+          <td>
+            <%= user.created_at.strftime('%Y/%m/%d') %>
+          </td>
+          <td>
+            <% if @user_address[:"#{user.id}"] %>
+              <%= @user_address[:"#{user.id}"][:city] %>,
+              <%= @user_address[:"#{user.id}"][:state] %>
+            <% else %>
+              N/A
+            <% end %>
+          </td>
+          <% if can? :index, Payola::Sale %>
+            <td><%= number_to_currency user.total_donated %></td>
+          <% end %>
+          <td>
+            <%= link_to 'View More', user_path(user) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+// $('#users').DataTable();
+
+$(".admin-users-name").click(function(){
+    $("#admin-users-email-" + $(this).attr('user-id')).toggle();
+});
+
+</script>

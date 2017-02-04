@@ -1,0 +1,65 @@
+<div class="profile-page col-md-8 col-md-offset-2 text-center" style="font-size: 1.2em">
+  <h2>Become a Charter Member</h2>
+
+  <p class="lead">
+    Help us build the best, most incredible Czartobia possible.
+  </p>
+
+  <p>
+    If you've gained one client, one amazing placement, met amazing contacts, got a job, solved a problem via Czars, please help us build the best, most incredible Czartopia possible.
+  </p>
+
+  <div>
+    <%= render 'payola/transactions/checkout', sellable: @product, button_text: 'Become a Charter Member', allow_remember_me: false, email: current_user.email, custom_fields: { user_id: current_user.id } %>
+  </div>
+
+  <div class="earlybird-heading">
+    <%= image_tag 'icon-mobile.png', class: 'col-md-5', alt: 'Mobile Site' %>
+
+    <div class="col-md-7">
+      <h3 class="text-uppercase">Assist in the completion of this site</h3>
+
+      <p>
+        Your support will help us complete this site and build for mobile.
+      </p>
+
+      <p>
+        We have big plans for <u>czardom.com</u>. We want it to be <em>the
+          absolute</em> best place for czars to <strong>get new
+        clients</strong>, <strong>find resources</strong>, <strong>make
+        connections</strong>, and <strong>get answers</strong> from anywhere on the go.
+      </p>
+    </div>
+  </div>
+
+  <div class="earlybird-heading">
+    <%= image_tag 'icon-subscription.png', class: 'col-md-5 pull-right', alt: 'Free Subscription' %>
+
+    <div class="col-md-7">
+      <h3 class="text-uppercase">Free Elite Account</h3>
+
+      <p>
+        You'll receive a 1 year subscription to our elite account once we officially launch. That's a <strong>$300 value</strong>.
+      </p>
+
+      <p>
+        As a charter member you will have VIP access to new features and specials before anyone else on launch day.
+      </p>
+    </div>
+  </div>
+
+  <div class="earlybird-heading">
+    <%= image_tag 'icon-perks.png', class: 'col-md-5', alt: 'Free Subscription' %>
+    <div class="col-md-7">
+      <h3 class="text-uppercase">Perks and Discounts</h3>
+
+      <p>
+        You'll be the first in line for receiving perks and discounts. When a new opportunity arrives it'll immediately arrive in your inbox.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <%= render 'payola/transactions/checkout', sellable: @product, button_text: 'Become a Charter Member', allow_remember_me: false, email: current_user.email, custom_fields: { user_id: current_user.id } %>
+  </div>
+</div>

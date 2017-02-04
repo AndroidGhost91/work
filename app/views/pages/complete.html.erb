@@ -1,0 +1,75 @@
+<div class="profile-page col-md-8 col-md-offset-2 text-center" style="font-size: 1.2em">
+  <%= render "shared/flash_messages" %>
+  <h2>Registration Complete</h2>
+
+  <div class="text-left">
+    <p>
+      Thank you for registering for Czardom!
+    </p>
+
+    <p>
+      Might we ask you for a favor?
+    </p>
+
+    <p>
+    <strong>NOT required, but massively appreciated...</strong> if you've gained even one client, key placement, or valuable contact; if you've found a job, made a friend, solved a problem, booked a guest, or found an intern, venue, vendor, source or solution via Czars; please help us build the best, most incredible Czartopia possible. Our mission is to make your professional lives easier through a smart, efficient, completely searchable, hyper-organized, simple to use platform -- and we are almost there.
+    </p>
+
+    <p>
+      Please show us your love and <strong>donate $18</strong> (the number 18, also known as Chai, equals "good luck") to help us complete the site, without having to take on investors who do not understand our industry. We have been and will continue to be fiercely committed to all of you and your goals so please support this effort.
+    </p>
+
+    <p>
+      If you really feel motivated, you can give double or triple chai, too ($36 or $54) -- we won't complain!  All funds will be used to complete the Czardom website, coming very soon to an Internet near you!
+    </p>
+
+    <div class="form-group">
+      <% @products.each do |id, product| %>
+        <div class="radio">
+          <label>
+            <input class="donation-price" type="radio" name="donation_price" value="product-<%= id %>" data-permalink="<%= product.permalink %>" />
+            <%= product.name %> (<%= number_to_currency product.price_in_dollars, precision: 0 %>)
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="clearfix">
+      <p>
+        <div class="pull-left">
+          <% @products.each do |id, product| %>
+            <div class="donation-button" id="product-<%= id %>">
+              <%= render 'payola/transactions/checkout', sellable: product, button_text: "Donate #{number_to_currency product.price_in_dollars, precision: 0}", name: 'Czardom Donation', description: 'Thank you for your support', allow_remember_me: false, email: current_user.email, custom_fields: { user_id: current_user.id } %>
+            </div>
+          <% end %>
+        </div>
+
+        <%= link_to express_path(product: @products['chai'].permalink), class: 'pull-left', style: 'margin-left: 15px', id: 'donate-paypal' do %>
+          <input type="image" src="http://media.desheas.com/paypal-btn.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <% end %>
+      </p>
+    </div>
+    <p>
+      <%= link_to "Go to your profile right now", user_path(current_user) %>
+    </p>
+    <p>
+    All Czars who make the donation will be awarded <strong>Charter Czar</strong> status. As a Charter Czar your first 18 (Chai) months of membership on Czardom are gratis, and grant you unlimited access to the entire site including: High-level "how to pitch" Q + A's with A-list media; extensive chronological calendars by geographic market, event and business sectors; plus, you will be included in a variety of Charter Czar-only events, perks and previews.
+    </p>
+
+  </div>
+</div>
+
+<script>
+var stripeButton = $('.donation-button').hide(),
+    paypalButton = $('#donate-paypal');
+
+$('.donation-price').on('change', function() {
+  var el = $(this);
+  stripeButton.hide();
+  stripeButton.filter('#' + this.value).show();
+
+  paypalButton.attr('href', '/express?product=' + el.data('permalink'));
+});
+
+$('.donation-price').first().prop('checked', true).trigger('change');
+</script>

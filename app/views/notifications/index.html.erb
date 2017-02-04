@@ -1,0 +1,11 @@
+<div class='col-md-9'>
+  <h1>All Your Notifications</h1>
+  <h2><%= "You have 0 notifications" if @notifications.blank? %></h2>
+  <% @notifications.each do |notification| %>
+    <div class='col-md-12 '>
+      <%= link_to generate_notification_description(notification).html_safe, generate_notification_url(notification) %>
+    </div>
+  <% end %> <!-- End user info list -->
+<%= paginate @notifications %>
+
+</div>

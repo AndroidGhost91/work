@@ -1,0 +1,38 @@
+form.user {
+
+  h2 {
+    text-align: center;
+  }
+
+  .profile-avatar {
+    text-align: center;
+    margin: 2em 0;
+  }
+
+  .fields,
+  .form-actions {
+    max-width: 450px;
+    margin: 0 auto 2em;
+  }
+
+  .form-actions {
+    text-align: center;
+  }
+}
+
+.user-client-fields .col-md-4:nth-child(3n+1) {
+  clear: both;
+}
+
+.new-user-client .well {
+  height: 350px;
+  position: relative;
+
+  .btn {
+    position: absolute;
+    top: 50%;
+    margin-top: -1em;
+    left: 50%;
+    margin-left: -4em;
+  }
+}

@@ -1,0 +1,49 @@
+
+.notification {
+  .not-read {
+    background: #eee;
+  }
+
+  li {
+    border-bottom: 1px solid #eee;
+    a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .all {
+    text-align: right;
+    a {
+      font-weight: bold;
+      font-size: 15px;
+    }
+  }
+}
+
+.mobile-notification {
+  // float: right;
+  text-align: right;
+  vertical-align: middle;
+  padding-top: 12px;
+  padding-right: 10px;
+
+  .dropdown-menu > li > a {
+    white-space: normal;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .navbar-toggle {
+    margin-top: 15px;
+    margin-right: 0;
+    margin-left: 10px;
+  }
+
+  .mobile-notification {
+    padding-top: 18px;
+  }
+}

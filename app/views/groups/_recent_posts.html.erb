@@ -1,0 +1,9 @@
+<h3 class="profile-heading">
+  Recent Posts
+</h3>
+
+<div class="discussion-list">
+  <ul class="parent list-unstyled">
+    <%= render partial: "forem/topics/topic", collection: @topics, as: :topic %>
+  </ul>
+</div>

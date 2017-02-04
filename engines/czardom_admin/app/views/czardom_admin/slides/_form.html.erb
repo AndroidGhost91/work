@@ -1,0 +1,204 @@
+<%= semantic_form_for @slide do |f| %>
+
+  <%= f.semantic_errors %>
+
+  <%= f.inputs do %>
+    <%= f.label :image, t('formtastic.labels.slide.image') %><br />
+    <%= image_tag f.object.image_url(:small) if f.object.image_url %>
+    <%= f.input :image, label: false, hint: '730px x 430px' %>
+    <%= f.hidden_field :image_cache %>
+
+    
+    <% Slide.use_urls.keys.each do |key| %>
+      <%= f.radio_button :use_url, key %>
+      <%= f.label key, style: 'margin-right: 30px' %>
+    <% end %>
+    
+    <div id="slide-url">
+      <%= f.input :url %>
+    </div>
+  
+    <div id="slide-article-form">
+      <%= f.fields_for :root_article do |builder| %>
+        <h2>Article Details</h2>
+        <%= builder.input :title, class: 'col-md-8 form-control', :required => true %>
+        
+        <%#= builder.input :media, class: 'col-md-8 form-control' %>
+        
+        <%= builder.label :body, 'Body', class: 'col-md-4', style: 'margin-left: -15px;' %>
+    
+        <%= quill_editor nil, { name: 'slide[root_article_attributes][body]', value: @slide.root_article ? @slide.root_article.body : '' } %>
+        
+        <%= builder.hidden_field :media%>
+      <br>
+      <div class="row">
+        <div class="col-md-4 col-sm-6">
+          <%= image_tag 'logo.png',id:'image-thumb-article-1',class: 'thumb-view thumbnail img-responsive' %>
+        </div>
+         <div class="col-md-4 col-sm-6">
+          <%= image_tag 'logo.png',id:'image-thumb-article-2',class: 'thumb-view thumbnail img-responsive' %>
+        </div>
+         <div class="col-md-4 col-sm-6">       
+          <%= image_tag 'logo.png',id:'image-thumb-article-3',class: 'thumb-view thumbnail img-responsive' %>
+        </div>
+         <div class="col-md-4 col-sm-6">     
+          <%= image_tag 'logo.png',id:'image-thumb-article-4',class: 'thumb-view thumbnail img-responsive'%>
+         </div>
+        <div class="col-md-4 col-sm-6">
+          <%= image_tag 'logo.png',id:'image-thumb-article-5',class: 'thumb-view thumbnail img-responsive'%>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <%= video_tag '',id:'video-thumb-article', width: '320', controls: true %>
+        </div>        
+        </table>
+        <%#= button_tag "remove", type: "button", id: 'delete_image_3', class: 'btn btn-link' %>
+         
+           
+      
+         <%= button_tag "upload media", type: "button", id: 'upload-button-article', class: 'btn btn-link pull-right' %>
+      <% end %>
+    </div>
+  
+    <br>
+  <% end %>          
+    <%= f.input :caption ,:input_html => {:rows => 3}%>
+    
+  
+
+  <%= f.actions do %>
+    <%= f.action :submit, label: 'Submit', as: :button, button_html: { class: 'btn btn-primary' } %>
+  <% end %>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+<% end %>
+
+<style>
+  #slide-url{
+    display: <%= (@slide && @slide.use_article?) ? 'none' : 'block' %>;
+  }  
+  
+  #slide-article-form {
+    display: <%= (@slide && @slide.use_url?) ? 'none' : 'block' %>;
+  }
+  
+  #full-editor {
+     border: 1px solid #888; 
+     border-top: none;
+  }
+  
+  #full-toolbar {
+     border: 1px solid #888; 
+     border-bottom: none;
+     margin-top: 50px;
+  }
+  .thumb-view {
+    margin : 20px;
+   
+  }
+</style>
+<script>
+
+$(document).ready(function() {
+
+  $("#slide_use_url_use_url").click(function(){
+    $("#slide-url").show();
+    $("#slide-article-form").hide();
+  })
+  
+  $("#slide_use_url_use_article").click(function(){
+    $("#slide-url").hide();
+    $("#slide-article-form").show();
+  })
+  
+
+    var image_thumb_article = [];
+   
+    var avaliable_article_ids = [0,1,2,3,4];
+    var upload_button_article = document.getElementById("upload-button-article");
+ 
+    var collected_media_article = document.getElementById("slide_root_article_attributes_media");
+    var collected_article_url = {};
+    image_thumb_article[0] = document.getElementById("image-thumb-article-1");
+    image_thumb_article[1] = document.getElementById("image-thumb-article-2");
+    image_thumb_article[2] = document.getElementById("image-thumb-article-3");
+    image_thumb_article[3] = document.getElementById("image-thumb-article-4");
+    image_thumb_article[4] = document.getElementById("image-thumb-article-5");    
+    var video_thumb_article = document.getElementById("video-thumb-article");    
+    video_thumb_article.style.display = 'none';
+    var index = 0;
+  
+    if (collected_media_article.value){
+      
+
+      var url_object = JSON.parse(collected_media_article.value);
+     
+        for(var i in url_object) {
+          
+          if (url_object.hasOwnProperty(i)) {
+            
+              if ((url_object[i].url.indexOf(".jpg") > -1) || (url_object[i].url.indexOf(".png") > -1)) {
+             
+                image_thumb_article[index].src =  url_object[i].thumb_url;
+                index ++;
+              } else {
+                video_thumb_article.src = url_object[i].url;
+                video_thumb_article.style.display = 'inline';
+              }
+            }
+        }
+    };
+    
+    for(var i = index; i < 5; i++){
+      image_thumb_article[i].style.display = "none";
+    }
+   
+      
+    upload_button_article.addEventListener("click", function() {
+          if(avaliable_article_ids.length == 0){
+              window.alert("Sorry,You have exceeded your max attach limit");
+          } else {
+         
+            cloudinary.openUploadWidget({ cloud_name: 'hqps4ipsj', upload_preset: 'czardom',return_delete_token:true}, 
+              function(error, result) {
+                 console.log(error, result); 
+                if(!error){
+                  
+                  if(avaliable_article_ids.length > 0){
+                    
+                    if(result[0].resource_type == "video") {
+                     
+                      video_thumb_article.src = result[0].url;
+                      video_thumb_article.style.display = 'inline';
+                      collected_article_url["5"] = {
+                        url : result[0].url,
+                        thumb_url: result[0].url
+                      };                      
+                    } else {
+                      var index = avaliable_article_ids[0];
+                      image_thumb_article[index].src = result[0].thumbnail_url;
+                      image_thumb_article[index].style.display = 'inline';
+                   
+                      
+                      collected_article_url[index] = {
+                        url : result[0].url,
+                        thumb_url: result[0].thumbnail_url
+                      };
+                      avaliable_article_ids.shift();
+                      
+                    //  window.alert(collected_media_article.value);
+                    }
+                   collected_media_article.value = JSON.stringify(collected_article_url);
+                  } else {
+                    window.alert("max attach limit excceded");
+                  }
+                }
+              });     
+          }
+      }, false);    
+  
+})
+</script>

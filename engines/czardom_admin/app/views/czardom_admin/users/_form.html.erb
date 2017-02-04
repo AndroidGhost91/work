@@ -1,0 +1,121 @@
+<%= semantic_form_for @user do |f| %>
+  <div class="col-md-6">
+    <h2>Profile Details</h2>
+
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :email %>
+
+    <div id="username-preview">
+      <%= f.input :slug, label: 'Username', hint: 'http://www.czardom.com/<strong data-bind="text: slug">username</strong>'.html_safe, input_html: { "data-bind" => "value: slug, valueUpdate: 'keyup'", autocomplete: false } %>
+    </div>
+
+    <%= f.input :phone_number %>
+
+    <%= f.input :about %>
+
+    <%= f.input :website, prepend: 'http://', as: :string %>
+    <%= f.input :work %>
+    <%= f.input :education, label: 'Education' %>
+
+    <hr />
+    <h2>Social Networks</h2>
+
+    <div class="row">
+      <% if @user.persisted? %>
+        <strong class="col-md-4">Facebook</strong>
+        <div class="col-md-8 form-group">
+          <% if @user.access_token.present? %>
+            <%= link_to "Facebook Profile", @user.facebook_me['link'] %>
+          <% else %>
+            N/A
+          <% end %>
+        </div>
+      <% end %>
+
+      <%#= f.label :social_link_vine, 'Vine Username', class: 'col-md-4' %>
+      <%#= f.input :social_link_vine, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :twitter_username, 'Twitter Username', class: 'col-md-4' %>
+      <%= f.input :twitter_username, label: false, prepend: '@', wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_instagram, 'Instagram Username', class: 'col-md-4' %>
+      <%= f.input :social_link_instagram, label: false, prepend: '@', wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :linked_in, 'LinkedIn Public URL', class: 'col-md-4' %>
+      <%= f.input :linked_in, label: false, prepend: 'https://', wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :google_plus_id, 'Google+ Account ID', class: 'col-md-4' %>
+      <%= f.input :google_plus_id, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :pinterest_username, 'Pinterest Username', class: 'col-md-4' %>
+      <%= f.input :pinterest_username, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_youtube, 'Youtube', class: 'col-md-4' %>
+      <%= f.input :social_link_youtube, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_tumblr, 'Tumblr', class: 'col-md-4' %>
+      <%= f.input :social_link_tumblr, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_snapchat, t('formtastic.labels.user.social_link_snapchat'), class: 'col-md-4' %>
+      <%= f.input :social_link_snapchat, label: false, wrapper_html: { class: 'col-md-8' } %>
+
+      <%= f.label :social_link_whatsapp, t('formtastic.labels.user.social_link_whatsapp'), class: 'col-md-4' %>
+      <%= f.input :social_link_whatsapp, label: false, wrapper_html: { class: 'col-md-8' } %>
+    </div>
+
+    <hr />
+
+    <h2>Location</h2>
+
+    <%= f.semantic_fields_for :address do |builder| %>
+      <%= render 'shared/address', f: builder %>
+    <% end %>
+
+    <p>
+      We respect your privacy. This information is used to find events, groups,
+      and other czars near you.
+      <br />
+      We only show your city, state, and country.
+    </p>
+
+    <p class="form-actions">
+      <%= f.submit class: 'btn btn-primary' %>
+      <%= link_to "Cancel", :back, class: 'btn btn-link' %>
+    </p>
+  </div>
+
+  <div class="col-md-6">
+    <h2>Roles and Permissions</h2>
+
+    <div id="user-roles">
+      <div class="checkbox">
+        <label class="lead">
+          <input name="user[admin]" type="checkbox" data-bind="checked: isAdmin" />
+          Site Administrator
+        </label>
+      </div>
+
+      <div class="list-group" data-bind="visible: isAdmin">
+        <% User.valid_roles.each do |role| %>
+          <label class="list-group-item">
+            <input<% if @user.has_role?(role) %> checked<% end %> type="checkbox" name="user[roles][]" value="<%= role %>" />
+            <%= role %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+(function() {
+  ko.applyBindings({
+    slug: ko.observable('<%= @user.slug %>')
+  }, document.getElementById('username-preview'));
+
+  ko.applyBindings({
+    isAdmin: ko.observable(<%= @user.admin? %>)
+  }, document.getElementById('user-roles'));
+})();
+</script>

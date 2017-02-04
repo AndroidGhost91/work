@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      <%= link_to "Regions", regions_path %> /
+      <%= @region.title %>
+    </h1>
+  </div>
+</div>
+
+<%= bs_panel "Region Details" do %>
+  <%= link_to "Edit Region", edit_region_path(@region), class: 'btn btn-primary' if can? :edit, @region %>
+
+  <dl>
+    <dt>Region</dt>
+    <dd><%= @region.title %></dd>
+
+    <dt>Searches</dt>
+    <dd><%= @region.object_type.pluralize %></dd>
+
+    <dt>Radius</dt>
+    <dd><%= @region.radius %>mi</dd>
+  </dl>
+<% end %>
+
+<%= bs_panel "Results" do %>
+  <% if @region.results.present? %>
+    <ul class="list-group col-md-4">
+      <% @region.results.each do |object| %>
+        <li class="list-group-item">
+          <%= link_to object.addressable.full_name, '#' %><br>
+          <span class="text-muted">
+            <%= "%0.1f" % object.distance %>mi
+            (<%= Geocoder::Calculations.compass_point object.bearing %>)
+          </span>
+          <span class="label label-default">
+            <% if object.addressable.class.name == 'User' %>
+              czar
+            <% elsif object.addressable.class.name == 'Job' %>
+              job
+            <% elsif object.addressable.class.name == 'Event' %>
+              event
+            <% elsif object.addressable.class.name == 'Group' %>
+              group
+            <% end %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="col-md-8" style="height: 400px" id="results_map"></div>
+  <% else %>
+    <p class="user-no-clients">
+      No <%= @region.object_type.downcase.pluralize %> were found in this region.
+    </p>
+  <% end %>
+<% end %>
+
+<script>
+try {
+  L.mapbox.accessToken = "<%= ENV['MAPBOX_TOKEN'] %>";
+  var map = L.mapbox.map('results_map', '<%= ENV['MAPBOX_MAP'] %>');
+
+  var featureLayer = L.mapbox.featureLayer()
+      .setGeoJSON(<%= @region.results_geojson.html_safe %>)
+      .addTo(map);
+
+  map.fitBounds(featureLayer.getBounds());
+
+  L.marker([
+    <%= @region.latitude %>,
+    <%= @region.longitude %>
+  ], {
+    title: 'Region'
+  }).addTo(map);
+}catch (e) {}
+</script>
+
+

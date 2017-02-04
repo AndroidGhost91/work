@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= link_to 'tips', tips_path %> /
+        <%= @tip.id %>
+      </h1>
+    </div>
+</div>
+
+<dl>
+  <dt>Content</dt>
+  <dd><%= @tip.content %></dd>
+</dl>
+
+<%= link_to "Edit tip", edit_tip_path(@tip), class: 'btn btn-primary' if can? :edit, @tip %>
+<%= link_to "All tips", tips_path, class: 'btn btn-link' %>

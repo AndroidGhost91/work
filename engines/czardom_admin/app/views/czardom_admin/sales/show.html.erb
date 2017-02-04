@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= link_to "Sales", sales_path(time: 'week') %> /
+        <%= @sale.guid %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <%= bs_panel "Sale Overview" do %>
+      <pre><code><%= JSON.pretty_generate(JSON.parse(@sale.to_json)) %></code></pre>
+    <% end %>
+  </div>
+
+  <div class="col-md-4">
+  </div>
+</div>

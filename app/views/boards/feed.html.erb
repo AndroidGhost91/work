@@ -1,0 +1,96 @@
+<!--<h2 class="page-header">CZARDOM Boards</h2>-->
+
+<div class="col-md-12">
+
+  <%= render 'sidebar' %>
+
+  <div class="col-md-12">
+    <!--<h2>HEADLINES</h2>-->
+    <!--<%#= render 'shared/slider' %>-->
+    <!--<div class="row">-->
+    <!--  <div class="col-sm-12">-->
+    <!--    <div class="profile-link-box"%>-->
+    <!--      <button id="profile-copy" data-clipboard-text="<%#= main_app.user_url(current_user) %>">-->
+    <!--        <%#= link_to main_app.user_url(current_user), -->
+    <!--        main_app.user_url(current_user),-->
+    <!--        class: "profile-link"%>-->
+    <!--      </button>-->
+    <!--    </div>-->
+
+    <!--  </div>-->
+    <!--  <div class="col-sm-12">-->
+    <!--    <%# if @forum.present? && can?(:create_topic, @forum) %>-->
+    <!--      <%#= link_to "Post to board", forem.new_forum_topic_path(@forum), :class => "btn btn-primary btn-block btn-lg", :id => "new-topic" %>  -->
+    <!--    <%# else %>-->
+    <!--      <%#= link_to "Post to board", main_app.new_post_board_path, :class => "btn btn-primary btn-block btn-lg", :id => "new-post" %>-->
+    <!--    <%# end %>-->
+    <!--  </div>-->
+    <!--</div>-->
+    <h3>MAIN CZARDOM BOARDS</h3>
+
+    <div class="col-sm-12">
+      <div class="post-to-board">
+        <% if @forum.present? && can?(:create_topic, @forum) %>
+          <%= link_to "Post to board", "#", :class => "btn btn-primary btn-block btn-lg", :id => "new-topic", "data-toggle": "modal" , "data-target": "#post-topic" %>
+
+          <div class="modal fade" tabindex="-1" role="dialog" id="post-topic">
+            <%= form_tag main_app.board_path do |f| %>
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">New Post</h4>
+                </div>
+                <div class="modal-body form-group">
+                  <div class="form-group">
+                    <%= text_area_tag :body, nil, class: 'form-control', noresize: true, rows: 8, maxlength: 500 %>
+                  </div>
+                  
+                  <div class="form-group">
+                    <%= hidden_field_tag :location, @group.name %>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <%#= hidden_field_tag "back_to_board", "true" %>
+                  <%= submit_tag "Post a story", class: 'btn btn-primary pull-right' %>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+            <% end %>
+          </div><!-- /.modal -->
+        <% else %>
+          <%= link_to "Post to board", "#", :class => "btn btn-primary btn-block btn-lg", :id => "new-post", "data-toggle": "modal" , "data-target": "#post-topic" %>
+
+          <div class="modal fade" tabindex="-1" role="dialog" id="post-topic">
+            <%= form_tag main_app.board_path do |f| %>
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">New Post</h4>
+                </div>
+                <div class="modal-body form-group">
+                  <%= render 'shared/body_new_post_board' %>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <%#= hidden_field_tag "back_to_board", "true" %>
+                  <%= submit_tag "Post a story", class: 'btn btn-primary pull-right' %>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+            <% end %>
+          </div><!-- /.modal -->
+        <% end %>
+      </div>
+    </div>
+
+    <div class="discussion-list">
+      <ul class="parent list-unstyled">
+        <%= render partial: "forem/topics/topic", collection: @topics, as: :topic %>
+      </ul>
+    </div>
+  </div>
+
+</div>

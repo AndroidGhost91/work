@@ -1,0 +1,68 @@
+.background-line {
+    position: relative;
+    z-index: 1;
+    
+    &:before {
+        border-top: 2px solid #dfdfdf;
+        content:"";
+        margin: 0 auto; /* this centers the line to the full width specified */
+        position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+        top: 50%; left: 0; right: 0; bottom: 0;
+        width: 95%;
+        z-index: -1;
+    }
+
+    span { 
+        /* to hide the lines from behind the text, you have to set the background color the same as the container */ 
+        background: #fff; 
+        padding: 0 15px; 
+    }
+}
+
+.page-header {
+  margin-top: 10px;
+}
+
+.earlybird-heading {
+  @extend .row;
+  @extend .text-left;
+
+  margin: 4em 0;
+}
+
+.badge.badge-default {
+  background: #cccbd1;
+}
+
+a[rel="mention"] {
+  background: none repeat scroll 0% 0% #F2F2F2;
+  color: #444;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: text;
+  margin-right: 2px;
+}
+
+.atwho-view {
+  z-index: 50000 !important;
+}
+
+.alert a {
+  font-weight: bold;
+}
+
+.alert-danger a {
+  color: $btn-primary-bg;
+}
+
+.alert-success a {
+  color: $alert-success-text;
+}
+
+.alert-info a {
+  color: $alert-info-text;
+}
+
+.alert-warning a {
+  color: $alert-warning-text;
+}

@@ -1,0 +1,15 @@
+<%= render :partial => 'forem/forums/head', :locals => { :forum => @topic.forum } %>
+
+<div class="row">
+  <%= render 'boards/sidebar' %>
+
+  <div class="col-md-9">
+    <h3><%= t("forem.post.edit", :post => @post) %></h3>
+
+    <%= simple_form_for [forem, @topic.forum, @topic, @post] do |f| %>
+      <%= render :partial => "form", :locals => { :f => f } %>
+      <%= f.submit t("forem.post.buttons.edit"), :class => "btn btn-primary" %>
+      <%= link_to "Cancel", :back, class: 'btn btn-link' %>
+    <% end %>
+  </div>
+</div>

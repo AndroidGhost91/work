@@ -1,0 +1,8 @@
+<div class="form-group">
+  <%= f.input :text, :label=> false, :input_html => { :class => "field form-control", rows: 6 } %>
+
+  <% if params[:reply_to_id] %>
+    <%= f.hidden_field :reply_to_id, :value => params[:reply_to_id] %>
+  <% end %>
+</div>
+<%= render 'shared/mention_username' %>

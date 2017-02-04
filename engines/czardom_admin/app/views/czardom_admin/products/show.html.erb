@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <%= link_to 'Products', products_path %> /
+        <%= @product.name %>
+      </h1>
+    </div>
+</div>
+
+<dl>
+  <dt>Name</dt>
+  <dd><%= @product.name %></dd>
+
+  <dt>Permalink</dt>
+  <dd><%= @product.permalink %></dd>
+
+  <dt>Price</dt>
+  <dd><%= number_to_currency @product.price_in_dollars %></dd>
+
+  <dt>Redirect Path</dt>
+  <dd><%= link_to @product.redirect_path, @product.redirect_path %></dd>
+
+  <% if can? :index, Payola::Sale %>
+    <dt>Gross Sales</dt>
+    <dd><%= number_to_currency @product.gross_sales %></dd>
+  <% end %>
+</dl>
+
+<%= link_to "Edit Product", edit_product_path(@product), class: 'btn btn-primary' if can? :edit, @product %>
+<%= link_to "All Products", products_path, class: 'btn btn-link' %>

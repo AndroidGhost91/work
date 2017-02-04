@@ -1,0 +1,39 @@
+<h3 class="profile-heading">
+  Calendar
+</h3>
+
+<div id="event-browser" class="row">
+  <div class="col-md-6 fc-small">
+    <div id="calendar"></div>
+  </div>
+
+  <div id="event-listing" class="col-md-6">
+    <h3>
+      Events for
+      <span data-bind="text: selectedDate"></span>
+    </h3>
+
+    <div data-bind="foreach: events">
+      <div class="event clearfix">
+        <h3 class="event-title">
+          <a data-bind="text: title, attr: { href: url }"></a>
+        </h3>
+
+        <div class="col-md-9 event-description">
+          <p data-bind="text: description_truncated"></p>
+          <a data-bind="attr: { href: url }">View More...</a>
+        </div>
+
+        <div class="col-md-3 event-meta">
+          <h4 class="event-start-date" data-bind="text: start_date"></h4>
+          <span class="event-start-time" data-bind="text: start_time"></span>
+          <a class="btn btn-primary btn-block" data-bind="attr: { href: url }, text: status"></a>
+          <a data-bind="attr: { href: url }">
+            <span data-bind="text: users_going"></span>
+            going
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+en:
+  czardom_events:
+    actions:
+      add_event: 'Add an Event'
+      delete_event: 'Delete Event'
+      edit_event: 'Edit Event'
+    event:
+      going: 'Going &rarr;'
+      not_going: 'Not Going &rarr;'
+      rsvp: 'RSVP &rarr;'
+      view_more: 'View More...'
+    titles:
+      root: Czevents
+      new: New Event
+      edit: Edit Event

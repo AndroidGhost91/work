@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        Groups /
+        <%= link_to "New Group", new_group_path %>
+      </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="table-responsive">
+  <table class="table datatable">
+    <thead>
+      <tr>
+        <th>Group</th>
+        <th>Members</th>
+        <th>Actions</th>
+        <th>Sponsors</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr id="<%= dom_id(group) %>">
+          <td>
+            <%= image_tag group.image_url(:tiny), width: 50 %>
+            <%= link_to group.name, group_path(group) %></td>
+          <td><%= pluralize group.users.count, 'member' %></td>
+          <td>
+            <% if can? :edit, group %>
+              <%= link_to "Edit", edit_group_path(group) %>
+            <% end %>
+
+            <% if can? :destroy, group %>
+              | <%= link_to "Delete", group_path(group), method: :delete, "data-confirm" => 'Are you sure?', class: 'text-danger' %>
+            <% end %>
+          </td>
+          <td>
+            <% group.sponsor_logos.each do |logo| %>
+              <%= image_tag logo.image, width: '100px', height: '100px' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

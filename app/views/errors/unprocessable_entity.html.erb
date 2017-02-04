@@ -1,0 +1,15 @@
+<% title "The change you wanted was rejected (422)" %>
+
+<div class="profile-page col-md-5 col-md-offset-3 text-center">
+  <h1>The change you wanted was rejected.</h1>
+  <p class="lead">Maybe you tried to change something you didn't have access to.</p>
+  
+  <p>
+    Use the links above or jump straight
+    <% if user_signed_in? %>
+      <%= link_to "back to your profile", main_app.user_path(current_user) %>.
+    <% else %>
+      <%= link_to "back to our homepage", main_app.root_path %>.
+    <% end %>
+  </p>
+</div>
