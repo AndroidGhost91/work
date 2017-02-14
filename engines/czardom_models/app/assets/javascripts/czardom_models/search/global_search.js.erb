@@ -1,5 +1,5 @@
 $(function() {
-  var client = algoliasearch("<%= ENV.fetch('ALGOLIA_APP_ID') %>", "<%= ENV.fetch('ALGOLIA_SEARCH_KEY') %>"),
+  var client = algoliasearch("<%#= ENV.fetch('ALGOLIA_APP_ID') %>", "<%#= ENV.fetch('ALGOLIA_SEARCH_KEY') %>"),
       searchField = $('#global-search'),
       searchResults = $('#search-results'),
 

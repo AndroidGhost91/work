@@ -41,15 +41,15 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.after_initialize do
-    ActiveMerchant::Billing::Base.mode = :test
-    paypal_options = {
-      :login => ENV.fetch('PAYPAL_API_USERNAME'),
-      :password => ENV.fetch('PAYPAL_API_PASSWORD'),
-      :signature => ENV.fetch('PAYPAL_API_SIGNATURE')
-    }
-    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-  end
+  # config.after_initialize do
+  #   ActiveMerchant::Billing::Base.mode = :test
+  #   paypal_options = {
+  #     :login => ENV.fetch('PAYPAL_API_USERNAME'),
+  #     :password => ENV.fetch('PAYPAL_API_PASSWORD'),
+  #     :signature => ENV.fetch('PAYPAL_API_SIGNATURE')
+  #   }
+  #   ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+  # end
 end
 
 Rails.application.routes.default_url_options[:host] = 'localhost:3000'

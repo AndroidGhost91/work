@@ -1,6 +1,6 @@
 Payola.configure do |config|
-  config.secret_key = ENV.fetch('')
-  config.publishable_key = ENV.fetch('STRIPE_PUBLISHABLE_KEY')
+  # config.secret_key = ENV.fetch('')
+  # config.publishable_key = ENV.fetch('STRIPE_PUBLISHABLE_KEY')
 
   # Example subscription:
   # 

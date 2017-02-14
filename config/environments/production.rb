@@ -83,14 +83,14 @@ CzardomRegistration::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.after_initialize do
-    paypal_options = {
-      :login => ENV.fetch('PAYPAL_API_USERNAME'),
-      :password => ENV.fetch('PAYPAL_API_PASSWORD'),
-      :signature => ENV.fetch('PAYPAL_API_SIGNATURE')
-    }
-    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-  end
+  # config.after_initialize do
+  #   paypal_options = {
+  #     :login => ENV.fetch('PAYPAL_API_USERNAME'),
+  #     :password => ENV.fetch('PAYPAL_API_PASSWORD'),
+  #     :signature => ENV.fetch('PAYPAL_API_SIGNATURE')
+  #   }
+  #   ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+  # end
 end
 # add logger 
 

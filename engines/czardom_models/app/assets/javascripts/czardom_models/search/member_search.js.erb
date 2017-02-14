@@ -1,6 +1,6 @@
 $(document).ready(function() {
   // Replace the following values by your ApplicationID and ApiKey.
-  var algolia = algoliasearch("<%= ENV.fetch('ALGOLIA_APP_ID') %>", "<%= ENV.fetch('ALGOLIA_SEARCH_KEY') %>");
+  var algolia = algoliasearch("<%#= ENV.fetch('ALGOLIA_APP_ID') %>", "<%#= ENV.fetch('ALGOLIA_SEARCH_KEY') %>");
   // replace YourTeamsIndexName & YourPlayersIndexName by the name of the indexes you want to query.
   var teams = algolia.initIndex('<%= User.index_name %>');
   var players = algolia.initIndex('<%= UserClient.index_name %>');

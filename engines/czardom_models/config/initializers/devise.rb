@@ -233,8 +233,8 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :facebook, ENV.fetch('FACEBOOK_APP_ID'), ENV.fetch('FACEBOOK_APP_SECRET'),
-                  scope: 'email,public_profile,user_friends,user_about_me,user_education_history,user_location,user_website,publish_actions', image_size: {width: 800, height: 800}
+  # config.omniauth :facebook, ENV.fetch('FACEBOOK_APP_ID'), ENV.fetch('FACEBOOK_APP_SECRET'),
+                  # scope: 'email,public_profile,user_friends,user_about_me,user_education_history,user_location,user_website,publish_actions', image_size: {width: 800, height: 800}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
