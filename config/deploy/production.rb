@@ -46,7 +46,7 @@ set :current_path, '/home/ubuntu/Work/current'
 set :shared_path, '/home/ubuntu/Work/shared'
 
 set :environment , 'production'
-set :branch , 'production'
+set :branch , 'staging'
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
