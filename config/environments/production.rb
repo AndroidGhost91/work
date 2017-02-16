@@ -28,7 +28,7 @@ CzardomRegistration::Application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs.
   config.assets.digest = true
@@ -67,7 +67,7 @@ CzardomRegistration::Application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :postmark
-  config.action_mailer.postmark_settings = { :api_key => ENV.fetch('POSTMARK_API_KEY') }
+  # config.action_mailer.postmark_settings = { :api_key => ENV.fetch('POSTMARK_API_KEY') }
   config.action_mailer.default_url_options = { host: "www.forumrelated.com" }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
